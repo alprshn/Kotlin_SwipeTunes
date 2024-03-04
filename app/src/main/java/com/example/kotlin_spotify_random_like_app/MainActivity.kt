@@ -1,8 +1,14 @@
 package com.example.kotlin_spotify_random_like_app
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
 
+import com.spotify.protocol.client.Subscription;
+import com.spotify.protocol.types.PlayerState;
+import com.spotify.protocol.types.Track;
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.spotify.android.appremote.api.SpotifyAppRemote
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +21,10 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onStart() {
         super.onStart()
+        val connectionParams = ConnectionParams.Builder(clientId)
+            .setRedirectUri(redirectUri)
+            .showAuthView(true)
+            .build()
     }
     private fun connected() {
         // Then we will write some more code here.
