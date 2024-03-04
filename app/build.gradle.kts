@@ -41,7 +41,11 @@ dependencies {
     //Spotify Import Library
     dependencies {
         implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
+
+        implementation("com.google.code.gson:gson:2.6.1")
     }
+
+
     //I added dependencies with this link https://developer.android.com/studio/projects/android-library#kts
 
     implementation(files("libs/spotify-app.aar"))
