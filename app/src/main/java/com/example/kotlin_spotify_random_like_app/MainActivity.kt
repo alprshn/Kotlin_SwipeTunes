@@ -14,7 +14,7 @@ import android.util.Log
 class MainActivity : AppCompatActivity() {
 
     private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
-    private val redirectUri = "http://com.yourdomain.yourapp/callback"
+    private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
     private var spotifyAppRemote: SpotifyAppRemote? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +29,15 @@ class MainActivity : AppCompatActivity() {
 
         SpotifyAppRemote.connect(this, connectionParams, object : Connector.ConnectionListener {
             override fun onConnected(appRemote: SpotifyAppRemote) {
+                Log.e("Baglandi", "burada")
                 spotifyAppRemote = appRemote
-                Log.d("MainActivity", "Connected! Yay!")
+                Log.e("Baglandi", "Connected! Yay!")
                 // Now you can start interacting with App Remote
                 connected()
             }
 
             override fun onFailure(throwable: Throwable) {
-                Log.e("MainActivity", throwable.message, throwable)
+                Log.e("Baglandi", throwable.message, throwable)
                 // Something went wrong when attempting to connect! Handle errors here
             }
         })
@@ -47,10 +48,11 @@ class MainActivity : AppCompatActivity() {
             // Play a playlist
             val playlistURI = "spotify:playlist:37i9dQZF1DX2sUQwD7tbmL"
             it.playerApi.play(playlistURI)
+            Log.e("Baglandi", "deneme")
             // Subscribe to PlayerState
             it.playerApi.subscribeToPlayerState().setEventCallback {
                 val track: Track = it.track
-                Log.d("MainActivity", track.name + " by " + track.artist.name)
+                Log.e("Baglandi", track.name + " by " + track.artist.name)
             }
         }
 
