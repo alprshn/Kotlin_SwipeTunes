@@ -1,21 +1,25 @@
 package com.example.kotlin_spotify_random_like_app
-import com.spotify.android.appremote.api.ConnectionParams;
-import com.spotify.android.appremote.api.Connector;
-import com.spotify.android.appremote.api.SpotifyAppRemote;
 
-import com.spotify.protocol.client.Subscription;
-import com.spotify.protocol.types.PlayerState;
-import com.spotify.protocol.types.Track;
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlin_spotify_random_like_app.databinding.ActivityMainBinding
+import com.spotify.android.appremote.api.ConnectionParams
+import com.spotify.android.appremote.api.Connector
+import com.spotify.android.appremote.api.SpotifyAppRemote
+import com.spotify.protocol.types.Track
+import com.spotify.sdk.android.auth.AuthorizationClient
+import com.spotify.sdk.android.auth.AuthorizationRequest
+import com.spotify.sdk.android.auth.AuthorizationResponse
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app://callback"
+    private val REQUEST_CODE  = 1337
+
     private var spotifyAppRemote: SpotifyAppRemote? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -23,7 +27,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         Log.e("Baglandi", "burada")
         binding.button.setOnClickListener{
-
+            var builder: AuthorizationRequest.Builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri);
+            builder.setScopes(arrayOf("streaming"))
+            val request = builder.build()
+            AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request)
         }
     }
     override fun onStart() {
@@ -64,6 +71,20 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
+
+        // Check if result comes from the correct activity
+        if (requestCode == REQUEST_CODE) {
+            val response = AuthorizationClient.getResponse(resultCode, intent)
+            when (response.type) {
+                AuthorizationResponse.Type.TOKEN -> {}
+                AuthorizationResponse.Type.ERROR -> {}
+                else -> {}
+            }
+        }
+    }
+
 
     override fun onStop() {
         super.onStop()
