@@ -8,7 +8,9 @@ plugins {
 android {
     namespace = "com.example.kotlin_spotify_random_like_app"
     compileSdk = 34
-
+    buildFeatures {
+        viewBinding = true
+    }
     defaultConfig {
         applicationId = "com.example.kotlin_spotify_random_like_app"
         minSdk = 24
