@@ -17,7 +17,8 @@ import com.spotify.sdk.android.auth.AuthorizationResponse
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
-    private val redirectUri = "http://com.example.kotlin_spotify_random_like_app://callback"
+    private val redirectUri = "https://alprshn.github.io/"
+
     private val REQUEST_CODE  = 1337
 
     private var spotifyAppRemote: SpotifyAppRemote? = null
