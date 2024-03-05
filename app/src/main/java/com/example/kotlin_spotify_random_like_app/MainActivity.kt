@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     private fun connected() {
         spotifyAppRemote?.let {
             // Play a playlist
-            val playlistURI = "spotify:playlist:37i9dQZF1DX2sUQwD7tbmL"
+            val playlistURI = "spotify:playlist:3GhEaVPCWa7ZVTyis5WV54?si=79a14006b45f49a4"
             it.playerApi.play(playlistURI)
             Log.e("Baglandi", "deneme")
             // Subscribe to PlayerState
