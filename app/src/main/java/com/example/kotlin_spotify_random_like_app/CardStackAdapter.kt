@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class CardStackAdapter : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
+    private lateinit var items: List<ItemModel>
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     }
@@ -15,7 +17,7 @@ class CardStackAdapter : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return items.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
