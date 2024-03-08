@@ -1,5 +1,6 @@
 package com.example.kotlin_spotify_random_like_app
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,9 @@ class CardStackAdapter : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
+        var inflater: LayoutInflater = LayoutInflater.from(parent.context)
+        var view: View = inflater.inflate(R.layout.item_card,parent,false)
+        return ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
