@@ -46,13 +46,19 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     //I added dependencies with this link https://developer.android.com/studio/projects/android-library#kts
     implementation("com.spotify.android:auth:1.2.5")
-    implementation("androidx.browser:browser:1.0.0")
+    implementation("androidx.browser:browser:1.7.0")
     //implementation(project("libs/spotify-app.aar"))
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(files("libs/spotify-app.aar"))
+
+    //Swipe Library
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.yuyakaido.android:card-stack-view:2.3.4")
+    implementation("com.squareup.picasso:picasso:2.71828")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
