@@ -40,8 +40,10 @@ class SpotifySwipeMusic : AppCompatActivity() {
     private fun addList(): ArrayList<ItemModel> {
         var itemsList:ArrayList<ItemModel> = arrayListOf()
         itemsList.add(ItemModel(R.drawable.sample1, "asd","asdad","asd"))
-        itemsList.add(ItemModel(R.drawable.sample1, "asd","asdad","asd"))
-        itemsList.add(ItemModel(R.drawable.sample1, "asd","asdad","asd"))
+        itemsList.add(ItemModel(R.drawable.sample2, "asd","asdad","asd"))
+        itemsList.add(ItemModel(R.drawable.sample4, "asd","asdad","asd"))
+        itemsList.add(ItemModel(R.drawable.sample5, "asd","asdad","asd"))
+
         return  itemsList
     }
 

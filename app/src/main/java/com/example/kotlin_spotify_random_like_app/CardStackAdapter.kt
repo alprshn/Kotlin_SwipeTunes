@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
-class CardStackAdapter : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+class CardStackAdapter(addList: ArrayList<ItemModel>) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     private lateinit var items: List<ItemModel>
 
