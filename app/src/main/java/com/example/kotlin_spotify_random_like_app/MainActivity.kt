@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
             builder.setScopes(arrayOf("streaming"))
             val request = builder.build()
             AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request)
+            val intent = Intent(this, SpotifySwipeMusic::class.java)
+            startActivity(intent)
         }
     }
     override fun onStart() {

@@ -8,29 +8,31 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
-class CardStackAdapter(addList: ArrayList<ItemModel>) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+class CardStackAdapter(private var items: List<ItemModel>) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
-    private lateinit var items: List<ItemModel>
+    fun getItems(): List<ItemModel> {
+        return items
+    }
+
+    fun setItems(items: List<ItemModel>) {
+        this.items = items
+    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var image:ImageView
-        lateinit var nama : TextView
-        lateinit var usia : TextView
-        lateinit var kota : TextView
+        private val image: ImageView = itemView.findViewById(R.id.item_image)
+        private val nama: TextView = itemView.findViewById(R.id.item_name)
+        private val usia: TextView = itemView.findViewById(R.id.item_age)
+        private val kota: TextView = itemView.findViewById(R.id.item_city)
 
         fun setData(data: ItemModel) {
-            image = itemView.findViewById(R.id.item_image)
-            nama = itemView.findViewById(R.id.item_name)
-            kota = itemView.findViewById(R.id.item_city)
-            usia = itemView.findViewById(R.id.item_age)
         Picasso.get()
             .load(data.image)
             .fit()
             .centerCrop()
             .into(image)
-            nama.text = data.name
-            usia.text = data.usia
-            kota.text = data.kota
+            nama.text = data.getNama()
+            usia.text = data.getUsia()
+            kota.text = data.getKota()
 
         }
 
@@ -48,7 +50,7 @@ class CardStackAdapter(addList: ArrayList<ItemModel>) : RecyclerView.Adapter<Car
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setData(items.get(position))
+        holder.setData(items[position])
     }
 
 

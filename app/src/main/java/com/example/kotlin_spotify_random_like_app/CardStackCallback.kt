@@ -2,10 +2,7 @@ package com.example.kotlin_spotify_random_like_app
 
 import androidx.recyclerview.widget.DiffUtil
 
-class CardStackCallback: DiffUtil.Callback() {
-    private lateinit var  old: List<ItemModel>
-    private lateinit var  baru: List<ItemModel>
-
+class CardStackCallback(private val old: List<ItemModel>, private val baru: List<ItemModel>): DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return old.size
     }
@@ -15,10 +12,10 @@ class CardStackCallback: DiffUtil.Callback() {
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return old.get(oldItemPosition).image == baru.get(newItemPosition).image
+        return old[oldItemPosition].image == baru[newItemPosition].image
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return old.get(oldItemPosition) == baru.get(newItemPosition)
+        return old[oldItemPosition] == baru[newItemPosition]
     }
 }
