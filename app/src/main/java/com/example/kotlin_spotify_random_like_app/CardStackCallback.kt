@@ -15,10 +15,10 @@ class CardStackCallback: DiffUtil.Callback() {
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        TODO("Not yet implemented")
+        return old.get(oldItemPosition).image == baru.get(newItemPosition).image
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        TODO("Not yet implemented")
+        return old.get(oldItemPosition) == baru.get(newItemPosition)
     }
 }
