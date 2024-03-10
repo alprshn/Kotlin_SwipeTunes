@@ -14,8 +14,14 @@ class CardStackAdapter : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var image:ImageView
         lateinit var nama : TextView
+        lateinit var usia : TextView
+        lateinit var kotia : TextView
 
         fun setData(get: ItemModel) {
+            image = itemView.findViewById(R.id.item_image)
+            nama = itemView.findViewById(R.id.item_name)
+            kotia = itemView.findViewById(R.id.item_city)
+            usia = itemView.findViewById(R.id.item_age)
 
         }
 
