@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 class CardStackAdapter : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
@@ -15,15 +16,24 @@ class CardStackAdapter : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
         lateinit var image:ImageView
         lateinit var nama : TextView
         lateinit var usia : TextView
-        lateinit var kotia : TextView
+        lateinit var kota : TextView
 
-        fun setData(get: ItemModel) {
+        fun setData(data: ItemModel) {
             image = itemView.findViewById(R.id.item_image)
             nama = itemView.findViewById(R.id.item_name)
-            kotia = itemView.findViewById(R.id.item_city)
+            kota = itemView.findViewById(R.id.item_city)
             usia = itemView.findViewById(R.id.item_age)
+        Picasso.get()
+            .load(data.image)
+            .fit()
+            .centerCrop()
+            .into(image)
+            nama.text = data.name
+            usia.text = data.usia
+            kota.text = data.kota
 
         }
+
 
     }
 

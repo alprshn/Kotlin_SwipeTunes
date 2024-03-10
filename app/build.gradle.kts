@@ -54,6 +54,8 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(files("libs/spotify-app.aar"))
 
+    implementation("com.squareup.picasso:picasso:2.71828")
+
     //Swipe Library
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.google.android.material:material:1.11.0")
