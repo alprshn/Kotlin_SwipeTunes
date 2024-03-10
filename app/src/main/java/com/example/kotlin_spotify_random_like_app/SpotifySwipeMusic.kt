@@ -44,4 +44,8 @@ class SpotifySwipeMusic : AppCompatActivity() {
         itemsList.add(ItemModel(R.drawable.sample1, "asd","asdad","asd"))
         return  itemsList
     }
+
+    private fun paginate(){
+
+    }
 }
