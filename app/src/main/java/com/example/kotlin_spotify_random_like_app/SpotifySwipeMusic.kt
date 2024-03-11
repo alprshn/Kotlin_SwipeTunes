@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
+import com.spotify.protocol.types.Track
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
@@ -83,8 +84,12 @@ class SpotifySwipeMusic : AppCompatActivity() {
 
     private fun addList(): List<ItemModel> {
         val itemsList = ArrayList<ItemModel>()
-        itemsList.add(ItemModel(R.drawable.sample1, "asd","asdad","asd"))
-        itemsList.add(ItemModel(R.drawable.sample2, "asd","asdad","asd"))
+
+
+        val name = intent.getStringExtra("Name")
+        val artistName = intent.getStringExtra("artistName")
+        itemsList.add(ItemModel(R.drawable.sample1, name.toString(), artistName.toString(),"asd"))
+        itemsList.add(ItemModel(R.drawable.sample2, name.toString(), artistName.toString(),"asd"))
         itemsList.add(ItemModel(R.drawable.sample4, "asd","asdad","asd"))
         itemsList.add(ItemModel(R.drawable.sample5, "asd","asdad","asd"))
 

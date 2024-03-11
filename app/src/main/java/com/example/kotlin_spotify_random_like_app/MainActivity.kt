@@ -69,6 +69,9 @@ class MainActivity : AppCompatActivity() {
             // Subscribe to PlayerState
             it.playerApi.subscribeToPlayerState().setEventCallback {
                 val track: Track = it.track
+                intent.putExtra("name",track.name )
+                intent.putExtra("artistName",track.artist.name )
+
                 Log.e("Baglandi", track.name + " by " + track.artist.name)
             }
         }
