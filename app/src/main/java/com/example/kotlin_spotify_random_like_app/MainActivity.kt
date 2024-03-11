@@ -38,17 +38,13 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onStart() {
         super.onStart()
-        Log.e("Baglandi", "heyyy")
         val connectionParams = ConnectionParams.Builder(clientId)
             .setRedirectUri(redirectUri)
             .showAuthView(true)
             .build()
-        Log.e("Baglandi", "heyyy2")
         SpotifyAppRemote.connect(this, connectionParams, object : Connector.ConnectionListener {
             override fun onConnected(appRemote: SpotifyAppRemote) {
-                Log.e("Baglandi", "burada")
                 spotifyAppRemote = appRemote
-                Log.e("Baglandi", "Connected! Yay!")
                 // Now you can start interacting with App Remote
                 connected()
             }
@@ -71,10 +67,14 @@ class MainActivity : AppCompatActivity() {
                 val track: Track = it.track
                 val intentTrack = Intent(this, SpotifySwipeMusic::class.java) // Track List verilerini gönderme
                 intentTrack.putExtra("name",track.name.toString() )
+                val imageId = track.imageUri.toString() // Resim ekleme kısmı
+                val imageUrl = ("https://i.scdn.co/image/${imageId.substringAfterLast(":").removeSuffix("'}")}")
+                intentTrack.putExtra("imageUri",imageUrl)
                 intentTrack.putExtra("artistName",track.artist.name.toString() )
+
                 startActivity(intentTrack)
 
-                Log.e("Baglandi", track.name + " by " + track.artist.name)
+                Log.e("Baglandi", imageUrl + " by " + track.artist.name)
             }
         }
 

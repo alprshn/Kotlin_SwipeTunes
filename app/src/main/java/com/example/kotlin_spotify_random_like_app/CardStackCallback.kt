@@ -12,7 +12,7 @@ class CardStackCallback(private val old: List<ItemModel>, private val baru: List
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return old[oldItemPosition].image == baru[newItemPosition].image
+        return old[oldItemPosition].getImage() == baru[newItemPosition].getImage()
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

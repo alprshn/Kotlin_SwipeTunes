@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
-import com.spotify.protocol.types.Track
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
@@ -48,6 +47,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
                     paginate()
                 }
             }
+
 
             override fun onCardRewound() {
                 Log.d(TAG, "onCardRewound: ${manager.topPosition}")
@@ -88,11 +88,12 @@ class SpotifySwipeMusic : AppCompatActivity() {
 
         val name = intent.getStringExtra("name")
         val artistName = intent.getStringExtra("artistName")
-        Log.e("deneme",artistName.toString())
-        itemsList.add(ItemModel(R.drawable.sample1, name.toString(), artistName.toString(),"asd"))
-        itemsList.add(ItemModel(R.drawable.sample2, name.toString(), artistName.toString(),"asd"))
-        itemsList.add(ItemModel(R.drawable.sample4, "asd","asdad","asd"))
-        itemsList.add(ItemModel(R.drawable.sample5, "asd","asdad","asd"))
+        val imageUri = intent.getStringExtra("imageUri")
+        Log.e("deneme",imageUri.toString())
+        itemsList.add(ItemModel(imageUri, name.toString(), artistName.toString(),"asd"))
+        //itemsList.add(ItemModel(R.drawable.sample2, name.toString(), artistName.toString(),"asd"))
+        //itemsList.add(ItemModel(R.drawable.sample4, "asd","asdad","asd"))
+       // itemsList.add(ItemModel(R.drawable.sample5, "asd","asdad","asd"))
 
         return  itemsList
     }

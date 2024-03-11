@@ -1,15 +1,16 @@
 package com.example.kotlin_spotify_random_like_app
 
 class ItemModel(
-    private var _image: Int,
+    private var _image: String?,
     private val nama: String,
     private val usia: String,
     private val kota: String
 ) {
-    constructor() : this(0, "", "", "")
+    constructor() : this("", "", "", "")
 
-    val image: Int
-        get() = _image
+    fun getImage(): String? {
+        return _image
+    }
 
     fun getNama(): String {
         return nama

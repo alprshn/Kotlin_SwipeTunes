@@ -26,7 +26,7 @@ class CardStackAdapter(private var items: List<ItemModel>) : RecyclerView.Adapte
 
         fun setData(data: ItemModel) {
         Picasso.get()
-            .load(data.image)
+            .load(data.getImage())
             .fit()
             .centerCrop()
             .into(image)
