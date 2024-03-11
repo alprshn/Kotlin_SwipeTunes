@@ -36,13 +36,16 @@ class SpotifySwipeMusic : AppCompatActivity() {
 
             override fun onCardSwiped(direction: Direction?) {
                 Log.d(TAG, "onCardSwiped: p=${manager.topPosition} d=$direction")
-                when (direction) {
-                    Direction.Right -> Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
-                    Direction.Top -> Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
-                    Direction.Left -> Toast.makeText(this@SpotifySwipeMusic, "Direction Left", Toast.LENGTH_SHORT).show()
-                    Direction.Bottom -> Toast.makeText(this@SpotifySwipeMusic, "Direction Bottom", Toast.LENGTH_SHORT).show()
-                    else -> {}
+                if (direction == Direction.Right) {
+                    Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
+                } else if (direction == Direction.Top) {
+                    Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
+                } else if (direction == Direction.Left) {
+                    Toast.makeText(this@SpotifySwipeMusic, "Direction Left", Toast.LENGTH_SHORT).show()
+                } else if (direction == Direction.Bottom) {
+                    Toast.makeText(this@SpotifySwipeMusic, "Direction Bottom", Toast.LENGTH_SHORT).show()
                 }
+
                 if (manager.topPosition == adapter.itemCount - 5) {
                     paginate()
                 }
