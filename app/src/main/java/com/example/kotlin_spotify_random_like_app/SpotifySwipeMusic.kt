@@ -86,8 +86,9 @@ class SpotifySwipeMusic : AppCompatActivity() {
         val itemsList = ArrayList<ItemModel>()
 
 
-        val name = intent.getStringExtra("Name")
+        val name = intent.getStringExtra("name")
         val artistName = intent.getStringExtra("artistName")
+        Log.e("deneme",artistName.toString())
         itemsList.add(ItemModel(R.drawable.sample1, name.toString(), artistName.toString(),"asd"))
         itemsList.add(ItemModel(R.drawable.sample2, name.toString(), artistName.toString(),"asd"))
         itemsList.add(ItemModel(R.drawable.sample4, "asd","asdad","asd"))

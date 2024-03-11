@@ -69,8 +69,10 @@ class MainActivity : AppCompatActivity() {
             // Subscribe to PlayerState
             it.playerApi.subscribeToPlayerState().setEventCallback {
                 val track: Track = it.track
-                intent.putExtra("name",track.name )
-                intent.putExtra("artistName",track.artist.name )
+                val intentTrack = Intent(this, SpotifySwipeMusic::class.java) // Track List verilerini gönderme
+                intentTrack.putExtra("name",track.name.toString() )
+                intentTrack.putExtra("artistName",track.artist.name.toString() )
+                startActivity(intentTrack)
 
                 Log.e("Baglandi", track.name + " by " + track.artist.name)
             }
