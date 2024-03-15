@@ -3,103 +3,61 @@ package com.example.kotlin_spotify_random_like_app
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlin_spotify_random_like_app.databinding.ActivityMainBinding
-import com.spotify.android.appremote.api.ConnectionParams
-import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
-import com.spotify.protocol.types.Track
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
-    private val redirectUri = "https://alprshn.github.io/"
-
-    private val REQUEST_CODE  = 1337
-
-    private var spotifyAppRemote: SpotifyAppRemote? = null
+    private val BASE_URL = "https://api.spotify.com/v1/"
+    private lateinit var spotifyService: SpotifyService
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        Log.e("Baglandi", "burada")
+        // Retrofit istemcisini oluştur
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val showLinearLayoutDemo = findViewById<Button>(R.id.button)
+
+        // SpotifyService arayüzünü uygula
+        spotifyService = retrofit.create(SpotifyService::class.java)
+
+        // Sanatçı verilerini al
+        getArtistData()
         binding.button.setOnClickListener{
-            var builder: AuthorizationRequest.Builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri);
-            builder.setScopes(arrayOf("streaming"))
-            val request = builder.build()
-            AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request)
             val intent = Intent(this, SpotifySwipeMusic::class.java)
             startActivity(intent)
         }
     }
-    override fun onStart() {
-        super.onStart()
-        val connectionParams = ConnectionParams.Builder(clientId)
-            .setRedirectUri(redirectUri)
-            .showAuthView(true)
-            .build()
-        SpotifyAppRemote.connect(this, connectionParams, object : Connector.ConnectionListener {
-            override fun onConnected(appRemote: SpotifyAppRemote) {
-                spotifyAppRemote = appRemote
-                // Now you can start interacting with App Remote
-                connected()
-            }
 
-            override fun onFailure(throwable: Throwable) {
-                Log.e("Baglandi", throwable.message, throwable)
-                // Something went wrong when attempting to connect! Handle errors here
-            }
-        })
-    }
+    private fun getArtistData() {
+        val accessToken = "BQBV5GGY1Ly5Z-3O4pW-RKdEtZcK6O001UCxwlQDfgcgwbCB0LZ60T2NFZZDGd_PdE5JIbQRNh7VHoavd4gyVkhjHNUGtVkyrqrHtCP3e98agya63l8"
+        val artistId = "4Z8W4fKeB5YxbusRsdQVPb" // Örnek bir sanatçı kimliği
 
-    private fun connected() {
-        spotifyAppRemote?.let {
-            // Play a playlist
-            val playlistURI = "spotify:playlist:3GhEaVPCWa7ZVTyis5WV54?si=79a14006b45f49a4"
-            it.playerApi.play(playlistURI)
-            Log.e("Baglandi", "deneme")
-            // Subscribe to PlayerState
-            it.playerApi.subscribeToPlayerState().setEventCallback {
-                val track: Track = it.track
-                val intentTrack = Intent(this, SpotifySwipeMusic::class.java) // Track List verilerini gönderme
-                intentTrack.putExtra("name",track.name.toString() )
-                val imageId = track.imageUri.toString() // Resim ekleme kısmı
-                val imageUrl = ("https://i.scdn.co/image/${imageId.substringAfterLast(":").removeSuffix("'}")}")
-                intentTrack.putExtra("imageUri",imageUrl)
-                intentTrack.putExtra("artistName",track.artist.name.toString() )
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = spotifyService.getArtist("Bearer $accessToken", artistId)
+                // Sanatçı verilerini kullanabilirsiniz, örneğin:
+                val artistName = response.name
+                val followersCount = response.followers.total
+                // Burada diğer verilere de erişebilirsiniz
+                Log.e("denme","Artist Name: $artistName")
+            } catch (e: Exception) {
+                Log.e("denme","Error: ${e.message}")
 
-                startActivity(intentTrack)
-
-                Log.e("Baglandi", imageUrl + " by " + track.artist.name)
             }
         }
-
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-
-        // Check if result comes from the correct activity
-        if (requestCode == REQUEST_CODE) {
-            val response = AuthorizationClient.getResponse(resultCode, intent)
-            when (response.type) {
-                AuthorizationResponse.Type.TOKEN -> {}
-                AuthorizationResponse.Type.ERROR -> {}
-                else -> {}
-            }
-        }
-    }
-
-
-    override fun onStop() {
-        super.onStop()
-        spotifyAppRemote?.let {
-            SpotifyAppRemote.disconnect(it)
-        }
-
     }
 
 }

@@ -96,7 +96,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
         itemsList.add(ItemModel(imageUri, name.toString(), artistName.toString(),"asd"))
         //itemsList.add(ItemModel(R.drawable.sample2, name.toString(), artistName.toString(),"asd"))
         //itemsList.add(ItemModel(R.drawable.sample4, "asd","asdad","asd"))
-       // itemsList.add(ItemModel(R.drawable.sample5, "asd","asdad","asd"))
+        // itemsList.add(ItemModel(R.drawable.sample5, "asd","asdad","asd"))
 
         return  itemsList
     }
