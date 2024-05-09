@@ -11,13 +11,14 @@ import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
 class SpotifyConnection {
-     val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
-     val redirectUri = "https://alprshn.github.io/"
+     private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
+     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app://callback"
 
-     val REQUEST_CODE  = 1337
 
      var spotifyAppRemote: SpotifyAppRemote? = null
-    fun ConnectionStart(context: Context){
+    fun connectionStart(context: Context){
+        Log.e("MainActivity", "Oldu bu iis")
+
         val connectionParams = ConnectionParams.Builder(clientId)
             .setRedirectUri(redirectUri)
             .showAuthView(true)
@@ -25,6 +26,7 @@ class SpotifyConnection {
         SpotifyAppRemote.connect(context, connectionParams, object : Connector.ConnectionListener {
             override fun onConnected(appRemote: SpotifyAppRemote) {
                 spotifyAppRemote = appRemote
+                Log.e("MainActivity", "Connected! Yay!")
                 // Now you can start interacting with App Remote
                 connected()
             }
@@ -39,7 +41,8 @@ class SpotifyConnection {
     private fun connected() {
         spotifyAppRemote?.let {
             // Play a playlist
-            val playlistURI = "spotify:playlist:3GhEaVPCWa7ZVTyis5WV54?si=79a14006b45f49a4"
+
+            val playlistURI = "spotify:playlist:37i9dQZF1DX2sUQwD7tbmL"
             it.playerApi.play(playlistURI)
             Log.e("Baglandi", "deneme")
             // Subscribe to PlayerState
