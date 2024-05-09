@@ -11,6 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.security.SecureRandom
+import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +23,22 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        fun generateRandomString(length: Int): String {
+            val possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+            val random = SecureRandom()
+            val values = ByteArray(length)
+            random.nextBytes(values)
+            return values.map { possible[it.toInt() and 0xff % possible.length] }.joinToString("")
+        }
+
+        val codeVerifier = generateRandomString(64)
+
+
+
+
+
+
         // Retrofit istemcisini oluştur
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -40,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getArtistData() {
-        val accessToken = "BQBV5GGY1Ly5Z-3O4pW-RKdEtZcK6O001UCxwlQDfgcgwbCB0LZ60T2NFZZDGd_PdE5JIbQRNh7VHoavd4gyVkhjHNUGtVkyrqrHtCP3e98agya63l8"
+        val accessToken = "BQCvRKlT8TXssyGA744PiTSd9PWg4Gb_1cNvqTYj45YCt6KYgUWkVD6Mx8CzJABxxpsJfd10YvDJpWPOB6mcpCmQLOiW79zjKIY6PJ_NJgvgaQFc6SM"
         val artistId = "4Z8W4fKeB5YxbusRsdQVPb" // Örnek bir sanatçı kimliği
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -48,9 +66,14 @@ class MainActivity : AppCompatActivity() {
                 val response = spotifyService.getArtist("Bearer $accessToken", artistId)
                 // Sanatçı verilerini kullanabilirsiniz, örneğin:
                 val artistName = response.name
+                val artistNa = response.images
+
                 val followersCount = response.followers.total
                 // Burada diğer verilere de erişebilirsiniz
                 Log.e("denme","Artist Name: $artistName")
+                Log.e("denme","Artist Name: $artistNa")
+                Log.e("denme","Artist Name: $followersCount")
+
             } catch (e: Exception) {
                 Log.e("denme","Error: ${e.message}")
 
