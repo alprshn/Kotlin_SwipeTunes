@@ -10,13 +10,15 @@ import com.spotify.protocol.types.Track
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
-class SpotifyConnection {
+
+
+class SpotifyConnection(private val context: Context) {
      private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
-     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app://callback"
+     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
 
 
      var spotifyAppRemote: SpotifyAppRemote? = null
-    fun connectionStart(context: Context){
+    fun connectionStart(){
         Log.e("MainActivity", "Oldu bu iis")
 
         val connectionParams = ConnectionParams.Builder(clientId)
