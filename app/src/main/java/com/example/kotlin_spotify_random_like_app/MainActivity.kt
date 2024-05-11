@@ -40,8 +40,6 @@ class MainActivity : AppCompatActivity() {
                     Log.e("deneme", "Playlist Name: ${playlist.name}")
                     Log.e("deneme", "Playlist Name: ${playlist.followers}")
                     Log.e("deneme", "Playlist Name: ${playlist.owner.display_name}")
-
-
                 } catch (e: Exception) {
                     Log.e("deneme", "Error: ${e.message}")
                 }
