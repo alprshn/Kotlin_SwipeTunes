@@ -24,16 +24,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         spotifyAuth = SpotifyConnection(this)
+        spotifyApi = SpotifyApi // SpotifyApi nesnesini başlatın
+
+
 
         binding.button.setOnClickListener{
             //val intent = Intent(this, SpotifySwipeMusic::class.java)
             //startActivity(intent)
-            val spotifyApis = spotifyApi.create()
-            try {
-                spotifyApis.nextTrack()
-                Log.e("deneme","Next track command sent successfully!")
-            } catch (e: Exception) {
-                Log.e("deneme","Error: ${e.message}")
+            val playlistId = "6u36F4hdBHjNi8AB38fuhf"
+            val token = "Bearer BQCBgk0nErRIM28bnXu9MYQvCz7s4D7Wn8YankpmEt6lRy3DavwqcPHCSfXp9t1ErXi4wWSKH5FQnwd8aTJgwh26S9ToYxkwB3lTuACY6kv9JFpe76Y"
+
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val playlist = spotifyApi.service.getPlaylist(playlistId, token)
+                    Log.e("deneme", "Playlist Name: ${playlist.name}")
+                    Log.e("deneme", "Playlist Name: ${playlist.followers}")
+                    Log.e("deneme", "Playlist Name: ${playlist.owner.display_name}")
+
+
+                } catch (e: Exception) {
+                    Log.e("deneme", "Error: ${e.message}")
+                }
             }
 
         }
