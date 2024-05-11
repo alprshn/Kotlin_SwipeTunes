@@ -7,10 +7,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface SpotifyService {
-
-    interface SpotifyService {
         @Headers("Authorization: Bearer 1POdFZRZbvb...qqillRxMr2z")
         @POST("me/player/next")
         fun nextTrack()
-    }
 }
