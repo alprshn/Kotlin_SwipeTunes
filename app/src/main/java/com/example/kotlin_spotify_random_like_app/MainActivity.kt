@@ -31,9 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.e("Deneme", "Connected! Yay!")
         spotifyAuth?.connectionStart()
-        Log.e("Deneme", "Başarılı")
 
     }
 
