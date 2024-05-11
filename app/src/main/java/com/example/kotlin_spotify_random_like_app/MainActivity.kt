@@ -16,6 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var spotifyAuth: SpotifyConnection
+    private lateinit var spotifyApi: SpotifyApi
+    private lateinit var spotifyService: SpotifyService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -24,8 +26,16 @@ class MainActivity : AppCompatActivity() {
         spotifyAuth = SpotifyConnection(this)
 
         binding.button.setOnClickListener{
-            val intent = Intent(this, SpotifySwipeMusic::class.java)
-            startActivity(intent)
+            //val intent = Intent(this, SpotifySwipeMusic::class.java)
+            //startActivity(intent)
+            val spotifyService = spotifyApi.create()
+            try {
+                spotifyService.nec
+                println("Next track command sent successfully!")
+            } catch (e: Exception) {
+                println("Error: ${e.message}")
+            }
+
         }
     }
 

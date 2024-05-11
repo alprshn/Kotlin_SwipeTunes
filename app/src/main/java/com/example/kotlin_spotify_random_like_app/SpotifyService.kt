@@ -11,6 +11,6 @@ interface SpotifyService {
     interface SpotifyService {
         @Headers("Authorization: Bearer 1POdFZRZbvb...qqillRxMr2z")
         @POST("me/player/next")
-        suspend fun nextTrack()
+        fun nextTrack()
     }
 }
