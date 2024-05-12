@@ -38,19 +38,17 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.button.setOnClickListener{
-            var builder : AuthorizationRequest.Builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri);
-            builder.setScopes(arrayOf("user-modify-playback-state"))
-            var request: AuthorizationRequest = builder.build()
+            val builder : AuthorizationRequest.Builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri);
+            builder.setScopes(arrayOf("streaming","user-modify-playback-state","user-read-private", "playlist-read", "playlist-read-private",))
+            val request: AuthorizationRequest = builder.build()
             AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
             //val intent = Intent(this, SpotifySwipeMusic::class.java)
             //startActivity(intent)
-            val playlistId = "6u36F4hdBHjNi8AB38fuhf"
-            val token = "Bearer BQB7yUwlOyxC3kGDvVzv_r6om6JvsflGsorUw3tZFRgEqXgkoKPnH0p-FZfd5F3P8mCwNGD3wNig_vfIKOuE1uapSTnoIMSo64ppfqaMwTgKQSEH4zg"
-
-
 
 
         }
+
+
     }
 
     override fun onStart() {
@@ -72,12 +70,36 @@ class MainActivity : AppCompatActivity() {
             when (response.type) {
                 // Response was successful and contains auth token
                 AuthorizationResponse.Type.TOKEN -> {
-                    // Handle successful response
+                    Log.e("basari","basari")
+                    val playlistId = "6u36F4hdBHjNi8AB38fuhf"
+                        Log.e("sifre",AuthorizationResponse.Type.TOKEN.toString())
+                        val token = "Bearer BQBhygxAdHNFtaMIW1a4yNsUqoZiANVcKhUbdih_oY2LY_TlZgd_WKTji5MqdtF2XaZEC-zNtQn-Tk6IGxR6IhrFIcrz-c3oxhxEN-vmWR95JPlX2gc"
+                        CoroutineScope(Dispatchers.IO).launch{
+                            try {
+                                val pause =  spotifyApi.service.pause(token)
+                            }
+                            catch (e: Exception) {
+                                Log.e("deneme", "Error: ${e.message}")
+                            }
+                        }
+                        CoroutineScope(Dispatchers.IO).launch {
+                            try {
+                                val playlist = spotifyApi.service.getPlaylist(playlistId, token)
+                                Log.e("deneme", "Playlist Name: ${playlist.name}")
+                                Log.e("deneme", "Playlist Name: ${playlist.followers}")
+                                Log.e("deneme", "Playlist Name: ${playlist.owner.display_name}")
+                            } catch (e: Exception) {
+                                Log.e("deneme", "Error: ${e.message}")
+                            }
+                        }
+
                 }
 
                 // Auth flow returned an error
                 AuthorizationResponse.Type.ERROR -> {
                     // Handle error response
+                    Log.e("hata","hata")
+
                 }
 
                 // Most likely auth flow was cancelled
