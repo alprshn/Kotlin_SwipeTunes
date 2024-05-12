@@ -53,7 +53,7 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(files("libs/spotify-app.aar"))
-    implementation(files("libs/spotify-auth-release-2.1.0.aar"))
+    //implementation(files("libs/spotify-auth-release-2.1.0.aar"))
 
     implementation("com.squareup.picasso:picasso:2.71828")
 
