@@ -1,21 +1,17 @@
 package com.example.kotlin_spotify_random_like_app
 
 import android.content.Context
-import android.content.Intent
 import android.util.Log
-import com.spotify.android.appremote.api.SpotifyAppRemote
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
+import com.spotify.android.appremote.api.SpotifyAppRemote
 import com.spotify.protocol.types.Track
-import com.spotify.sdk.android.auth.AuthorizationClient
-import com.spotify.sdk.android.auth.AuthorizationRequest
-import com.spotify.sdk.android.auth.AuthorizationResponse
 
 
 class SpotifyConnection(private val context: Context) {
      private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
      private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
-
+    private val REQUEST_CODE = 1337
 
      var spotifyAppRemote: SpotifyAppRemote? = null
     fun connectionStart(){

@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var spotifyAuth: SpotifyConnection
     private lateinit var spotifyApi: SpotifyApi
+
    // private lateinit var spotifyService: SpotifyService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +33,15 @@ class MainActivity : AppCompatActivity() {
             //val intent = Intent(this, SpotifySwipeMusic::class.java)
             //startActivity(intent)
             val playlistId = "6u36F4hdBHjNi8AB38fuhf"
-            val token = "Bearer BQCBgk0nErRIM28bnXu9MYQvCz7s4D7Wn8YankpmEt6lRy3DavwqcPHCSfXp9t1ErXi4wWSKH5FQnwd8aTJgwh26S9ToYxkwB3lTuACY6kv9JFpe76Y"
-
+            val token = "Bearer BQB7yUwlOyxC3kGDvVzv_r6om6JvsflGsorUw3tZFRgEqXgkoKPnH0p-FZfd5F3P8mCwNGD3wNig_vfIKOuE1uapSTnoIMSo64ppfqaMwTgKQSEH4zg"
+            CoroutineScope(Dispatchers.IO).launch{
+                try {
+                    val pause =  spotifyApi.service.pause(token)
+                }
+                catch (e: Exception) {
+                    Log.e("deneme", "Error: ${e.message}")
+                }
+            }
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val playlist = spotifyApi.service.getPlaylist(playlistId, token)
@@ -44,6 +52,8 @@ class MainActivity : AppCompatActivity() {
                     Log.e("deneme", "Error: ${e.message}")
                 }
             }
+
+
 
         }
     }
