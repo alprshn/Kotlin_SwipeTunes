@@ -114,4 +114,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    fun getASong(){
+        val randomSeed = generateQuery(2)
+    }
+
+    private fun generateQuery( length: Int): String{
+        var result = ""
+        var characters = "abcdefghijklmnopqrstuvwxyz"
+        var charactersLength = characters.length
+        for ( i in 0 until length){
+            val randomIndex = (Math.random() * charactersLength).toInt()
+            result += characters[Math.floor(Math.random() * charactersLength).toInt()]
+        }
+        return result.toString()
+    }
+
+
 }
