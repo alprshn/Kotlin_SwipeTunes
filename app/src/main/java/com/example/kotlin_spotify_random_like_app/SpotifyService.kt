@@ -22,4 +22,9 @@ interface SpotifyService {
                 @Header("Authorization") authorization: String
         )
 
+        @POST("me/player/next")
+        suspend fun next(
+                @Header("Authorization") authorization: String
+        )
+
 }

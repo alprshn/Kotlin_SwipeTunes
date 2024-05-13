@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         spotifyAuth = SpotifyConnection(this)
         spotifyApi = SpotifyApi // SpotifyApi nesnesini başlatın
 
-
         binding.button.setOnClickListener{
             val builder : AuthorizationRequest.Builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri);
             builder.setScopes(arrayOf("streaming","user-modify-playback-state","user-read-private", "playlist-read", "playlist-read-private",))
@@ -47,10 +46,12 @@ class MainActivity : AppCompatActivity() {
             //startActivity(intent)
         }
 
+
         binding.button2.setOnClickListener {
+            val token = "Bearer ${accessToken.toString()}"
             Log.e("basari",accessToken.toString())
             val playlistId = "6u36F4hdBHjNi8AB38fuhf"
-            val token = "Bearer ${accessToken.toString()}"
+
             CoroutineScope(Dispatchers.IO).launch{
                 try {
                     AuthorizationResponse.Type.CODE
@@ -70,6 +71,18 @@ class MainActivity : AppCompatActivity() {
                     Log.e("deneme", "Error: ${e.message}")
                 }
             }
+        }
+
+        binding.button3.setOnClickListener {
+            val token = "Bearer ${accessToken.toString()}"
+                CoroutineScope(Dispatchers.IO).launch{
+                    try {
+                        spotifyApi.service.next(token)
+                    }
+                    catch (e: Exception) {
+                        Log.e("deneme", "Error: ${e.message}")
+                    }
+                }
         }
 
     }
