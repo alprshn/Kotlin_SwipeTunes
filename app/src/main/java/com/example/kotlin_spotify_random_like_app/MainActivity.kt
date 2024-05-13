@@ -117,6 +117,8 @@ class MainActivity : AppCompatActivity() {
 
     fun getASong(){
         val randomSeed = generateQuery(2)
+        val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
+
     }
 
     private fun generateQuery( length: Int): String{
@@ -130,5 +132,8 @@ class MainActivity : AppCompatActivity() {
         return result.toString()
     }
 
+    private fun play(){
+
+    }
 
 }
