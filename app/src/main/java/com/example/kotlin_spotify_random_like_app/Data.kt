@@ -33,3 +33,13 @@ data class Owner(
     val uri: String,
     val display_name: String
 )
+
+data class PlayRequest(
+    val context_uri: String,
+    val offset: Offset,
+    val position_ms: Int
+)
+
+data class Offset(
+    val position: Int
+)

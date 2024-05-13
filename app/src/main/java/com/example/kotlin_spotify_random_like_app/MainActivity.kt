@@ -1,5 +1,7 @@
 package com.example.kotlin_spotify_random_like_app
 
+import Offset
+import PlayRequest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -47,6 +49,24 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+
+        binding.button4.setOnClickListener {
+
+            val token = "Bearer ${accessToken.toString()}"
+            val contextUri = "spotify:album:5ht7ItJgpBH7W6vJ5BqpPr"
+            val position = 5
+            val positionMs = 0
+            val requestBody = PlayRequest(contextUri, Offset(position), positionMs)
+
+            CoroutineScope(Dispatchers.IO).launch{
+                try {
+                    spotifyApi.service.play(requestBody,token)                }
+                catch (e: Exception) {
+                    Log.e("deneme", "Error: ${e.message}")
+                }
+            }
+        }
+
         binding.button2.setOnClickListener {
             val token = "Bearer ${accessToken.toString()}"
             Log.e("basari",accessToken.toString())
@@ -75,6 +95,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.button3.setOnClickListener {
             val token = "Bearer ${accessToken.toString()}"
+
                 CoroutineScope(Dispatchers.IO).launch{
                     try {
                         spotifyApi.service.next(token)
@@ -118,7 +139,6 @@ class MainActivity : AppCompatActivity() {
     fun getASong(){
         val randomSeed = generateQuery(2)
         val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
-
     }
 
     private fun generateQuery( length: Int): String{
@@ -132,8 +152,6 @@ class MainActivity : AppCompatActivity() {
         return result.toString()
     }
 
-    private fun play(){
 
-    }
 
 }
