@@ -1,6 +1,8 @@
 package com.example.kotlin_spotify_random_like_app
 
 import Playlist
+import org.json.JSONObject
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -19,4 +21,5 @@ interface SpotifyService {
         suspend fun pause(
                 @Header("Authorization") authorization: String
         )
+
 }
