@@ -51,20 +51,8 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.button4.setOnClickListener {
+            getASong(accessToken.toString())
 
-            val token = "Bearer ${accessToken.toString()}"
-            val contextUri = "spotify:album:5ht7ItJgpBH7W6vJ5BqpPr"
-            val position = 5
-            val positionMs = 0
-            val requestBody = PlayRequest(contextUri, Offset(position), positionMs)
-
-            CoroutineScope(Dispatchers.IO).launch{
-                try {
-                    spotifyApi.service.play(requestBody,token)                }
-                catch (e: Exception) {
-                    Log.e("deneme", "Error: ${e.message}")
-                }
-            }
         }
 
         binding.button2.setOnClickListener {
@@ -136,12 +124,52 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun getASong(){
+    fun getASong(accessTokene: String){
         val randomSeed = generateQuery(2)
         val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
+        val token = "Bearer ${accessTokene.toString()}"
+
+        CoroutineScope(Dispatchers.IO).launch{
+            try {
+                val response = spotifyApi.service.searchAlbum("remaster%20track:Doxy%20artist:Miles%20Davis",token)
+                val trackItems = response.tracks.items
+                if (trackItems != null) {
+                    // Burada trackItems'i kullanabilirsiniz
+                    for (track in trackItems) {
+                        val albumNameUri = track.album.href
+                        val artistName = track.album.artists.firstOrNull()?.name ?: "Unknown"
+                        Log.e("deneme", albumNameUri)
+                    }
+                } else {
+                    // response null ise buraya düşer
+                    Log.e("deneme", "Response is null or tracks are null")
+                }
+
+            }
+            catch (e: Exception) {
+                Log.e("deneme", "Error: ${e.message}")
+            }
+        }
 
     }
 
+    private fun play(){
+        val token = "Bearer ${accessToken.toString()}"
+        val contextUri = "spotify:album:5ht7ItJgpBH7W6vJ5BqpPr"
+        val randomSeed = generateQuery(2)
+        val randomOffset = (Math.random() * 20).toInt()
+        val position = 5
+        val positionMs = 0
+        val requestBody = PlayRequest(contextUri, Offset(position), positionMs)
+
+        CoroutineScope(Dispatchers.IO).launch{
+            try {
+                spotifyApi.service.play(requestBody,token)             }
+            catch (e: Exception) {
+                Log.e("deneme", "Error: ${e.message}")
+            }
+        }
+    }
     private fun generateQuery( length: Int): String{
         var result = ""
         var characters = "abcdefghijklmnopqrstuvwxyz"
