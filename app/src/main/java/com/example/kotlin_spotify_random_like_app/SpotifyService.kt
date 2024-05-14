@@ -1,8 +1,8 @@
 package com.example.kotlin_spotify_random_like_app
 
+import AlbumsResponse
 import PlayRequest
 import Playlist
-import TrackResponse
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
@@ -42,5 +42,5 @@ interface SpotifyService {
         suspend fun searchAlbum(
                 @Query("q") query: String,
                 @Header("Authorization") authorization: String
-        ): TrackResponse // SearchResult, API'den dönen verilere uygun bir sınıf olmalıdır.
+        ): AlbumsResponse // SearchResult, API'den dönen verilere uygun bir sınıf olmalıdır.
 }

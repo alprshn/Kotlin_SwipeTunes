@@ -44,51 +44,19 @@ data class Offset(
     val position: Int
 )
 
-data class TrackResponse(
-    val tracks: TrackObject
+
+
+data class AlbumsResponse(
+    val albums: Albums
 )
 
-data class TrackObject(
+
+data class Albums(
     val href: String,
+    //val items: List<Album>,
     val limit: Int,
     val next: String?,
     val offset: Int,
     val previous: String?,
-    val total: Int,
-    val items: List<TrackItem>
-)
-
-data class TrackItem(
-    val album: Album,
-    // Diğer özellikler buraya eklenebilir
-)
-
-data class Album(
-    val album_type: String,
-    val total_tracks: Int,
-    val available_markets: List<String>,
-    val external_urls: ExternalUrls,
-    val href: String,
-    val id: String,
-    val images: List<Image>,
-    val name: String,
-    val release_date: String,
-    val release_date_precision: String,
-    val restrictions: Restrictions?,
-    val type: String,
-    val uri: String,
-    val artists: List<Artist>
-)
-
-data class Artist(
-    val external_urls: ExternalUrls,
-    val href: String,
-    val id: String,
-    val name: String,
-    val type: String,
-    val uri: String
-)
-
-data class Restrictions(
-    val reason: String
+    val total: Int
 )

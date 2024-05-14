@@ -124,34 +124,29 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun getASong(accessTokene: String){
+    fun getASong(accessTokene: String?) {
+        if (accessTokene.isNullOrEmpty()) {
+            Log.e("Error", "Access token is null or empty.")
+            return
+        }
+
         val randomSeed = generateQuery(2)
         val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
-        val token = "Bearer ${accessTokene.toString()}"
+        val token = "Bearer $accessTokene"
 
-        CoroutineScope(Dispatchers.IO).launch{
+        CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = spotifyApi.service.searchAlbum("remaster%20track:Doxy%20artist:Miles%20Davis",token)
-                val trackItems = response.tracks.items
-                if (trackItems != null) {
-                    // Burada trackItems'i kullanabilirsiniz
-                    for (track in trackItems) {
-                        val albumNameUri = track.album.href
-                        val artistName = track.album.artists.firstOrNull()?.name ?: "Unknown"
-                        Log.e("deneme", albumNameUri)
-                    }
-                } else {
-                    // response null ise buraya düşer
-                    Log.e("deneme", "Response is null or tracks are null")
-                }
+                val response = spotifyApi.service.searchAlbum("remaster%20track:Doxy%20artist:Miles%20Davis", token)
+                Log.e("href", response.toString())
 
-            }
-            catch (e: Exception) {
+                val trackItems = response.albums.href
+                Log.e("href", trackItems.toString())
+            } catch (e: Exception) {
                 Log.e("deneme", "Error: ${e.message}")
             }
         }
-
     }
+
 
     private fun play(){
         val token = "Bearer ${accessToken.toString()}"
