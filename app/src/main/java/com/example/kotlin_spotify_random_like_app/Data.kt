@@ -53,10 +53,26 @@ data class AlbumsResponse(
 
 data class Albums(
     val href: String,
-    //val items: List<Album>,
+    val items: List<AlbumItem>,
     val limit: Int,
     val next: String?,
     val offset: Int,
     val previous: String?,
     val total: Int
+)
+
+data class AlbumItem(
+    val album_type: String,
+    val total_tracks: Int,
+    val available_markets: List<String>,
+    val external_urls: ExternalUrls,
+    val href: String,
+    val id: String,
+    val images: List<Image>,
+    val name: String,
+    val release_date: String,
+    val release_date_precision: String,
+    val type: String,
+    val uri: String,
+    //val artists: List<Artist>
 )

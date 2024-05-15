@@ -51,8 +51,8 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.button4.setOnClickListener {
-            //getASong(accessToken.toString())
-            play()
+            getASong(accessToken.toString())
+            //play()
         }
 
         binding.button2.setOnClickListener {
@@ -124,48 +124,51 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun getASong(accessTokene: String?) {
-        if (accessTokene.isNullOrEmpty()) {
+
+    fun getASong(accessToken: String?) {
+        if (accessToken.isNullOrEmpty()) {
             Log.e("Error", "Access token is null or empty.")
             return
         }
 
         val randomSeed = generateQuery(2)
         val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
-        val token = "Bearer $accessTokene"
+        val token = "Bearer $accessToken"
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                    val response = spotifyApi.service.searchAlbum("q=$randomSeed&type=track&offset=$randomOffset&limit=1", token)
-                Log.e("href", response.toString())
-                val trackUri = response.albums.items[0].uri
-                play(accessToken, trackUri)
-                var trackItems = response.albums.href
-                trackItems ="https://api.spotify.com/v1/search?type=track&offset=${randomOffset}&limit=1&q=$randomSeed"
-                Log.e("href", trackItems.toString())
+                val response = spotifyApi.service.searchAlbum("q=$randomSeed&type=track&offset=$randomOffset&limit=1", token)
+                if (response.albums.items.isNotEmpty()) {
+                    val trackUri = response.albums.items[0].uri
+                    Log.e("Track URI", trackUri)
+
+                    // Calling play function with the found track URI
+                    play(accessToken, trackUri)
+                } else {
+                    Log.e("Error", "No tracks found.")
+                }
             } catch (e: Exception) {
-                Log.e("deneme", "Error: ${e.message}")
+                Log.e("Error", "Error: ${e.message}")
             }
         }
     }
 
 
-    private fun play(){
-        val token = "Bearer ${accessToken.toString()}"
-        val contextUri = "spotify:track&offset=16&limit=1&q=kt"
-        val randomSeed = generateQuery(2)
-        val randomOffset = (Math.random() * 20).toInt()
-        val position = 5
-        val positionMs = 0
-        val requestBody = PlayRequest(contextUri, Offset(position), positionMs)
-        CoroutineScope(Dispatchers.IO).launch{
-            try {
-                Log.e("denemecal", requestBody.toString())
-                spotifyApi.service.play(requestBody,token)
+    private fun play(accessTokene: String?, trackUri: String){
+        if (accessToken.isNullOrEmpty()) {
+            Log.e("Error", "Access token is null or empty.")
+            return
+        }
 
-            }
-            catch (e: Exception) {
-                Log.e("deneme", "Error: ${e.message}")
+        val token = "Bearer $accessToken"
+        val requestBody = PlayRequest(trackUri, Offset(0), 0)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                Log.e("Play Request", requestBody.toString())
+                spotifyApi.service.play(requestBody, token)
+            } catch (e: Exception) {
+                Log.e("Error", "Error: ${e.message}")
             }
         }
     }
