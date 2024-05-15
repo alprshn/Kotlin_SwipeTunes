@@ -51,8 +51,8 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.button4.setOnClickListener {
-            getASong(accessToken.toString())
-
+            //getASong(accessToken.toString())
+            play()
         }
 
         binding.button2.setOnClickListener {
@@ -136,10 +136,12 @@ class MainActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = spotifyApi.service.searchAlbum("remaster%20track:Doxy%20artist:Miles%20Davis", token)
+                    val response = spotifyApi.service.searchAlbum("q=$randomSeed&type=track&offset=$randomOffset&limit=1", token)
                 Log.e("href", response.toString())
-
-                val trackItems = response.albums.href
+                val trackUri = response.albums.items[0].uri
+                play(accessToken, trackUri)
+                var trackItems = response.albums.href
+                trackItems ="https://api.spotify.com/v1/search?type=track&offset=${randomOffset}&limit=1&q=$randomSeed"
                 Log.e("href", trackItems.toString())
             } catch (e: Exception) {
                 Log.e("deneme", "Error: ${e.message}")
@@ -150,7 +152,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun play(){
         val token = "Bearer ${accessToken.toString()}"
-        val contextUri = "spotify:album:5ht7ItJgpBH7W6vJ5BqpPr"
+        val contextUri = "spotify:track&offset=16&limit=1&q=kt"
         val randomSeed = generateQuery(2)
         val randomOffset = (Math.random() * 20).toInt()
         val position = 5
@@ -158,7 +160,10 @@ class MainActivity : AppCompatActivity() {
         val requestBody = PlayRequest(contextUri, Offset(position), positionMs)
         CoroutineScope(Dispatchers.IO).launch{
             try {
-                spotifyApi.service.play(requestBody,token)             }
+                Log.e("denemecal", requestBody.toString())
+                spotifyApi.service.play(requestBody,token)
+
+            }
             catch (e: Exception) {
                 Log.e("deneme", "Error: ${e.message}")
             }
