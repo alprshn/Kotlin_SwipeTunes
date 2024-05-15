@@ -137,10 +137,13 @@ class MainActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = spotifyApi.service.searchAlbum("q=$randomSeed&type=track&offset=$randomOffset&limit=1", token)
+                val response = spotifyApi.service.searchAlbum("remaster%20track:Doxy%20artist:Miles%20Davis", token)
                 if (response.albums.items.isNotEmpty()) {
+
                     val trackUri = response.albums.items[0].uri
+
                     Log.e("Track URI", trackUri)
+                    Log.e("Track URI", response.albums.href)
 
                     // Calling play function with the found track URI
                     play(accessToken, trackUri)
@@ -155,12 +158,14 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun play(accessTokene: String?, trackUri: String){
-        if (accessToken.isNullOrEmpty()) {
+        val randomSeed = generateQuery(2)
+        val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
+        if (accessTokene.isNullOrEmpty()) {
             Log.e("Error", "Access token is null or empty.")
             return
         }
 
-        val token = "Bearer $accessToken"
+        val token = "Bearer $accessTokene"
         val requestBody = PlayRequest(trackUri, Offset(0), 0)
 
         CoroutineScope(Dispatchers.IO).launch {
