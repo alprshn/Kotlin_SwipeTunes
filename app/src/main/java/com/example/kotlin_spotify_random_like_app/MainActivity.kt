@@ -156,7 +156,6 @@ class MainActivity : AppCompatActivity() {
         val position = 5
         val positionMs = 0
         val requestBody = PlayRequest(contextUri, Offset(position), positionMs)
-
         CoroutineScope(Dispatchers.IO).launch{
             try {
                 spotifyApi.service.play(requestBody,token)             }
