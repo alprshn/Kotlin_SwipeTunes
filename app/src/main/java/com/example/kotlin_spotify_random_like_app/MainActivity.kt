@@ -130,31 +130,27 @@ class MainActivity : AppCompatActivity() {
             Log.e("Error", "Access token is null or empty.")
             return
         }
-
         val randomSeed = generateQuery(2)
         Log.e("Random Seed", randomSeed)
-        //val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
+        val randomAlbum = (Math.random() * 19).toInt() // returns a random Integer from 0 to 20
+        Log.e("Random Album",randomAlbum.toString())
         val token = "Bearer $accessToken"
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = spotifyApi.service.searchAlbum("q=$randomSeed", token)
                 if (response.albums.items.isNotEmpty()) {
-
-
-                    val trackUri = response.albums.items[0].uri
-                    response.albums.items.forEachIndexed { index, track ->
-                        val trackName = track.name
-                        val trackUri = track.uri
-                        Log.e("Track $index", "Name: $trackName, URI: $trackUri")
+                    val track = response.albums.items[randomAlbum]
+                    val trackUri = track.uri
+                    response.albums.items.forEachIndexed { index, tracks ->
+                        val trackName = tracks.name
+                        val trackUris = tracks.uri
+                        Log.e("Track $index", "Name: $trackName, URI: $trackUris")
                     }
-
-
                     Log.e("Track Type", response.albums.total.toString())
                     Log.e("Track URI", response.albums.href)
-
+                    val randomOffset = (Math.random() * (track.total_tracks-1)).toInt()
                     // Calling play function with the found track URI
-                    play(accessToken, trackUri)
+                    play(accessToken, trackUri, randomOffset)
                 } else {
                     Log.e("Error", "No tracks found.")
                 }
@@ -165,10 +161,8 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun play(accessTokene: String?, trackUri: String){
-        val randomSeed = generateQuery(2)
-        val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
-        Log.e("Random Offset", randomOffset.toString())
+    private fun play(accessTokene: String?, trackUri: String, offset: Int){
+        Log.e("Random Offset", offset.toString())
 
         if (accessTokene.isNullOrEmpty()) {
             Log.e("Error", "Access token is null or empty.")
@@ -176,7 +170,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val token = "Bearer $accessTokene"
-        val requestBody = PlayRequest(trackUri, Offset(randomOffset), 0)
+        val requestBody = PlayRequest(trackUri, Offset(offset), 0)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
