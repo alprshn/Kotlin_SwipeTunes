@@ -131,29 +131,20 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val randomSeed = generateQuery(1)
-       // val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
+        val randomSeed = generateQuery(2)
+        val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
         val token = "Bearer $accessToken"
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = spotifyApi.service.searchAlbum("q=album:${randomSeed}&type=album","album", token)
-                Log.e("random seed", randomSeed.toString())
-                //Log.e("random offset", randomOffset.toString())
-
+                val response = spotifyApi.service.searchAlbum("q=track%3Az&type=track", token)
                 if (response.albums.items.isNotEmpty()) {
 
                     val trackUri = response.albums.items[0].uri
-                    val albums = response.albums.items
-                    albums.forEach { album ->
-                        Log.e("Album Name", album.name)
-                        Log.e("Album URI", album.uri.)
-                    }
-                    Log.e("Track URI", trackUri)
-                    Log.e("Track URI", response.albums.href)
-                    Log.e("Track Offset", response.albums.offset.toString())
-                    Log.e("Track Offset", response.albums.items[0].name)
 
+
+                    Log.e("Track Type", response.albums.total.toString())
+                    Log.e("Track URI", response.albums.href)
 
                     // Calling play function with the found track URI
                     play(accessToken, trackUri)
@@ -177,13 +168,10 @@ class MainActivity : AppCompatActivity() {
 
         val token = "Bearer $accessTokene"
         val requestBody = PlayRequest(trackUri, Offset(randomOffset), 0)
-        Log.e("RandomOffset Degeri", randomOffset.toString())
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 Log.e("Play Request", requestBody.toString())
-                Log.e("Play Request", requestBody.toString())
-
                 spotifyApi.service.play(requestBody, token)
             } catch (e: Exception) {
                 Log.e("Error", "Error: ${e.message}")
