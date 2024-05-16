@@ -137,7 +137,10 @@ class MainActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = spotifyApi.service.searchAlbum("remaster%20track:Doxy%20artist:Miles%20Davis", token)
+                val response = spotifyApi.service.searchAlbum("q=track:$randomSeed*&type=track&offset=$randomOffset", token)
+                Log.e("random seed", randomSeed.toString())
+                Log.e("random offset", randomOffset.toString())
+
                 if (response.albums.items.isNotEmpty()) {
 
                     val trackUri = response.albums.items[0].uri
