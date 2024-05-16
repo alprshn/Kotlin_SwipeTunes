@@ -132,12 +132,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         val randomSeed = generateQuery(2)
-        val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
+        Log.e("Random Seed", randomSeed)
+        //val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
         val token = "Bearer $accessToken"
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = spotifyApi.service.searchAlbum("q=track%3Az&type=track", token)
+                val response = spotifyApi.service.searchAlbum("q=$randomSeed", token)
                 if (response.albums.items.isNotEmpty()) {
 
 
@@ -167,13 +168,15 @@ class MainActivity : AppCompatActivity() {
     private fun play(accessTokene: String?, trackUri: String){
         val randomSeed = generateQuery(2)
         val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
+        Log.e("Random Offset", randomOffset.toString())
+
         if (accessTokene.isNullOrEmpty()) {
             Log.e("Error", "Access token is null or empty.")
             return
         }
 
         val token = "Bearer $accessTokene"
-        val requestBody = PlayRequest(trackUri, Offset(4), 2)
+        val requestBody = PlayRequest(trackUri, Offset(randomOffset), 0)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
