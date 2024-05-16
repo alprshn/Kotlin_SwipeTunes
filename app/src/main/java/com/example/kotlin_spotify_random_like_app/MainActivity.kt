@@ -154,7 +154,11 @@ class MainActivity : AppCompatActivity() {
                     Log.e("Track URI", response.albums.href)
 
                     // Calling play function with the found track URI
-                    play(accessToken, trackUri)
+                    Log.e("Track Size", (response.albums.items[0].total_tracks-1).toString())
+
+                    val randomOffset = (Math.random() * (response.albums.items[0].total_tracks-1)).toInt() // returns a random Integer from 0 to 20
+
+                    play(accessToken, trackUri, randomOffset)
                 } else {
                     Log.e("Error", "No tracks found.")
                 }
@@ -165,10 +169,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun play(accessTokene: String?, trackUri: String){
-        val randomSeed = generateQuery(2)
-        val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
-        Log.e("Random Offset", randomOffset.toString())
+    private fun play(accessTokene: String?, trackUri: String, offSet: Int){
+        //val randomSeed = generateQuery(2)
+        //val randomOffset = (Math.random() * 20).toInt() // returns a random Integer from 0 to 20
+        Log.e("Random Offset", offSet.toString())
 
         if (accessTokene.isNullOrEmpty()) {
             Log.e("Error", "Access token is null or empty.")
@@ -176,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val token = "Bearer $accessTokene"
-        val requestBody = PlayRequest(trackUri, Offset(randomOffset), 0)
+        val requestBody = PlayRequest(trackUri, Offset(offSet), 0)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
