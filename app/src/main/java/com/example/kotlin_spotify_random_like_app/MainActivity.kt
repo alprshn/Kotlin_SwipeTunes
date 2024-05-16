@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val token = "Bearer $accessTokene"
-        val requestBody = PlayRequest(trackUri, Offset(0), 0)
+        val requestBody = PlayRequest(trackUri, Offset(4), 2)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
