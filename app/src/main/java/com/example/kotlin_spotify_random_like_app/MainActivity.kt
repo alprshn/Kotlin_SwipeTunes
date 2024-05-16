@@ -140,7 +140,13 @@ class MainActivity : AppCompatActivity() {
                 val response = spotifyApi.service.searchAlbum("q=track%3Az&type=track", token)
                 if (response.albums.items.isNotEmpty()) {
 
+
                     val trackUri = response.albums.items[0].uri
+                    response.albums.items.forEachIndexed { index, track ->
+                        val trackName = track.name
+                        val trackUri = track.uri
+                        Log.e("Track $index", "Name: $trackName, URI: $trackUri")
+                    }
 
 
                     Log.e("Track Type", response.albums.total.toString())
@@ -167,7 +173,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val token = "Bearer $accessTokene"
-        val requestBody = PlayRequest(trackUri, Offset(randomOffset), 0)
+        val requestBody = PlayRequest(trackUri, Offset(0), 0)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
