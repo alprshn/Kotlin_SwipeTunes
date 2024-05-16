@@ -41,6 +41,7 @@ interface SpotifyService {
         @GET("search?type=album")
         suspend fun searchAlbum(
                 @Query("q") query: String,
+                @Query("type") type: String,
                 @Header("Authorization") authorization: String
         ): AlbumsResponse // SearchResult, API'den dönen verilere uygun bir sınıf olmalıdır.
 }
