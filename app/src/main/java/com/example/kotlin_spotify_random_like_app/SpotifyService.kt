@@ -4,6 +4,7 @@ import AlbumsResponse
 import PlayRequest
 import Playlist
 import PlaylistRequest
+import SpotifyUser
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
@@ -55,5 +56,5 @@ interface SpotifyService {
         @POST("me")
         suspend fun userID(
                 @Header("Authorization") token: String,
-        )
+        ):SpotifyUser
 }
