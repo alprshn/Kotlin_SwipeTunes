@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.button.setOnClickListener{
             val builder : AuthorizationRequest.Builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri);
-            builder.setScopes(arrayOf("streaming","user-modify-playback-state","user-read-private", "playlist-read", "playlist-read-private","playlist-modify-private","playlist-modify-public"))
+            builder.setScopes(arrayOf("streaming","user-modify-playback-state","user-read-private", "playlist-read", "playlist-read-private","playlist-modify-private","playlist-modify-public","user-read-email"))
             val request: AuthorizationRequest = builder.build()
             AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
             //val intent = Intent(this, SpotifySwipeMusic::class.java)
@@ -55,18 +55,21 @@ class MainActivity : AppCompatActivity() {
 
         binding.button5.setOnClickListener {
 
+
             val playlistRequest = PlaylistRequest(
-                name = "New Playlist",
+                name = "Deneme",
                 description = "New playlist description",
                 public = false
             )
-            val userId = "smedjan"
+            //val userId = "smedjan"
             val token = "Bearer ${accessToken.toString()}"
 
             CoroutineScope(Dispatchers.IO).launch{
                 try {
-                    AuthorizationResponse.Type.CODE
-                    val create = spotifyApi.service.createPlaylist(userId, token, playlistRequest)
+                    val userID = spotifyApi.service.userID(token)
+                    Log.e("userID",userID.id.toString())
+
+                    spotifyApi.service.createPlaylist(userID.id, token, playlistRequest)
                 }
                 catch (e: Exception) {
                     Log.e("deneme", "Error: ${e.message}")

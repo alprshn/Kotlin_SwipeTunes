@@ -53,7 +53,7 @@ interface SpotifyService {
                 @Body playlistRequest: PlaylistRequest
         )
 
-        @POST("me")
+        @GET("me")
         suspend fun userID(
                 @Header("Authorization") token: String,
         ):SpotifyUser
