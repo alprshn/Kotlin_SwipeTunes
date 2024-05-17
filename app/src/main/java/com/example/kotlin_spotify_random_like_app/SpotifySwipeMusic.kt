@@ -92,17 +92,11 @@ class SpotifySwipeMusic : AppCompatActivity() {
 
     private fun addList(): List<ItemModel> {
         val itemsList = ArrayList<ItemModel>()
-
-
         val name = intent.getStringExtra("name")
         val artistName = intent.getStringExtra("artistName")
         val imageUri = intent.getStringExtra("imageUri")
         Log.e("deneme",imageUri.toString())
         itemsList.add(ItemModel(imageUri, name.toString(), artistName.toString(),"asd"))
-        //itemsList.add(ItemModel(R.drawable.sample2, name.toString(), artistName.toString(),"asd"))
-        //itemsList.add(ItemModel(R.drawable.sample4, "asd","asdad","asd"))
-        // itemsList.add(ItemModel(R.drawable.sample5, "asd","asdad","asd"))
-
         return  itemsList
     }
 
