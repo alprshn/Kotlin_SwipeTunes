@@ -3,6 +3,7 @@ package com.example.kotlin_spotify_random_like_app
 import AddTracksRequest
 import AlbumsResponse
 import PlayRequest
+import PlayingTrack
 import Playlist
 import PlaylistRequest
 import SpotifyUser
@@ -69,5 +70,5 @@ interface SpotifyService {
         @GET ("player/currently-playing")
         suspend fun getCurrentPlaying(
                 @Header("Authorization") token: String,
-        )
+        ):PlayingTrack
 }

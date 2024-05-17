@@ -108,3 +108,12 @@ data class AddTracksRequest(
     val position: Int
 )
 
+data class PlayingTrack(
+    val items: List<TrackItem>,
+)
+
+data class TrackItem(
+    val name : String,
+    val uri : String
+)
+
