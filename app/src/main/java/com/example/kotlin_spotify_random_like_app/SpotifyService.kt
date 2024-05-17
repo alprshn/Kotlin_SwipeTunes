@@ -50,5 +50,10 @@ interface SpotifyService {
                 @Path("user_id") userId: String,
                 @Header("Authorization") token: String,
                 @Body playlistRequest: PlaylistRequest
-        ): Call<Void>// SearchResult, API'den dönen verilere uygun bir sınıf olmalıdır.
+        )
+
+        @POST("me")
+        suspend fun userID(
+                @Header("Authorization") token: String,
+        )
 }

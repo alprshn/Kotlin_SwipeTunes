@@ -2,6 +2,7 @@ package com.example.kotlin_spotify_random_like_app
 
 import Offset
 import PlayRequest
+import PlaylistRequest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -16,6 +17,9 @@ import com.spotify.sdk.android.auth.AuthorizationResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -50,6 +54,24 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.button5.setOnClickListener {
+
+            val playlistRequest = PlaylistRequest(
+                name = "New Playlist",
+                description = "New playlist description",
+                public = false
+            )
+            val userId = "smedjan"
+            val token = "Bearer ${accessToken.toString()}"
+
+            CoroutineScope(Dispatchers.IO).launch{
+                try {
+                    AuthorizationResponse.Type.CODE
+                    val create = spotifyApi.service.createPlaylist(userId, token, playlistRequest)
+                }
+                catch (e: Exception) {
+                    Log.e("deneme", "Error: ${e.message}")
+                }
+            }
 
         }
 
