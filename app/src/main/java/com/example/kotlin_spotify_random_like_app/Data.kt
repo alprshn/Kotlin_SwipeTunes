@@ -103,4 +103,8 @@ data class ExplicitContent(
     val filter_locked: Boolean
 )
 
+data class AddTracksRequest(
+    val uris: List<String>,
+    val position: Int
+)
 

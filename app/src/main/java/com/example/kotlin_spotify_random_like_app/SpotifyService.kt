@@ -1,5 +1,6 @@
 package com.example.kotlin_spotify_random_like_app
 
+import AddTracksRequest
 import AlbumsResponse
 import PlayRequest
 import Playlist
@@ -57,4 +58,11 @@ interface SpotifyService {
         suspend fun userID(
                 @Header("Authorization") token: String,
         ):SpotifyUser
+
+        @POST("playlists/{playlist_id}/tracks")
+        suspend fun addItemPlaylist(
+                @Path("playlist_id") playlistId: String,
+                @Header("Authorization") token: String,
+                @Body addTracksRequest: AddTracksRequest
+        )
 }
