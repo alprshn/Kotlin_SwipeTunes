@@ -20,6 +20,7 @@ import com.yuyakaido.android.cardstackview.SwipeableMethod
 class SpotifySwipeMusic : AppCompatActivity() {
     private lateinit var manager:CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
+    private lateinit var spotifyApi: SpotifyApi
 
     companion object {
         private const val TAG = "SpotifySwipeMusic"
@@ -27,8 +28,10 @@ class SpotifySwipeMusic : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spotify_swipe_music)
-
-        var cardStackView: CardStackView = findViewById(R.id.cardStackView)
+        spotifyApi = SpotifyApi // SpotifyApi nesnesini başlatın
+        val token = MainActivity.accessToken // MainActivity.Companion.accessToken olarak da erişebilirsiniz.
+        Log.e("tokenSwipe", token.toString())
+        val cardStackView: CardStackView = findViewById(R.id.cardStackView)
         manager = CardStackLayoutManager(this, object:CardStackListener{
             override fun onCardDragging(direction: Direction?, ratio: Float) {
                 Log.d(TAG, "onCardDragging: d=${direction?.name} ratio=$ratio")
@@ -38,6 +41,8 @@ class SpotifySwipeMusic : AppCompatActivity() {
                 Log.d(TAG, "onCardSwiped: p=${manager.topPosition} d=$direction")
                 if (direction == Direction.Right) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
+                    val randoMusic = RandoMusic(spotifyApi,token.toString())
+                    randoMusic.getASong()
                 } else if (direction == Direction.Top) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
                 } else if (direction == Direction.Left) {
