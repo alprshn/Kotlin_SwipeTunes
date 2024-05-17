@@ -12,14 +12,12 @@ class SpotifyPlayback(private val context: Context, private val spotifyApi: Spot
         private const val PREFS_NAME = "SpotifyPrefs"
         private const val PLAYLIST_ID_KEY = "playlist_id"
     }
-    fun addTrackToPlaylist() {
+    fun addTrackToPlaylist(uri:String) {
         val playlistId = getPlaylistId()
         val token = "Bearer ${accessToken.toString()}"
         CoroutineScope(Dispatchers.IO).launch{
             try {
-                val uri= spotifyApi.service.getCurrentPlaying(token).item.uri
-                Log.e("Current Playing Uri", uri.toString())
-                Log.e("Current Playing Name", spotifyApi.service.getCurrentPlaying(token).item.name)
+
                 val addTracksRequest = AddTracksRequest(listOf(uri),0)
                 Log.e("addTracksRequest", addTracksRequest.toString())
                 Log.e("playlistId", playlistId.toString())
@@ -31,6 +29,8 @@ class SpotifyPlayback(private val context: Context, private val spotifyApi: Spot
             }
         }
     }
+
+
 
     fun getPlaylistId(): String? {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)

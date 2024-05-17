@@ -55,8 +55,10 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.button6.setOnClickListener {
-            val playlistManager = SpotifyPlayback(this,spotifyApi, accessToken.toString())
-            playlistManager.addTrackToPlaylist()        }
+           // val playlistManager = SpotifyPlayback(this,spotifyApi, accessToken.toString())
+           // playlistManager.addTrackToPlaylist()
+
+        }
 
         binding.button5.setOnClickListener {
             /// Yeni Play List Oluşturma

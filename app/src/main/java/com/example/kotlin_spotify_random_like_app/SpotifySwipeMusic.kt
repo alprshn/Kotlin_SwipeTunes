@@ -15,13 +15,16 @@ import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.StackFrom
 import com.yuyakaido.android.cardstackview.SwipeableMethod
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class SpotifySwipeMusic : AppCompatActivity() {
     private lateinit var manager:CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
     private lateinit var spotifyApi: SpotifyApi
-
+    val token = MainActivity.accessToken
     companion object {
         private const val TAG = "SpotifySwipeMusic"
     }
@@ -29,7 +32,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spotify_swipe_music)
         spotifyApi = SpotifyApi // SpotifyApi nesnesini başlatın
-        val token = MainActivity.accessToken // MainActivity.Companion.accessToken olarak da erişebilirsiniz.
+         // MainActivity.Companion.accessToken olarak da erişebilirsiniz.
         Log.e("tokenSwipe", token.toString())
         val cardStackView: CardStackView = findViewById(R.id.cardStackView)
         manager = CardStackLayoutManager(this, object:CardStackListener{
@@ -95,6 +98,8 @@ class SpotifySwipeMusic : AppCompatActivity() {
         val name = intent.getStringExtra("name")
         val artistName = intent.getStringExtra("artistName")
         val imageUri = intent.getStringExtra("imageUri")
+
+
         Log.e("deneme",imageUri.toString())
         itemsList.add(ItemModel(imageUri, name.toString(), artistName.toString(),"asd"))
         return  itemsList
