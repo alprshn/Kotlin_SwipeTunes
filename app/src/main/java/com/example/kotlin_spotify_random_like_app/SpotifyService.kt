@@ -3,6 +3,7 @@ package com.example.kotlin_spotify_random_like_app
 import AlbumsResponse
 import PlayRequest
 import Playlist
+import PlaylistRequest
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
@@ -44,7 +45,7 @@ interface SpotifyService {
                 @Header("Authorization") authorization: String
         ): AlbumsResponse // SearchResult, API'den dönen verilere uygun bir sınıf olmalıdır.
 
-        @GET("users/{user_id}/playlists")
+        @POST("users/{user_id}/playlists")
         suspend fun createPlaylist(
                 @Path("user_id") userId: String,
                 @Header("Authorization") token: String,
