@@ -76,3 +76,9 @@ data class AlbumItem(
     val uri: String,
     //val artists: List<Artist>
 )
+
+data class PlaylistRequest(
+    val name: String,
+    val description: String,
+    val public: Boolean
+)
