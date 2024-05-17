@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
     private val REQUEST_CODE = 1337
     private var accessToken: String? = null // accessToken değişkenini tanımladık
-
+    private var playlistId : String? = null
    // private lateinit var spotifyService: SpotifyService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.button.setOnClickListener{
             val builder : AuthorizationRequest.Builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri);
-            builder.setScopes(arrayOf("streaming","user-modify-playback-state","user-read-private", "playlist-read", "playlist-read-private","playlist-modify-private","playlist-modify-public","user-read-email","user-read-recently-played"))
+            builder.setScopes(arrayOf("streaming","user-modify-playback-state","user-read-private", "playlist-read", "playlist-read-private","playlist-modify-private","playlist-modify-public","user-read-email","user-read-recently-played","user-read-currently-playing"))
             val request: AuthorizationRequest = builder.build()
             AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
             //val intent = Intent(this, SpotifySwipeMusic::class.java)
@@ -55,17 +55,18 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.button6.setOnClickListener {
+            //Play List'e müzik ekleme
             val token = "Bearer ${accessToken.toString()}"
-
-            val addTracksRequest = AddTracksRequest(
-                uris = listOf("string"),
-                position = 0
-            )
             CoroutineScope(Dispatchers.IO).launch{
                 try {
+                    val uri= spotifyApi.service.getCurrentPlaying(token).item.uri
+                    Log.e("Current Playing Uri", uri.toString())
+                    Log.e("Current Playing Name", spotifyApi.service.getCurrentPlaying(token).item.name)
+                    val addTracksRequest = AddTracksRequest(listOf(uri),0)
+                    Log.e("addTracksRequest", addTracksRequest.toString())
+                    Log.e("playlistId", playlistId.toString())
 
-
-                    spotifyApi.service.addItemPlaylist(playlistId, token, addTracksRequest)
+                    spotifyApi.service.addItemPlaylist(playlistId.toString(), token, addTracksRequest)
                 }
                 catch (e: Exception) {
                     Log.e("deneme", "Error: ${e.message}")
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.button5.setOnClickListener {
 
-
+            /// Yeni Play List Oluşturma
             val playlistRequest = PlaylistRequest(
                 name = "Deneme",
                 description = "New playlist description",
@@ -91,8 +92,8 @@ class MainActivity : AppCompatActivity() {
 
                     val createPlayListID = spotifyApi.service.createPlaylist(userID.id, token, playlistRequest)
                     createPlayListID
+                    playlistId = createPlayListID.id
 
-                    addTrack(createPlayListID.id)
                 }
                 catch (e: Exception) {
                     Log.e("deneme", "Error: ${e.message}")
@@ -109,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         binding.button2.setOnClickListener {
             val token = "Bearer ${accessToken.toString()}"
             Log.e("basari",accessToken.toString())
-            val playlistId = "6u36F4hdBHjNi8AB38fuhf"
+            //val playlistId = "6u36F4hdBHjNi8AB38fuhf"
 
             CoroutineScope(Dispatchers.IO).launch{
                 try {
@@ -122,7 +123,7 @@ class MainActivity : AppCompatActivity() {
             }
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    val playlist = spotifyApi.service.getPlaylist(playlistId, token)
+                    val playlist = spotifyApi.service.getPlaylist(playlistId.toString(), token)
                     Log.e("deneme", "Playlist Name: ${playlist.name}")
                     Log.e("deneme", "Playlist Name: ${playlist.followers}")
                     Log.e("deneme", "Playlist Name: ${playlist.owner.display_name}")
@@ -147,9 +148,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun addTrack(playlistID:String){
 
-    }
     override fun onStart() {
         super.onStart()
         spotifyAuth?.connectionStart()

@@ -68,7 +68,7 @@ interface SpotifyService {
                 @Body addTracksRequest: AddTracksRequest
         )
 
-        @GET ("player/currently-playing")
+        @GET ("me/player/currently-playing")
         suspend fun getCurrentPlaying(
                 @Header("Authorization") token: String,
         ):PlayingTrack

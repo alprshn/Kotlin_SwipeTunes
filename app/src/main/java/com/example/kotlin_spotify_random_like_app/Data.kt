@@ -109,7 +109,7 @@ data class AddTracksRequest(
 )
 
 data class PlayingTrack(
-    val items: List<TrackItem>,
+    val item: TrackItem
 )
 
 data class TrackItem(
