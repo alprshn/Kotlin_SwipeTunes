@@ -41,12 +41,12 @@ class SpotifySwipeMusic : AppCompatActivity() {
                 Log.d(TAG, "onCardSwiped: p=${manager.topPosition} d=$direction")
                 if (direction == Direction.Right) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
-                    val randoMusic = RandoMusic(spotifyApi,token.toString())
-                    randoMusic.getASong()
                 } else if (direction == Direction.Top) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
                 } else if (direction == Direction.Left) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Left", Toast.LENGTH_SHORT).show()
+                    val randoMusic = RandoMusic(spotifyApi,token.toString())
+                    randoMusic.getASong()
                 } else if (direction == Direction.Bottom) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Bottom", Toast.LENGTH_SHORT).show()
                 }
