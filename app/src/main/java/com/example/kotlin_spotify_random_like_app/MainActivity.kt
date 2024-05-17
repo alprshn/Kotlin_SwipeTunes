@@ -55,51 +55,13 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.button6.setOnClickListener {
-            //Play List'e müzik ekleme
-            val token = "Bearer ${accessToken.toString()}"
-            CoroutineScope(Dispatchers.IO).launch{
-                try {
-                    val uri= spotifyApi.service.getCurrentPlaying(token).item.uri
-                    Log.e("Current Playing Uri", uri.toString())
-                    Log.e("Current Playing Name", spotifyApi.service.getCurrentPlaying(token).item.name)
-                    val addTracksRequest = AddTracksRequest(listOf(uri),0)
-                    Log.e("addTracksRequest", addTracksRequest.toString())
-                    Log.e("playlistId", playlistId.toString())
-
-                    spotifyApi.service.addItemPlaylist(playlistId.toString(), token, addTracksRequest)
-                }
-                catch (e: Exception) {
-                    Log.e("deneme", "Error: ${e.message}")
-                }
-            }
-        }
+            val playlistManager = SpotifyPlayback(this,spotifyApi, accessToken.toString())
+            playlistManager.addTrackToPlaylist()        }
 
         binding.button5.setOnClickListener {
-
             /// Yeni Play List Oluşturma
-            val playlistRequest = PlaylistRequest(
-                name = "Deneme",
-                description = "New playlist description",
-                public = false
-            )
-            //val userId = "smedjan"
-            val token = "Bearer ${accessToken.toString()}"
-
-            CoroutineScope(Dispatchers.IO).launch{
-                try {
-                    val userID = spotifyApi.service.userID(token)
-                    Log.e("userID",userID.id.toString())
-
-                    val createPlayListID = spotifyApi.service.createPlaylist(userID.id, token, playlistRequest)
-                    createPlayListID
-                    playlistId = createPlayListID.id
-
-                }
-                catch (e: Exception) {
-                    Log.e("deneme", "Error: ${e.message}")
-                }
-            }
-
+            val createPlayList = CreatePlayList(this, spotifyApi, accessToken.toString())
+            createPlayList.create()
         }
 
         binding.button4.setOnClickListener {
@@ -135,7 +97,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.button3.setOnClickListener {
             val token = "Bearer ${accessToken.toString()}"
-
                 CoroutineScope(Dispatchers.IO).launch{
                     try {
                         spotifyApi.service.next(token)
