@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.button.setOnClickListener{
             val builder : AuthorizationRequest.Builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri);
-            builder.setScopes(arrayOf("streaming","user-modify-playback-state","user-read-private", "playlist-read", "playlist-read-private",))
+            builder.setScopes(arrayOf("streaming","user-modify-playback-state","user-read-private", "playlist-read", "playlist-read-private","playlist-modify-private","playlist-modify-public"))
             val request: AuthorizationRequest = builder.build()
             AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
             //val intent = Intent(this, SpotifySwipeMusic::class.java)
