@@ -53,6 +53,20 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        binding.button6.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch{
+                try {
+                    val userID = spotifyApi.service.userID(token)
+                    Log.e("userID",userID.id.toString())
+
+                    spotifyApi.service.addItemPlaylist()
+                }
+                catch (e: Exception) {
+                    Log.e("deneme", "Error: ${e.message}")
+                }
+            }
+        }
+
         binding.button5.setOnClickListener {
 
 

@@ -117,3 +117,6 @@ data class TrackItem(
     val uri : String
 )
 
+data class CreatePlaylistID(
+    val id: String
+)
