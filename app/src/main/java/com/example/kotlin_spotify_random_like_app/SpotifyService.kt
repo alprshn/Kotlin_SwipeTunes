@@ -43,4 +43,11 @@ interface SpotifyService {
                 @Query("q") query: String,
                 @Header("Authorization") authorization: String
         ): AlbumsResponse // SearchResult, API'den dönen verilere uygun bir sınıf olmalıdır.
+
+        @GET("users/{user_id}/playlists")
+        suspend fun createPlaylist(
+                @Path("user_id") userId: String,
+                @Header("Authorization") token: String,
+                @Body playlistRequest: PlaylistRequest
+        ): Call<Void>// SearchResult, API'den dönen verilere uygun bir sınıf olmalıdır.
 }
