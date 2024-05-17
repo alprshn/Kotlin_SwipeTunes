@@ -91,7 +91,8 @@ class MainActivity : AppCompatActivity() {
 
                     val createPlayListID = spotifyApi.service.createPlaylist(userID.id, token, playlistRequest)
                     createPlayListID
-                    createPlayListID.id
+
+                    addTrack(createPlayListID.id)
                 }
                 catch (e: Exception) {
                     Log.e("deneme", "Error: ${e.message}")
@@ -146,6 +147,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun addTrack(playlistID:String){
+
+    }
     override fun onStart() {
         super.onStart()
         spotifyAuth?.connectionStart()
@@ -155,9 +159,7 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
     }
 
-    fun addTrack(){
 
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
