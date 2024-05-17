@@ -2,6 +2,7 @@ package com.example.kotlin_spotify_random_like_app
 
 import AddTracksRequest
 import AlbumsResponse
+import CreatePlaylistID
 import PlayRequest
 import PlayingTrack
 import Playlist
@@ -53,7 +54,7 @@ interface SpotifyService {
                 @Path("user_id") userId: String,
                 @Header("Authorization") token: String,
                 @Body playlistRequest: PlaylistRequest
-        )
+        ):CreatePlaylistID
 
         @GET("me")
         suspend fun userID(

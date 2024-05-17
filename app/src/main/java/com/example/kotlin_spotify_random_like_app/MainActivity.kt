@@ -1,5 +1,6 @@
 package com.example.kotlin_spotify_random_like_app
 
+import AddTracksRequest
 import Offset
 import PlayRequest
 import PlaylistRequest
@@ -54,12 +55,17 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.button6.setOnClickListener {
+            val token = "Bearer ${accessToken.toString()}"
+
+            val addTracksRequest = AddTracksRequest(
+                uris = listOf("string"),
+                position = 0
+            )
             CoroutineScope(Dispatchers.IO).launch{
                 try {
-                    val userID = spotifyApi.service.userID(token)
-                    Log.e("userID",userID.id.toString())
 
-                    spotifyApi.service.addItemPlaylist()
+
+                    spotifyApi.service.addItemPlaylist(playlistId, token, addTracksRequest)
                 }
                 catch (e: Exception) {
                     Log.e("deneme", "Error: ${e.message}")
@@ -83,7 +89,9 @@ class MainActivity : AppCompatActivity() {
                     val userID = spotifyApi.service.userID(token)
                     Log.e("userID",userID.id.toString())
 
-                    spotifyApi.service.createPlaylist(userID.id, token, playlistRequest)
+                    val createPlayListID = spotifyApi.service.createPlaylist(userID.id, token, playlistRequest)
+                    createPlayListID
+                    createPlayListID.id
                 }
                 catch (e: Exception) {
                     Log.e("deneme", "Error: ${e.message}")
@@ -147,6 +155,9 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
     }
 
+    fun addTrack(){
+
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
