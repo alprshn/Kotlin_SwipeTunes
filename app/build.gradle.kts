@@ -55,11 +55,19 @@ dependencies {
     implementation(files("libs/spotify-app.aar"))
     //implementation(files("libs/spotify-auth-release-2.1.0.aar"))
 
+
+
+// ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+// LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
+
     implementation("com.squareup.picasso:picasso:2.71828")
 
     //Retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
 
 
     //Swipe Library
