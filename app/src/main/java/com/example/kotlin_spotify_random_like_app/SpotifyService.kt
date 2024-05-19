@@ -1,6 +1,7 @@
 package com.example.kotlin_spotify_random_like_app
 
 import AddTracksRequest
+import Album
 import AlbumsResponse
 import CreatePlaylistID
 import PlayRequest
@@ -72,4 +73,10 @@ interface SpotifyService {
         suspend fun getCurrentPlaying(
                 @Header("Authorization") token: String,
         ):PlayingTrack
+
+        @GET("albums/{album_id}")
+        suspend fun getAlbum(
+                @Path("album_id") albumId: String,
+                @Header("Authorization") authToken: String
+        ):Album
 }

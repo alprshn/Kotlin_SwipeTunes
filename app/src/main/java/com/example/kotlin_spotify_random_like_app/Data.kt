@@ -58,7 +58,8 @@ data class Albums(
     val next: String?,
     val offset: Int,
     val previous: String?,
-    val total: Int
+    val total: Int,
+    val id: String?
 )
 
 data class AlbumItem(
@@ -120,3 +121,76 @@ data class TrackItem(
 data class CreatePlaylistID(
     val id: String
 )
+
+data class TracksShowResponse(
+    val href: String,
+    val limit: Int,
+    val next: String?,
+    val offset: Int,
+    val previous: String?,
+    val total: Int,
+    val items: List<TracksShowItem>
+)
+
+data class TracksShowItem(
+    val artists: List<Artist>,
+    val explicit: Boolean,
+    val href: String,
+    val id: String,
+    val name: String,
+    val type: String,
+    val uri: String,
+)
+
+data class Artist(
+    val external_urls: ExternalUrls,
+    val href: String,
+    val id: String,
+    val name: String,
+    val type: String,
+    val uri: String
+)
+
+data class Tracks(
+    val href: String,
+    val limit: Int,
+    val next: String?,
+    val offset: Int,
+    val previous: String?,
+    val total: Int,
+    val items: List<TrackItemler>
+)
+
+
+data class Album(
+
+    val href: String,
+    val id: String,
+    val images: List<Image>,
+    val name: String,
+
+    val type: String,
+    val uri: String,
+    val artists: List<Artist>,
+    val tracks: Tracks,
+
+    val genres: List<String>,
+    val label: String,
+    val popularity: Int
+)
+
+data class TrackItemler(
+    val artists: List<Artist>,
+    val explicit: Boolean,
+    val href: String,
+    val id: String,
+
+    val name: String,
+
+    val type: String,
+    val uri: String,
+)
+
+
+
+data class TrackInfoList(val name: String, val imageUri: String, val albumUri: String, val offset: Int, val artistName:String) // Track sınıfı tanımı

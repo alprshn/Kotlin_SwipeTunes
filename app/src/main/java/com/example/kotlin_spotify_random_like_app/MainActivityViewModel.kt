@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class SpotifySwipeViewModel: ViewModel() {
+class MainActivityViewModel:ViewModel() {
     val accessToken: MutableLiveData<String?> = MutableLiveData()
 
     fun setAccessToken(token: String?) {
@@ -23,6 +23,4 @@ class SpotifySwipeViewModel: ViewModel() {
             SpotifyApiManager.next()
         }
     }
-
-
 }

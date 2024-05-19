@@ -1,5 +1,6 @@
 package com.example.kotlin_spotify_random_like_app
 
+import TrackInfoList
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
+import com.example.kotlin_spotify_random_like_app.SpotifyApiManager.trackList
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
@@ -24,16 +26,17 @@ class SpotifySwipeMusic : AppCompatActivity() {
     private lateinit var manager:CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
     private lateinit var spotifyApi: SpotifyApi
-    val token = MainActivity.accessToken
     companion object {
         private const val TAG = "SpotifySwipeMusic"
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spotify_swipe_music)
         spotifyApi = SpotifyApi // SpotifyApi nesnesini başlatın
          // MainActivity.Companion.accessToken olarak da erişebilirsiniz.
-        Log.e("tokenSwipe", token.toString())
+        SpotifyApiManager.initialize(spotifyApi)
+        Log.e("deneme", SpotifyApiManager.trackList.toString())
         val cardStackView: CardStackView = findViewById(R.id.cardStackView)
         manager = CardStackLayoutManager(this, object:CardStackListener{
             override fun onCardDragging(direction: Direction?, ratio: Float) {
@@ -43,13 +46,13 @@ class SpotifySwipeMusic : AppCompatActivity() {
             override fun onCardSwiped(direction: Direction?) {
                 Log.d(TAG, "onCardSwiped: p=${manager.topPosition} d=$direction")
                 if (direction == Direction.Right) {
+                    SpotifyApiManager.getASong()
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
                 } else if (direction == Direction.Top) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
                 } else if (direction == Direction.Left) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Left", Toast.LENGTH_SHORT).show()
-                    val randoMusic = RandoMusic(spotifyApi,token.toString())
-                    randoMusic.getASong()
+
                 } else if (direction == Direction.Bottom) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Bottom", Toast.LENGTH_SHORT).show()
                 }
@@ -95,14 +98,20 @@ class SpotifySwipeMusic : AppCompatActivity() {
 
     private fun addList(): List<ItemModel> {
         val itemsList = ArrayList<ItemModel>()
-        val name = intent.getStringExtra("name")
-        val artistName = intent.getStringExtra("artistName")
-        val imageUri = intent.getStringExtra("imageUri")
 
+        // Mevcut şarkının bilgilerini al
+        val currentTrack = trackList.getOrNull(0)
+        val nextTrack = trackList.getOrNull(1)
 
-        Log.e("deneme",imageUri.toString())
-        itemsList.add(ItemModel(imageUri, name.toString(), artistName.toString(),"asd"))
-        return  itemsList
+        currentTrack?.let {
+            itemsList.add(ItemModel(it.imageUri, it.name, it.artistName, "Current Track"))
+        }
+
+        nextTrack?.let {
+            itemsList.add(ItemModel(it.imageUri, it.name, it.artistName, "Next Track"))
+        }
+
+        return itemsList
     }
 
     private fun paginate(){
