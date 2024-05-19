@@ -72,29 +72,29 @@ class MainActivity : AppCompatActivity() {
             //play()
         }
         binding.button2.setOnClickListener {
-            val token = "Bearer ${accessToken.toString()}"
-            Log.e("basari",accessToken.toString())
-            CoroutineScope(Dispatchers.IO).launch{
-                try {
-                    AuthorizationResponse.Type.CODE
-                    spotifyApi.service.pause(token)
-                }
-                catch (e: Exception) {
-                    Log.e("deneme", "Error: ${e.message}")
-                }
-            }
+//            val token = "Bearer ${accessToken.toString()}"
+//            Log.e("basari",accessToken.toString())
+//            CoroutineScope(Dispatchers.IO).launch{
+//                try {
+//                    AuthorizationResponse.Type.CODE
+//                    spotifyApi.service.pause(token)
+//                }
+//                catch (e: Exception) {
+//                    Log.e("deneme", "Error: ${e.message}")
+//                }
+//            }
         }
 
         binding.button3.setOnClickListener {
-            val token = "Bearer ${accessToken.toString()}"
-                CoroutineScope(Dispatchers.IO).launch{
-                    try {
-                        spotifyApi.service.next(token)
-                    }
-                    catch (e: Exception) {
-                        Log.e("deneme", "Error: ${e.message}")
-                    }
-                }
+//            val token = "Bearer ${accessToken.toString()}"
+//                CoroutineScope(Dispatchers.IO).launch{
+//                    try {
+//                        spotifyApi.service.next(token)
+//                    }
+//                    catch (e: Exception) {
+//                        Log.e("deneme", "Error: ${e.message}")
+//                    }
+//                }
         }
 
     }
