@@ -20,6 +20,7 @@ import com.yuyakaido.android.cardstackview.SwipeableMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class SpotifySwipeMusic : AppCompatActivity() {
@@ -33,10 +34,11 @@ class SpotifySwipeMusic : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spotify_swipe_music)
-        spotifyApi = SpotifyApi // SpotifyApi nesnesini başlatın
-         // MainActivity.Companion.accessToken olarak da erişebilirsiniz.
-        SpotifyApiManager.initialize(spotifyApi)
-        Log.e("deneme", SpotifyApiManager.trackList.toString())
+        initializeUI()
+        loadDataAndSetupCards()
+    }
+
+    private fun initializeUI() {
         val cardStackView: CardStackView = findViewById(R.id.cardStackView)
         manager = CardStackLayoutManager(this, object:CardStackListener{
             override fun onCardDragging(direction: Direction?, ratio: Float) {
@@ -46,7 +48,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
             override fun onCardSwiped(direction: Direction?) {
                 Log.d(TAG, "onCardSwiped: p=${manager.topPosition} d=$direction")
                 if (direction == Direction.Right) {
-                    SpotifyApiManager.getASong()
+                    SpotifyApiManager.getNewTrackAndAddToList()
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
                 } else if (direction == Direction.Top) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
@@ -96,19 +98,33 @@ class SpotifySwipeMusic : AppCompatActivity() {
         cardStackView.itemAnimator = DefaultItemAnimator()
     }
 
+    private fun loadDataAndSetupCards() {
+        CoroutineScope(Dispatchers.IO).launch {
+            SpotifyApiManager.getNewTrackAndAddToList() // Veriyi asenkron olarak yükle
+            withContext(Dispatchers.Main) {
+                // Veri yükleme tamamlandığında, kartları kurun
+                if (SpotifyApiManager.trackList.isNotEmpty()) {
+                    val cards = addList() // Kartları oluştur
+                    adapter.setItems(cards) // Adapter'a kartları set edin
+                    adapter.notifyDataSetChanged() // Adapter'a güncelleme olduğunu bildir
+                } else {
+                    Log.e(TAG, "Veri yüklenemedi veya track listesi boş.")
+                }
+            }
+        }
+    }
+
     private fun addList(): List<ItemModel> {
         val itemsList = ArrayList<ItemModel>()
 
-        // Mevcut şarkının bilgilerini al
-        val currentTrack = trackList.getOrNull(0)
-        val nextTrack = trackList.getOrNull(1)
-
-        currentTrack?.let {
-            itemsList.add(ItemModel(it.imageUri, it.name, it.artistName, "Current Track"))
-        }
-
-        nextTrack?.let {
-            itemsList.add(ItemModel(it.imageUri, it.name, it.artistName, "Next Track"))
+        // Listenin boş olup olmadığını kontrol et
+        if (SpotifyApiManager.trackList.isNotEmpty()) {
+            val currentTrack = SpotifyApiManager.trackList[0]
+            itemsList.add(ItemModel(currentTrack.imageUri, currentTrack.name, currentTrack.artistName, "Current Track"))
+        } else {
+            // Liste boşsa, bir hata mesajı göster veya uygun bir işlem yap
+            Log.e(TAG, "Track listesi boş.")
+            // Burada gerekiyorsa veri yükleme işlemini tekrar başlatabilirsiniz veya kullanıcıya bilgi verebilirsiniz.
         }
 
         return itemsList

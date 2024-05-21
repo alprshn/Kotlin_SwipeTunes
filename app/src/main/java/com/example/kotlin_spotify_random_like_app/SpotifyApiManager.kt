@@ -52,7 +52,9 @@ object  SpotifyApiManager {
                     getAlbum.tracks.items[randomOffset].id
                 )
                 trackList.add(TrackInfoList(getTracks.name, "resim", getAlbum.uri,randomOffset,"UnluADI" ))
+                Log.e("Music Name",trackList.toString())
 
+                play(getAlbum.uri, randomOffset)
                 // Name, AlbumUri, Image, Description, ArtistName
 
             }
@@ -128,30 +130,7 @@ object  SpotifyApiManager {
         trackList.add(nextTrack!!)
     }
 
-    fun getASong() {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                // Eğer trackList'te yeterli şarkı yoksa yeni şarkılar ekle
-                while (trackList.size < 2) {
-                    getNewTrackAndAddToList()
-                }
 
-                // Mevcut şarkıyı çal
-                val currentTrack = trackList[0]
-                val nextTrack = trackList[1]
-                updateTrackList(nextTrack, null) // Bir sonraki şarkıyı çalınacak şekilde güncelle
-                playCurrentTrack(currentTrack)
 
-            } catch (e: Exception) {
-                Log.e("SpotifyApiManager", "Error: ${e.message}")
-            }
-        }
-    }
-
-    private fun playCurrentTrack(currentTrack: TrackInfoList?) {
-        currentTrack?.let {
-            play(it.albumUri, it.offset)
-        }
-    }
 
 }
