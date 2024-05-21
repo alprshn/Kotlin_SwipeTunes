@@ -27,6 +27,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
     private lateinit var manager:CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
     private lateinit var spotifyApi: SpotifyApi
+    private var count:Int = 0
     companion object {
         private const val TAG = "SpotifySwipeMusic"
     }
@@ -49,6 +50,8 @@ class SpotifySwipeMusic : AppCompatActivity() {
                 Log.d(TAG, "onCardSwiped: p=${manager.topPosition} d=$direction")
                 if (direction == Direction.Right) {
                     SpotifyApiManager.getNewTrackAndAddToList()
+                    count++
+                    loadDataAndSetupCards()
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
                 } else if (direction == Direction.Top) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
@@ -119,7 +122,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
 
         // Listenin boş olup olmadığını kontrol et
         if (SpotifyApiManager.trackList.isNotEmpty()) {
-            val currentTrack = SpotifyApiManager.trackList[0]
+            val currentTrack = SpotifyApiManager.trackList[count]
             itemsList.add(ItemModel(currentTrack.imageUri, currentTrack.name, currentTrack.artistName, "Current Track"))
         } else {
             // Liste boşsa, bir hata mesajı göster veya uygun bir işlem yap
