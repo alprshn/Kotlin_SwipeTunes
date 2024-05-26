@@ -6,11 +6,13 @@ import PlayRequest
 import PlaylistRequest
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_spotify_random_like_app.databinding.ActivityMainBinding
 import com.spotify.sdk.android.auth.AuthorizationClient
@@ -45,6 +47,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        var constraintLayout:ConstraintLayout = binding.mainLayout
+        var animationDrawable: AnimationDrawable = constraintLayout.background as AnimationDrawable
+        animationDrawable.setEnterFadeDuration(2500)
+        animationDrawable.setExitFadeDuration(5000)
+        animationDrawable.start()
+
+
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         spotifyAuth = SpotifyConnection(this)
         spotifyApi = SpotifyApi // SpotifyApi nesnesini başlatın
