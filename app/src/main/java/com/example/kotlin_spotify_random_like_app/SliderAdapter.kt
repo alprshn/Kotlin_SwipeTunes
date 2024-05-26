@@ -28,4 +28,8 @@ class SliderAdapter(private val context:Context): PagerAdapter() {
         container.addView(view)
         return super.instantiateItem(container, position)
     }
+
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        container.removeView(`object` as View)
+    }
 }
