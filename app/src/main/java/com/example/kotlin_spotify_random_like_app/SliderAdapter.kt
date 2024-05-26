@@ -1,7 +1,7 @@
 package com.example.kotlin_spotify_random_like_app
 
 import android.content.Context
-import android.support.v4.view.PagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,9 +24,10 @@ class SliderAdapter(private val context:Context): PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        var view: View = layoutInflater.inflate(R.layout.slides_layout,container,false)
+        val view: View = layoutInflater.inflate(R.layout.slides_layout, container, false)
+
         container.addView(view)
-        return super.instantiateItem(container, position)
+        return view
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {

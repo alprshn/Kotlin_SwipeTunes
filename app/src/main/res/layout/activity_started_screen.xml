@@ -36,10 +36,12 @@
             android:layout_height="wrap_content"
             android:text="LOG IN"/>
         <LinearLayout
+            android:id="@+id/dots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:paddingBottom="20dp"
+            android:orientation="horizontal"
             />
 
     </RelativeLayout>
