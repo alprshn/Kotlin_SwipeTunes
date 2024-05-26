@@ -35,6 +35,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spotify_swipe_music)
+        SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
         initializeUI()
         loadDataAndSetupCards()
     }
@@ -50,9 +51,9 @@ class SpotifySwipeMusic : AppCompatActivity() {
                 Log.d(TAG, "onCardSwiped: p=${manager.topPosition} d=$direction")
                 if (direction == Direction.Right) {
                     //SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
-                    SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
                     SpotifyApiManager.getNewTrackAndAddToList()
                     count++
+                    SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
                     loadDataAndSetupCards()
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
                 } else if (direction == Direction.Top) {
