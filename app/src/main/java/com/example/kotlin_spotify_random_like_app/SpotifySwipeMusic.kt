@@ -49,6 +49,8 @@ class SpotifySwipeMusic : AppCompatActivity() {
             override fun onCardSwiped(direction: Direction?) {
                 Log.d(TAG, "onCardSwiped: p=${manager.topPosition} d=$direction")
                 if (direction == Direction.Right) {
+                    //SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
+                    SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
                     SpotifyApiManager.getNewTrackAndAddToList()
                     count++
                     loadDataAndSetupCards()

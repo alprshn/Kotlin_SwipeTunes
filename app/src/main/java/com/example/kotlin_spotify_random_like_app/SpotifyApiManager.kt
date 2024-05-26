@@ -54,7 +54,6 @@ object  SpotifyApiManager {
                 trackList.add(TrackInfoList(getTracks.name, "resim", getAlbum.uri,randomOffset,"UnluADI" ))
                 Log.e("Music Name",trackList.toString())
 
-                play(getAlbum.uri, randomOffset)
                 // Name, AlbumUri, Image, Description, ArtistName
 
             }
@@ -105,7 +104,7 @@ object  SpotifyApiManager {
         return result.toString()
     }
 
-    private fun play( albumUri: String, offset: Int){
+    fun play( albumUri: String, offset: Int){
         Log.e("Random Offset", offset.toString())
 
 
