@@ -69,6 +69,8 @@ class MainActivity : AppCompatActivity() {
             /// Yeni Play List Oluşturma
             //val randoMusic = RandoMusic(spotifyApi, accessToken.toString())
             //randoMusic.getASong()
+            val intent = Intent(this, StartedScreenActivity::class.java)
+            startActivity(intent)
         }
         binding.button4.setOnClickListener {
             //Random Music Oluşturma
