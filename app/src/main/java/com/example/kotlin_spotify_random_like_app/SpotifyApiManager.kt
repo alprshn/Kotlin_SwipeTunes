@@ -53,7 +53,7 @@ object  SpotifyApiManager {
                     "Music ID",
                     getAlbum.tracks.items[randomOffset].id
                 )
-                trackList.add(TrackInfoList(getTracks.name, "resim", getAlbum.uri,randomOffset,"UnluADI" ))
+                trackList.add(TrackInfoList(getTracks.name, getAlbum.images[randomOffset].url, getAlbum.uri,randomOffset,"UnluADI" ))
                 Log.e("Music Name",trackList.toString())
 
                 // Name, AlbumUri, Image, Description, ArtistName
