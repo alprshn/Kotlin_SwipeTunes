@@ -31,9 +31,9 @@ class StartedScreenActivity : AppCompatActivity() {
 
         sliderAdapter = SliderAdapter(this)
         viewPager.adapter = sliderAdapter
+        viewPager.addOnPageChangeListener(changeListener) // changeListener'ı burada ekliyoruz
 
         addDots(0)
-        viewPager.addOnPageChangeListener(changeListener)
     }
 
     private fun addDots(position: Int){
@@ -58,7 +58,7 @@ class StartedScreenActivity : AppCompatActivity() {
             positionOffset: Float,
             positionOffsetPixels: Int
         ) {
-            TODO("Not yet implemented")
+
         }
 
         override fun onPageSelected(position: Int) {
@@ -66,7 +66,7 @@ class StartedScreenActivity : AppCompatActivity() {
         }
 
         override fun onPageScrollStateChanged(state: Int) {
-            TODO("Not yet implemented")
+
         }
 
     }
