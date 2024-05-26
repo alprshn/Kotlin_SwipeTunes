@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager.widget.ViewPager
+import java.text.FieldPosition
 
 class StartedScreenActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager
@@ -31,12 +32,13 @@ class StartedScreenActivity : AppCompatActivity() {
         sliderAdapter = SliderAdapter(this)
         viewPager.adapter = sliderAdapter
 
-        addDots()
-
+        addDots(0)
+        viewPager.addOnPageChangeListener(changeListener)
     }
 
-    private fun addDots(){
+    private fun addDots(position: Int){
         dots = Array(4) { TextView(this) }
+        dotsLayout.removeAllViews()
         for (i in dots.indices) {
             dots[i] = TextView(this)
             dots[i].text = Html.fromHtml("&#8226;")
@@ -44,5 +46,31 @@ class StartedScreenActivity : AppCompatActivity() {
 
             dotsLayout.addView(dots[i])
         }
+
+        if (dots.size>0){
+            dots[position].setTextColor(resources.getColor(com.google.android.material.R.color.design_default_color_primary_dark))
+        }
     }
-}
+
+    val changeListener: ViewPager.OnPageChangeListener = object : ViewPager.OnPageChangeListener {
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onPageSelected(position: Int) {
+            addDots(position)
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+            TODO("Not yet implemented")
+        }
+
+    }
+
+
+
+    }
