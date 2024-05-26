@@ -72,10 +72,15 @@ dependencies {
 
     //Swipe Library
     implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("com.google.android.material:material:1.12.0")
     implementation("com.github.yuyakaido:CardStackView:v2.3.4")
     implementation("com.squareup.picasso:picasso:2.71828")
-    implementation("androidx.activity:activity:1.8.0")
+    implementation("androidx.activity:activity:1.9.0")
+    implementation("com.android.support:support-core-ui:28.0.0")
+    implementation("com.android.support:appcompat-v7:28.0.0")
+
+
+    implementation("com.romandanylyk:pageindicatorview:1.0.3")
+
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
