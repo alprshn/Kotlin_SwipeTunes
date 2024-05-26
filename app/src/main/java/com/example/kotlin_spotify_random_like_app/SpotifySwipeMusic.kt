@@ -1,6 +1,7 @@
 package com.example.kotlin_spotify_random_like_app
 
 import TrackInfoList
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import com.example.kotlin_spotify_random_like_app.SpotifyApiManager.trackList
@@ -35,6 +37,13 @@ class SpotifySwipeMusic : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spotify_swipe_music)
+
+        var constraintLayout: ConstraintLayout = findViewById(R.id.swipeLayout)
+        var animationDrawable: AnimationDrawable = constraintLayout.background as AnimationDrawable
+        animationDrawable.setEnterFadeDuration(2500)
+        animationDrawable.setExitFadeDuration(5000)
+        animationDrawable.start()
+
         SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
         initializeUI()
         loadDataAndSetupCards()

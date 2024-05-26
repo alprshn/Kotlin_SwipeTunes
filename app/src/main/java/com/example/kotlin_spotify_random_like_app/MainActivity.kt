@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        var constraintLayout:ConstraintLayout = binding.mainLayout
-        var animationDrawable: AnimationDrawable = constraintLayout.background as AnimationDrawable
+        val constraintLayout:ConstraintLayout = binding.mainLayout
+        val animationDrawable: AnimationDrawable = constraintLayout.background as AnimationDrawable
         animationDrawable.setEnterFadeDuration(2500)
         animationDrawable.setExitFadeDuration(5000)
         animationDrawable.start()
@@ -60,20 +60,16 @@ class MainActivity : AppCompatActivity() {
         spotifyApi = SpotifyApi // SpotifyApi nesnesini başlatın
 
         SpotifyApiManager.initialize(spotifyApi)
-        binding.button.setOnClickListener{
-            val builder : AuthorizationRequest.Builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri);
-            builder.setScopes(arrayOf("streaming","user-modify-playback-state","user-read-private", "playlist-read", "playlist-read-private","playlist-modify-private","playlist-modify-public","user-read-email","user-read-recently-played","user-read-currently-playing"))
-            val request: AuthorizationRequest = builder.build()
-            AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
-        }
+
+        val builder : AuthorizationRequest.Builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri);
+        builder.setScopes(arrayOf("streaming","user-modify-playback-state","user-read-private", "playlist-read", "playlist-read-private","playlist-modify-private","playlist-modify-public","user-read-email","user-read-recently-played","user-read-currently-playing"))
+        val request: AuthorizationRequest = builder.build()
+        AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
 
 
-        binding.button6.setOnClickListener {
-            //val playlistManager = SpotifyPlayback(this,spotifyApi, accessToken.toString())
-            // playlistManager.addTrackToPlaylist()
-            //SpotifyApiManager.getASong()
-            SpotifyApiManager.getNewTrackAndAddToList()
-            }
+
+
+
 
         binding.button5.setOnClickListener {
             /// Yeni Play List Oluşturma
@@ -133,6 +129,7 @@ class MainActivity : AppCompatActivity() {
                 AuthorizationResponse.Type.TOKEN -> {
                     //accessToken = response.accessToken
                     SpotifyApiManager.accessToken = "Bearer ${response.accessToken}"
+                    SpotifyApiManager.getNewTrackAndAddToList()
                    // viewModel.setAccessToken("Bearer $accessToken")
                    // val createPlayList = CreatePlayList(this, spotifyApi, accessToken.toString())
                     //createPlayList.create()

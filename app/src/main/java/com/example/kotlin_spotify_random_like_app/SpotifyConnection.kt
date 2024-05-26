@@ -39,9 +39,6 @@ class SpotifyConnection(private val context: Context) {
     private fun connected() {
         spotifyAppRemote?.let {
             // Play a playlist
-
-            val playlistURI = "spotify:playlist:37i9dQZF1DX2sUQwD7tbmL"
-            it.playerApi.play(playlistURI)
             Log.e("Baglandi", "deneme")
             // Subscribe to PlayerState
             it.playerApi.subscribeToPlayerState().setEventCallback {
