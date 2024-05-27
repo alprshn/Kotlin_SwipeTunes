@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Kotlin_Spotify_Random_Like_App"
         tools:targetApi="31">
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".StartedScreenActivity"
@@ -25,7 +25,7 @@
             android:exported="false" />
 
         <receiver
-            android:name=".MainActivity"
+            android:name=".SplashScreenActivity"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.spotify.music.active" />
@@ -33,7 +33,7 @@
         </receiver>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

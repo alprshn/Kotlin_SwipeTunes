@@ -20,8 +20,13 @@ import java.text.FieldPosition
 class StartedScreenActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager
     private lateinit var dotsLayout: LinearLayout
-    private lateinit var sliderAdapter: SliderAdapter
     private lateinit var dots: Array<TextView>
+    private lateinit var spotifyAuth: SpotifyConnection
+    private lateinit var spotifyApi: SpotifyApi
+
+    private val prefsName = "AppPrefs"
+    private val firstTimeKey = "FirstTime"
+    private val tokenKey = "SpotifyToken"  // Spotify token'i saklamak için anahtar
     private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
     private val REQUEST_CODE = 1337
@@ -35,25 +40,50 @@ class StartedScreenActivity : AppCompatActivity() {
             insets
         }
 
+
         viewPager = findViewById(R.id.slider)
         dotsLayout = findViewById(R.id.dots)
-
-        sliderAdapter = SliderAdapter(this)
-        viewPager.adapter = sliderAdapter
-        viewPager.addOnPageChangeListener(changeListener) // changeListener'ı burada ekliyoruz
+        viewPager.adapter = SliderAdapter(this)
+        viewPager.addOnPageChangeListener(changeListener)
 
         addDots(0)
+        setupSpotifyConnection()
+        checkFirstTimeLaunch()
+        checkAutoLogin()  // Otomatik giriş kontrolü
+    }
+    private fun setupSpotifyConnection() {
+        spotifyAuth = SpotifyConnection(this)
+        spotifyApi = SpotifyApi
+        SpotifyApiManager.initialize(spotifyApi)
 
-        var deneme: Button = findViewById(R.id.loginButton)
-        deneme.setOnClickListener {
-            val builder : AuthorizationRequest.Builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri);
-            builder.setScopes(arrayOf("streaming","user-modify-playback-state","user-read-private", "playlist-read", "playlist-read-private","playlist-modify-private","playlist-modify-public","user-read-email","user-read-recently-played","user-read-currently-playing"))
-            val request: AuthorizationRequest = builder.build()
-            AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
+        findViewById<Button>(R.id.loginButton).setOnClickListener {
+            val builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri)
+            builder.setScopes(arrayOf("streaming", "user-modify-playback-state", "user-read-private", "playlist-read", "playlist-read-private", "playlist-modify-private", "playlist-modify-public", "user-read-email", "user-read-recently-played", "user-read-currently-playing"))
+            val request = builder.build()
+            AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request)
         }
-
     }
 
+    private fun checkFirstTimeLaunch() {
+        val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
+        val isFirstTime = sharedPref.getBoolean(firstTimeKey, true)
+        if (!isFirstTime) {
+            startMainActivity()
+            finish()
+            return
+        }
+        sharedPref.edit().putBoolean(firstTimeKey, false).apply()
+    }
+
+
+    private fun checkAutoLogin() {
+        val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
+        val token = sharedPref.getString(tokenKey, null)
+        if (token != null) {
+            SpotifyApiManager.accessToken = "Bearer $token"
+            startMainActivity()
+        }
+    }
     private fun addDots(position: Int){
         dots = Array(4) { TextView(this) }
         dotsLayout.removeAllViews()
@@ -90,32 +120,30 @@ class StartedScreenActivity : AppCompatActivity() {
     }
 
 
+    override fun onStart() {
+        super.onStart()
+        spotifyAuth?.connectionStart()
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE) {
             val response = AuthorizationClient.getResponse(resultCode, data)
             when (response.type) {
                 AuthorizationResponse.Type.TOKEN -> {
-                    //accessToken = response.accessToken
+                    val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
+                    sharedPref.edit().putString(tokenKey, response.accessToken).apply()
                     SpotifyApiManager.accessToken = "Bearer ${response.accessToken}"
-                    //SpotifyApiManager.getNewTrackAndAddToList()
-                    // viewModel.setAccessToken("Bearer $accessToken")
-                    // val createPlayList = CreatePlayList(this, spotifyApi, accessToken.toString())
-                    //createPlayList.create()
-                    //val intent = Intent(this, SpotifySwipeMusic::class.java)
-                    // startActivity(intent)
-                    //Log.e("accestoken", accessToken.toString())
+                    startMainActivity()
                 }
                 AuthorizationResponse.Type.ERROR -> {
-                    Log.e("hata","hata")
+                    Log.e("SpotifyAuthError", "Authentication error: ${response.error}")
                 }
                 else -> {
+                    // Handle other cases
                 }
             }
         }
     }
-
-
 
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)

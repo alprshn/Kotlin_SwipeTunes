@@ -15,7 +15,6 @@ object  SpotifyApiManager {
     private var randomOffset :Int = 0
     lateinit var accessToken:String
     val trackList = mutableListOf<TrackInfoList>() // Track sınıfı şarkı bilgilerini tutar, getAlbum.tracks.items[0] gibi nesneleri temsil eder.
-    var currentTrackIndex = 0
 
 
     fun initialize(api: SpotifyApi) {
@@ -119,9 +118,10 @@ object  SpotifyApiManager {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 Log.e("Play Request", requestBody.toString())
+                Log.e("Play Acess", accessToken.toString())
                 spotifyApi.service.play(requestBody, accessToken)
             } catch (e: Exception) {
-                Log.e("Error", "Error: ${e.message}")
+                Log.e("Error", "Error Play: ${e.message}")
             }
         }
     }

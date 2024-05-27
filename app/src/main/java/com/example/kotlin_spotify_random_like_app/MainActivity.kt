@@ -30,15 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var spotifyAuth: SpotifyConnection
-    private lateinit var spotifyApi: SpotifyApi
-
-    private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
-    private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
-    private val REQUEST_CODE = 1337
     private lateinit var viewModel: MainActivityViewModel
-
-    private var playlistId : String? = null
    // private lateinit var spotifyService: SpotifyService
     // Initialize SpotifyApiManager
 
@@ -47,7 +39,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        animateBackground()
+        SpotifyApiManager.getNewTrackAndAddToList()
 
+
+        setupButtons()
+
+
+    }
+    private fun setupButtons() {
+        binding.button4.setOnClickListener {
+            // Open Spotify swipe music activity
+            val intent = Intent(this, SpotifySwipeMusic::class.java)
+            startActivity(intent)
+        }
+        // Setup other buttons similarly
+    }
+    private fun animateBackground() {
         val constraintLayout:ConstraintLayout = binding.mainLayout
         val animationDrawable: AnimationDrawable = constraintLayout.background as AnimationDrawable
         animationDrawable.setEnterFadeDuration(2500)
@@ -56,94 +64,9 @@ class MainActivity : AppCompatActivity() {
 
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-        spotifyAuth = SpotifyConnection(this)
-        spotifyApi = SpotifyApi // SpotifyApi nesnesini başlatın
-
-        SpotifyApiManager.initialize(spotifyApi)
-
-        val builder : AuthorizationRequest.Builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri);
-        builder.setScopes(arrayOf("streaming","user-modify-playback-state","user-read-private", "playlist-read", "playlist-read-private","playlist-modify-private","playlist-modify-public","user-read-email","user-read-recently-played","user-read-currently-playing"))
-        val request: AuthorizationRequest = builder.build()
-        AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
-
-
-
-
-
-
-        binding.button5.setOnClickListener {
-            /// Yeni Play List Oluşturma
-            //val randoMusic = RandoMusic(spotifyApi, accessToken.toString())
-            //randoMusic.getASong()
-            val intent = Intent(this, StartedScreenActivity::class.java)
-            startActivity(intent)
-        }
-        binding.button4.setOnClickListener {
-            //Random Music Oluşturma
-            val intent = Intent(this, SpotifySwipeMusic::class.java)
-            startActivity(intent)
-            //play()
-        }
-        binding.button2.setOnClickListener {
-//            val token = "Bearer ${accessToken.toString()}"
-//            Log.e("basari",accessToken.toString())
-//            CoroutineScope(Dispatchers.IO).launch{
-//                try {
-//                    AuthorizationResponse.Type.CODE
-//                    spotifyApi.service.pause(token)
-//                }
-//                catch (e: Exception) {
-//                    Log.e("deneme", "Error: ${e.message}")
-//                }
-//            }
-            //viewModel.pause("Bearer $accessToken")
-
-        }
-
-        binding.button3.setOnClickListener {
-//            val token = "Bearer ${accessToken.toString()}"
-//                CoroutineScope(Dispatchers.IO).launch{
-//                    try {
-//                        spotifyApi.service.next(token)
-//                    }
-//                    catch (e: Exception) {
-//                        Log.e("deneme", "Error: ${e.message}")
-//                    }
-//                }
-        }
-    }
-    override fun onStart() {
-        super.onStart()
-        spotifyAuth?.connectionStart()
     }
 
-    override fun onStop() {
-        super.onStop()
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE) {
-            val response = AuthorizationClient.getResponse(resultCode, data)
-            when (response.type) {
-                AuthorizationResponse.Type.TOKEN -> {
-                    //accessToken = response.accessToken
-                    SpotifyApiManager.accessToken = "Bearer ${response.accessToken}"
-                    SpotifyApiManager.getNewTrackAndAddToList()
-                   // viewModel.setAccessToken("Bearer $accessToken")
-                   // val createPlayList = CreatePlayList(this, spotifyApi, accessToken.toString())
-                    //createPlayList.create()
-                    //val intent = Intent(this, SpotifySwipeMusic::class.java)
-                   // startActivity(intent)
-                    //Log.e("accestoken", accessToken.toString())
-                }
-                AuthorizationResponse.Type.ERROR -> {
-                    Log.e("hata","hata")
-                }
-                else -> {
-                }
-            }
-        }
-    }
+
 
 }

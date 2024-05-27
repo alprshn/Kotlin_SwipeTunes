@@ -26,7 +26,7 @@ class SpotifyConnection(private val context: Context) {
                 spotifyAppRemote = appRemote
                 Log.e("MainActivity", "Connected! Yay!")
                 // Now you can start interacting with App Remote
-                connected()
+                //connected()
             }
 
             override fun onFailure(throwable: Throwable) {
@@ -39,13 +39,13 @@ class SpotifyConnection(private val context: Context) {
     private fun connected() {
         spotifyAppRemote?.let {
             // Play a playlist
+
+            val playlistURI = "spotify:playlist:37i9dQZF1DX2sUQwD7tbmL"
+            it.playerApi.play(playlistURI)
+            it.playerApi.pause()
             Log.e("Baglandi", "deneme")
             // Subscribe to PlayerState
-            it.playerApi.subscribeToPlayerState().setEventCallback {
-                val track: Track = it.track
 
-                Log.e("Baglandi", track.name + " by " + track.artist.name)
-            }
         }
 
     }
