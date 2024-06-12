@@ -1,12 +1,17 @@
 package com.example.kotlin_spotify_random_like_app
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -45,11 +50,11 @@ class StartedScreenActivity : AppCompatActivity() {
         dotsLayout = findViewById(R.id.dots)
         viewPager.adapter = SliderAdapter(this)
         viewPager.addOnPageChangeListener(changeListener)
+        checkConnection()
 
         addDots(0)
-        setupSpotifyConnection()
         checkFirstTimeLaunch()
-        checkAutoLogin()  // Otomatik giriş kontrolü
+       // checkAutoLogin()  // Otomatik giriş kontrolü
     }
     private fun setupSpotifyConnection() {
         spotifyAuth = SpotifyConnection(this)
@@ -122,7 +127,7 @@ class StartedScreenActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        spotifyAuth?.connectionStart()
+        //spotifyAuth?.connectionStart()
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -149,6 +154,37 @@ class StartedScreenActivity : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun checkConnection() {
+        if (!isOnline()) {
+            Toast.makeText(this, "İnternet bağlantısı yok!", Toast.LENGTH_SHORT).show()
+            findViewById<Button>(R.id.loginButton).text = "Refresh"
+            findViewById<Button>(R.id.loginButton).setOnClickListener {
+                val intent = Intent(this, StartedScreenActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+
+        } else {
+            Toast.makeText(this, "İnternet bağlantınız aktif!", Toast.LENGTH_SHORT).show()
+            findViewById<Button>(R.id.loginButton).text = "Log In"
+            setupSpotifyConnection()
+        }
+    }
+
+
+    private fun isOnline(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val actNw = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return when {
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            else -> false
+        }
     }
 
 }
