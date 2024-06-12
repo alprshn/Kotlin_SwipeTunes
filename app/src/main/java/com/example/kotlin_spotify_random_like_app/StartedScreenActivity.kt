@@ -51,10 +51,9 @@ class StartedScreenActivity : AppCompatActivity() {
         viewPager.adapter = SliderAdapter(this)
         viewPager.addOnPageChangeListener(changeListener)
         checkConnection()
-
         addDots(0)
         checkFirstTimeLaunch()
-       // checkAutoLogin()  // Otomatik giriş kontrolü
+        checkAutoLogin()  // Otomatik giriş kontrolü
     }
     private fun setupSpotifyConnection() {
         spotifyAuth = SpotifyConnection(this)
@@ -77,7 +76,6 @@ class StartedScreenActivity : AppCompatActivity() {
             finish()
             return
         }
-        sharedPref.edit().putBoolean(firstTimeKey, false).apply()
     }
 
 
@@ -127,7 +125,7 @@ class StartedScreenActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        //spotifyAuth?.connectionStart()
+        spotifyAuth?.connectionStart()
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -138,6 +136,7 @@ class StartedScreenActivity : AppCompatActivity() {
                     val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
                     sharedPref.edit().putString(tokenKey, response.accessToken).apply()
                     SpotifyApiManager.accessToken = "Bearer ${response.accessToken}"
+                    sharedPref.edit().putBoolean(firstTimeKey, false).apply()
                     startMainActivity()
                 }
                 AuthorizationResponse.Type.ERROR -> {
