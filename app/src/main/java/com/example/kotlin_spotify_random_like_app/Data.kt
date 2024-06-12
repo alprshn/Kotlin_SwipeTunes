@@ -194,3 +194,11 @@ data class TrackItemler(
 
 
 data class TrackInfoList(val name: String, val imageUri: String, val albumUri: String, val offset: Int, val artistName:String) // Track sınıfı tanımı
+
+data class SpotifyTokenResponse(
+    val access_token: String,
+    val token_type: String,
+    val scope: String,
+    val expires_in: Int,
+    val refresh_token: String
+)
