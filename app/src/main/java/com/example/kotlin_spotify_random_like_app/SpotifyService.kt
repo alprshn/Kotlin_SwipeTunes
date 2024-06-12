@@ -8,10 +8,12 @@ import PlayRequest
 import PlayingTrack
 import Playlist
 import PlaylistRequest
+import SpotifyTokenResponse
 import SpotifyUser
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -79,4 +81,12 @@ interface SpotifyService {
                 @Path("album_id") albumId: String,
                 @Header("Authorization") authToken: String
         ):Album
+
+        @POST("api/token")
+        suspend fun refreshToken(
+                @Field("grant_type") grantType: String,
+                @Field("refresh_token") refreshToken: String,
+                @Header("Authorization") authToken: String
+        ): SpotifyTokenResponse
 }
+
