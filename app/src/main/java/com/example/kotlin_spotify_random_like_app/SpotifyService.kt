@@ -82,11 +82,11 @@ interface SpotifyService {
                 @Header("Authorization") authToken: String
         ):Album
 
-        @POST("api/token")
-        suspend fun refreshToken(
-                @Field("grant_type") grantType: String,
-                @Field("refresh_token") refreshToken: String,
-                @Header("Authorization") authToken: String
-        ): SpotifyTokenResponse
+        @GET("authorize")
+        suspend fun authorize(
+                @Query("client_id") clientId: String,
+                @Query("response_type") responseType: String,
+                @Query("redirect_uri") redirectUri: String,
+        ):Void
 }
 

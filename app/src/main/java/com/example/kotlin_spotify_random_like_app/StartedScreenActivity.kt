@@ -34,6 +34,8 @@ class StartedScreenActivity : AppCompatActivity() {
     private val tokenKey = "SpotifyToken"  // Spotify token'i saklamak için anahtar
     private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
+    val scope = "streaming user-modify-playback-state user-read-private playlist-read playlist-read-private playlist-modify-private playlist-modify-public user-read-email user-read-recently-played user-read-currently-playing"
+
     private val REQUEST_CODE = 1337
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,10 +63,7 @@ class StartedScreenActivity : AppCompatActivity() {
         SpotifyApiManager.initialize(spotifyApi)
 
         findViewById<Button>(R.id.loginButton).setOnClickListener {
-            val builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri)
-            builder.setScopes(arrayOf("streaming", "user-modify-playback-state", "user-read-private", "playlist-read", "playlist-read-private", "playlist-modify-private", "playlist-modify-public", "user-read-email", "user-read-recently-played", "user-read-currently-playing"))
-            val request = builder.build()
-            AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request)
+            SpotifyApiManager.redirectToSpotifyLogin()
         }
     }
 
@@ -185,5 +184,9 @@ class StartedScreenActivity : AppCompatActivity() {
             else -> false
         }
     }
+
+
+
+
 
 }
