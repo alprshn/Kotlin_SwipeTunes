@@ -1,18 +1,13 @@
 package com.example.kotlin_spotify_random_like_app
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.Uri
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.View
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -25,9 +20,6 @@ import androidx.viewpager.widget.ViewPager
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.text.FieldPosition
 
 class StartedScreenActivity : AppCompatActivity() {
@@ -36,15 +28,12 @@ class StartedScreenActivity : AppCompatActivity() {
     private lateinit var dots: Array<TextView>
     private lateinit var spotifyAuth: SpotifyConnection
     private lateinit var spotifyApi: SpotifyApi
-    private lateinit var webView: WebView
 
     private val prefsName = "AppPrefs"
     private val firstTimeKey = "FirstTime"
     private val tokenKey = "SpotifyToken"  // Spotify token'i saklamak için anahtar
     private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
-    val scope = "streaming user-modify-playback-state user-read-private playlist-read playlist-read-private playlist-modify-private playlist-modify-public user-read-email user-read-recently-played user-read-currently-playing"
-
     private val REQUEST_CODE = 1337
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +45,6 @@ class StartedScreenActivity : AppCompatActivity() {
             insets
         }
 
-        webView = findViewById(R.id.webview)
 
         viewPager = findViewById(R.id.slider)
         dotsLayout = findViewById(R.id.dots)
@@ -73,40 +61,13 @@ class StartedScreenActivity : AppCompatActivity() {
         SpotifyApiManager.initialize(spotifyApi)
 
         findViewById<Button>(R.id.loginButton).setOnClickListener {
-            setupWebView()
-
-            val call = SpotifyApiManager.redirectToSpotifyLogin()
-            call.enqueue(object : Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    val url = response.raw().request().url().toString()
-                    openInWebView(url)
-                }
-
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    // Error handling
-                }
-            })
+            val builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri)
+            builder.setScopes(arrayOf("streaming", "user-modify-playback-state", "user-read-private", "playlist-read", "playlist-read-private", "playlist-modify-private", "playlist-modify-public", "user-read-email", "user-read-recently-played", "user-read-currently-playing"))
+            val request = builder.build()
+            AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request)
         }
     }
-    private fun handleRedirect(url: String) {
-        val redirectUri = Uri.parse(url)
-        val authorizationCode = redirectUri.getQueryParameter("code")
-        // Handle the authorization code, e.g., exchange it for an access token
-    }
-    private fun openInWebView(url: String) {
-        webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                val url = request?.url.toString()
-                if (url.startsWith("your_redirect_scheme://")) {
-                    handleRedirect(url)
-                    return true
-                }
-                return false
-            }
-        }
-        webView.settings.javaScriptEnabled = true
-        webView.loadUrl(url)
-    }
+
     private fun checkFirstTimeLaunch() {
         val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
         val isFirstTime = sharedPref.getBoolean(firstTimeKey, true)
@@ -164,42 +125,32 @@ class StartedScreenActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        //spotifyAuth?.connectionStart()
+        spotifyAuth?.connectionStart()
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE) {
+            val response = AuthorizationClient.getResponse(resultCode, data)
+            when (response.type) {
+                AuthorizationResponse.Type.TOKEN -> {
+                    val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
+                    sharedPref.edit().putString(tokenKey, response.accessToken).apply()
+                    SpotifyApiManager.accessToken = "Bearer ${response.accessToken}"
+                    SpotifyApiManager.denemeToken = response.accessToken
 
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val uri = data?.data
-            val code = uri?.getQueryParameter("code")
-            if (code != null) {
-                Log.e("Authorization Code", code)
-            } else {
-                Log.e("Error", "Authorization code not found")
-            }
-        }
-        else{
-            Log.e("Error", "asdasdas code not found")
-
-        }
-    }
-    private fun setupWebView() {
-        webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                // Burada URL kontrolü yaparak, OAuth callback'ini yakalayabiliriz
-                if (url.startsWith(redirectUri)) {
-                    val uri = Uri.parse(url)
-                    val code = uri.getQueryParameter("code")
-                    if (code != null) {
-                        // Gerekli işlemi yap, örneğin token alma işlemini başlat
-                    }
-                    return true // URL yüklenmesini engelle, çünkü bu bizim iç callback'imiz
+                    sharedPref.edit().putBoolean(firstTimeKey, false).apply()
+                    startMainActivity()
                 }
-                return false // Diğer URL'ler WebView içinde yüklensin
+                AuthorizationResponse.Type.ERROR -> {
+                    Log.e("SpotifyAuthError", "Authentication error: ${response.error}")
+                }
+                else -> {
+                    // Handle other cases
+                }
             }
         }
-        webView.settings.javaScriptEnabled = true  // JavaScript'in çalışmasına izin ver
     }
+
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
@@ -236,9 +187,5 @@ class StartedScreenActivity : AppCompatActivity() {
             else -> false
         }
     }
-
-
-
-
 
 }

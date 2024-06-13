@@ -10,12 +10,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
+import android.util.Base64
+
 
 object  SpotifyApiManager {
     private lateinit var spotifyApi: SpotifyApi
     //private lateinit var albumUri :String
     private var randomOffset :Int = 0
     lateinit var accessToken:String
+    var denemeToken: String? = null
     val trackList = mutableListOf<TrackInfoList>() // Track sınıfı şarkı bilgilerini tutar, getAlbum.tracks.items[0] gibi nesneleri temsil eder.
     private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
@@ -138,12 +141,30 @@ object  SpotifyApiManager {
     }
 
 
-    fun redirectToSpotifyLogin(): Call<Void> {
-        return spotifyApi.accountsService.authorize(clientId, responseType, redirectUri, state, scope)
+    fun redirectToSpotifyLogin(){
+        //val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
+        val clientSecret = "f22d019e70f345f5994d22d44f6b5dc2"
+        getAuthorizationHeader(clientId,clientSecret)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                Log.e("Error", denemeToken.toString())
+                val deneme = spotifyApi.accountsService.getToken(getAuthorizationHeader(clientId,clientSecret),
+                    denemeToken.toString(),clientId,
+                    redirectUri,"authorization_code")
+                Log.e("Error", deneme.toString())
+            } catch (e: Exception) {
+                Log.e("Error", "Error Play: ${e.message}")
+            }
+        }
+   }
+
+
+    fun getAuthorizationHeader(clientId: String, clientSecret: String): String {
+        val credentials = "$clientId:$clientSecret"
+        return "Basic " + Base64.encodeToString(credentials.toByteArray(),Base64.NO_WRAP)
+
     }
-
-
-
 
 
     private fun generateRandomString(length: Int): String {

@@ -53,6 +53,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SpotifySwipeMusic::class.java)
             startActivity(intent)
         }
+
+        binding.button2.setOnClickListener {
+            SpotifyApiManager.redirectToSpotifyLogin()
+
+        }
         // Setup other buttons similarly
     }
     private fun animateBackground() {

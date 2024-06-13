@@ -14,6 +14,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -82,13 +83,14 @@ interface SpotifyService {
                 @Header("Authorization") authToken: String
         ):Album
 
-        @GET("authorize")
-        fun authorize(
-                @Query("client_id") clientId: String,
-                @Query("response_type") responseType: String,
-                @Query("redirect_uri") redirectUri: String,
-                @Query("state") state: String,
-                @Query("scope") scope: String
-        ): Call<Void>
+        @POST("/api/token")
+        @FormUrlEncoded
+        suspend fun getToken(
+                @Header("Authorization") token: String,
+                @Field("code") code: String,
+                @Field("client_id") clientId: String,
+                @Field("redirect_uri") redirectUri: String,
+                @Field("grant_type") grantType: String
+        ): SpotifyTokenResponse
 }
 
