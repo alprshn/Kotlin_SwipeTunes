@@ -19,6 +19,7 @@ object  SpotifyApiManager {
     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
     val scope = "streaming user-modify-playback-state user-read-private playlist-read playlist-read-private playlist-modify-private playlist-modify-public user-read-email user-read-recently-played user-read-currently-playing"
     val responseType = "code"
+    val state = generateRandomString(16)
 
     fun initialize(api: SpotifyApi) {
         spotifyApi = api
@@ -139,7 +140,9 @@ object  SpotifyApiManager {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                spotifyApi.service.authorize(clientId,responseType, redirectUri)
+                Log.e("NotError", "LogIn")
+                spotifyApi.accountsService.authorize(clientId,responseType, redirectUri,state,scope)
+                Log.e("NorError", "LogIn")
             } catch (e: Exception) {
                 Log.e("Error", "Error LogIn: ${e.message}")
             }
@@ -147,5 +150,10 @@ object  SpotifyApiManager {
     }
 
 
-
+    private fun generateRandomString(length: Int): String {
+        val allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        return (1..length)
+            .map { allowedChars.random() }
+            .joinToString("")
+    }
 }

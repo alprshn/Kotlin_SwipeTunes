@@ -87,6 +87,8 @@ interface SpotifyService {
                 @Query("client_id") clientId: String,
                 @Query("response_type") responseType: String,
                 @Query("redirect_uri") redirectUri: String,
-        ):Void
+                @Query("state") state: String,
+                @Query("scope") scope: String
+        )
 }
 
