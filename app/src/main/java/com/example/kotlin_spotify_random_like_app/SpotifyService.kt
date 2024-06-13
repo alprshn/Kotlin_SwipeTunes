@@ -83,12 +83,12 @@ interface SpotifyService {
         ):Album
 
         @GET("authorize")
-        suspend fun authorize(
+        fun authorize(
                 @Query("client_id") clientId: String,
                 @Query("response_type") responseType: String,
                 @Query("redirect_uri") redirectUri: String,
                 @Query("state") state: String,
                 @Query("scope") scope: String
-        )
+        ): Call<Void>
 }
 

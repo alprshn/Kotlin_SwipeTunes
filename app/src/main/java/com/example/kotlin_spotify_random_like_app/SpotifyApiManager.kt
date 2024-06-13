@@ -8,6 +8,8 @@ import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Response
 
 object  SpotifyApiManager {
     private lateinit var spotifyApi: SpotifyApi
@@ -136,18 +138,12 @@ object  SpotifyApiManager {
     }
 
 
-    fun redirectToSpotifyLogin() {
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                Log.e("NotError", "LogIn")
-                spotifyApi.accountsService.authorize(clientId,responseType, redirectUri,state,scope)
-                Log.e("NorError", "LogIn")
-            } catch (e: Exception) {
-                Log.e("Error", "Error LogIn: ${e.message}")
-            }
-        }
+    fun redirectToSpotifyLogin(): Call<Void> {
+        return spotifyApi.accountsService.authorize(clientId, responseType, redirectUri, state, scope)
     }
+
+
+
 
 
     private fun generateRandomString(length: Int): String {
