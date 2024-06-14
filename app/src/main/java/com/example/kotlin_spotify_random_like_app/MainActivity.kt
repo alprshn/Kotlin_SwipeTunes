@@ -67,14 +67,14 @@ class MainActivity : AppCompatActivity() {
         var refreshToken: SharedPreferences.Editor = sharedPreferences.edit()
         refreshToken.putString("refreshToken",SpotifyApiManager.refreshToken).apply()
     }
+
+
     private fun animateBackground() {
         val constraintLayout:ConstraintLayout = binding.mainLayout
         val animationDrawable: AnimationDrawable = constraintLayout.background as AnimationDrawable
         animationDrawable.setEnterFadeDuration(2500)
         animationDrawable.setExitFadeDuration(5000)
         animationDrawable.start()
-
-
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
 
