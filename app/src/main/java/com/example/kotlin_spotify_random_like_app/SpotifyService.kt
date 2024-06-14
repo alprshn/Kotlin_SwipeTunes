@@ -84,6 +84,7 @@ interface SpotifyService {
         ):Album
 
         @POST("/api/token")
+        @Headers("Content-Type: application/x-www-form-urlencoded")
         @FormUrlEncoded
         suspend fun getToken(
                 @Header("Authorization") token: String,

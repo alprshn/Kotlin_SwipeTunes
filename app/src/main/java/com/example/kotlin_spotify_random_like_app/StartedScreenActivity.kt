@@ -61,7 +61,7 @@ class StartedScreenActivity : AppCompatActivity() {
         SpotifyApiManager.initialize(spotifyApi)
 
         findViewById<Button>(R.id.loginButton).setOnClickListener {
-            val builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.TOKEN, redirectUri)
+            val builder = AuthorizationRequest.Builder(clientId, AuthorizationResponse.Type.CODE, redirectUri)
             builder.setScopes(arrayOf("streaming", "user-modify-playback-state", "user-read-private", "playlist-read", "playlist-read-private", "playlist-modify-private", "playlist-modify-public", "user-read-email", "user-read-recently-played", "user-read-currently-playing"))
             val request = builder.build()
             AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request)
@@ -132,15 +132,21 @@ class StartedScreenActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE) {
             val response = AuthorizationClient.getResponse(resultCode, data)
             when (response.type) {
-                AuthorizationResponse.Type.TOKEN -> {
-                    val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
-                    sharedPref.edit().putString(tokenKey, response.accessToken).apply()
-                    SpotifyApiManager.accessToken = "Bearer ${response.accessToken}"
-                    SpotifyApiManager.denemeToken = response.accessToken
+                AuthorizationResponse.Type.CODE -> {
+                    Log.e("denemetoken","MERHABA")
 
-                    sharedPref.edit().putBoolean(firstTimeKey, false).apply()
+                    SpotifyApiManager.denemeToken = response.code
+                    Log.e("denemetoken",response.code.toString())
                     startMainActivity()
                 }
+                //AuthorizationResponse.Type.TOKEN -> {
+                  //  val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
+                   // sharedPref.edit().putString(tokenKey, response.accessToken).apply()
+                   // SpotifyApiManager.accessToken = "Bearer ${response.accessToken}"
+                   // sharedPref.edit().putBoolean(firstTimeKey, false).apply()
+                    //startMainActivity()
+               // }
+
                 AuthorizationResponse.Type.ERROR -> {
                     Log.e("SpotifyAuthError", "Authentication error: ${response.error}")
                 }

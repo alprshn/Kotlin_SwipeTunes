@@ -144,15 +144,19 @@ object  SpotifyApiManager {
     fun redirectToSpotifyLogin(){
         //val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
         val clientSecret = "f22d019e70f345f5994d22d44f6b5dc2"
-        getAuthorizationHeader(clientId,clientSecret)
+        //getAuthorizationHeader(clientId,clientSecret)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                Log.e("Error", denemeToken.toString())
+                Log.e("token", denemeToken.toString())
+                Log.e("Error", getAuthorizationHeader(clientId,clientSecret))
+
                 val deneme = spotifyApi.accountsService.getToken(getAuthorizationHeader(clientId,clientSecret),
                     denemeToken.toString(),clientId,
                     redirectUri,"authorization_code")
-                Log.e("Error", deneme.toString())
+
+
+                Log.e("Error", deneme.refresh_token.toString())
             } catch (e: Exception) {
                 Log.e("Error", "Error Play: ${e.message}")
             }
