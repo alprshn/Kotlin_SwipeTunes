@@ -16,17 +16,18 @@ import android.util.Base64
 
 object  SpotifyApiManager {
     private lateinit var spotifyApi: SpotifyApi
-    //private lateinit var albumUri :String
-    private var randomOffset :Int = 0
     lateinit var accessToken:String
-    var denemeToken: String? = null
-    val trackList = mutableListOf<TrackInfoList>() // Track sınıfı şarkı bilgilerini tutar, getAlbum.tracks.items[0] gibi nesneleri temsil eder.
-    private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
-    private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
     lateinit var refreshToken:String
 
+    private val clientId = "1e6d0591bbb64af286b623ff7d26ce0f"
+    private val clientSecret = "f22d019e70f345f5994d22d44f6b5dc2"
+    private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
     val scope = "streaming user-modify-playback-state user-read-private playlist-read playlist-read-private playlist-modify-private playlist-modify-public user-read-email user-read-recently-played user-read-currently-playing"
     val responseType = "code"
+    //private lateinit var albumUri :String
+    private var randomOffset :Int = 0
+    var tokenCode: String? = null
+    val trackList = mutableListOf<TrackInfoList>() // Track sınıfı şarkı bilgilerini tutar, getAlbum.tracks.items[0] gibi nesneleri temsil eder.
     val state = generateRandomString(16)
 
     fun initialize(api: SpotifyApi) {
@@ -145,35 +146,28 @@ object  SpotifyApiManager {
 
 
     fun redirectToSpotifyLogin(){
-        //val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
-        val clientSecret = "f22d019e70f345f5994d22d44f6b5dc2"
+
         //getAuthorizationHeader(clientId,clientSecret)
             //Bu kod bize refresh token ve acess token verecek
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                Log.e("token", denemeToken.toString())
+                Log.e("token", tokenCode.toString())
                 Log.e("Error", getAuthorizationHeader(clientId,clientSecret))
 
                 val tokenResponse = spotifyApi.accountsService.getToken(getAuthorizationHeader(clientId,clientSecret),
-                    denemeToken.toString(),clientId,
+                    tokenCode.toString(),clientId,
                     redirectUri,"authorization_code")
 
-                getAccessToken(tokenResponse.access_token)
-                getRefreshToken(tokenResponse.refresh_token)
-                Log.e("Error", tokenResponse.expires_in.toString())
+                accessToken = tokenResponse.access_token
+                refreshToken = tokenResponse.refresh_token
+
             } catch (e: Exception) {
                 Log.e("Error", "Error Play: ${e.message}")
             }
         }
    }
 
-    fun getAccessToken(token:String):String{
-        return token
-    }
 
-    fun getRefreshToken(token:String):String{
-        return
-    }
 
     fun getAuthorizationHeader(clientId: String, clientSecret: String): String {
         val credentials = "$clientId:$clientSecret"
@@ -190,14 +184,15 @@ object  SpotifyApiManager {
     }
 
     fun getRefreshToken() {
-        val clientSecret = "f22d019e70f345f5994d22d44f6b5dc2"
         //getAuthorizationHeader(clientId,clientSecret)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                Log.e("token", denemeToken.toString())
+                Log.e("token", tokenCode.toString())
                 Log.e("Error", getAuthorizationHeader(SpotifyApiManager.clientId,clientSecret))
-
+                val refreshTokenResponse = spotifyApi.accountsService.refreshToken(getAuthorizationHeader(clientId,clientSecret),"refresh_token",
+                    refreshToken)
+                refreshTokenResponse.
 
             } catch (e: Exception) {
                 Log.e("Error", "Error Play: ${e.message}")

@@ -135,7 +135,7 @@ class StartedScreenActivity : AppCompatActivity() {
                 AuthorizationResponse.Type.CODE -> {
                     Log.e("denemetoken","MERHABA")
 
-                    SpotifyApiManager.denemeToken = response.code
+                    SpotifyApiManager.tokenCode = response.code
                     Log.e("denemetoken",response.code.toString())
                     val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
                     sharedPref.edit().putBoolean(firstTimeKey, false).apply()

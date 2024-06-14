@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         animateBackground()
         SpotifyApiManager.getNewTrackAndAddToList()
-
+        SpotifyApiManager.redirectToSpotifyLogin()
 
         setupButtons()
 
@@ -63,8 +63,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveRefreshToken(){ //Burada sharedPreferences'a refreshToken'i ekledik
-        var sharedPreferences:SharedPreferences = getSharedPreferences("tokens", MODE_PRIVATE)
-        var refreshToken: SharedPreferences.Editor = sharedPreferences.edit()
+        val sharedPreferences:SharedPreferences = getSharedPreferences("tokens", MODE_PRIVATE)
+        val refreshToken: SharedPreferences.Editor = sharedPreferences.edit()
         refreshToken.putString("refreshToken",SpotifyApiManager.refreshToken).apply()
     }
 
