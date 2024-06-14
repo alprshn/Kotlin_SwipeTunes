@@ -137,6 +137,8 @@ class StartedScreenActivity : AppCompatActivity() {
 
                     SpotifyApiManager.tokenCode = response.code
                     Log.e("denemetoken",response.code.toString())
+                    SpotifyApiManager.redirectToSpotifyLogin()
+
                     val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
                     sharedPref.edit().putBoolean(firstTimeKey, false).apply()
                     startMainActivity()

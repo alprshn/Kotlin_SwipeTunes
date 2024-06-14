@@ -188,12 +188,15 @@ object  SpotifyApiManager {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                Log.e("token", tokenCode.toString())
-                Log.e("Error", getAuthorizationHeader(SpotifyApiManager.clientId,clientSecret))
+               // Log.e("token", tokenCode.toString())
+               // Log.e("Error", getAuthorizationHeader(SpotifyApiManager.clientId,clientSecret))
                 val refreshTokenResponse = spotifyApi.accountsService.refreshToken(getAuthorizationHeader(clientId,clientSecret),"refresh_token",
                     refreshToken)
                 accessToken = refreshTokenResponse.access_token
                 refreshToken = refreshTokenResponse.refresh_token
+                Log.e("tokenRef", refreshToken.toString())
+                Log.e("AccessToken", accessToken.toString())
+
 
             } catch (e: Exception) {
                 Log.e("Error", "Error Play: ${e.message}")

@@ -41,9 +41,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         animateBackground()
-        SpotifyApiManager.getNewTrackAndAddToList()
-        SpotifyApiManager.redirectToSpotifyLogin()
         SpotifyApiManager.getRefreshToken()
+        //Log.e("TkenControl", SpotifyApiManager.accessToken)
+        //Log.e("RefresTkenControl", SpotifyApiManager.refreshToken)
+        SpotifyApiManager.getNewTrackAndAddToList()
+
+
+
         setupButtons()
 
 
