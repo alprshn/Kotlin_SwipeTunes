@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         animateBackground()
         SpotifyApiManager.getNewTrackAndAddToList()
         SpotifyApiManager.redirectToSpotifyLogin()
-
+        SpotifyApiManager.getRefreshToken()
         setupButtons()
 
 

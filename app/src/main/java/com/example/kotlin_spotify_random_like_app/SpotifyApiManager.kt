@@ -192,7 +192,8 @@ object  SpotifyApiManager {
                 Log.e("Error", getAuthorizationHeader(SpotifyApiManager.clientId,clientSecret))
                 val refreshTokenResponse = spotifyApi.accountsService.refreshToken(getAuthorizationHeader(clientId,clientSecret),"refresh_token",
                     refreshToken)
-                refreshTokenResponse.
+                accessToken = refreshTokenResponse.access_token
+                refreshToken = refreshTokenResponse.refresh_token
 
             } catch (e: Exception) {
                 Log.e("Error", "Error Play: ${e.message}")
