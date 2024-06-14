@@ -22,6 +22,8 @@ object  SpotifyApiManager {
     val trackList = mutableListOf<TrackInfoList>() // Track sınıfı şarkı bilgilerini tutar, getAlbum.tracks.items[0] gibi nesneleri temsil eder.
     private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
+    private val refresh_token = ""
+
     val scope = "streaming user-modify-playback-state user-read-private playlist-read playlist-read-private playlist-modify-private playlist-modify-public user-read-email user-read-recently-played user-read-currently-playing"
     val responseType = "code"
     val state = generateRandomString(16)
@@ -156,7 +158,7 @@ object  SpotifyApiManager {
                     redirectUri,"authorization_code")
 
 
-                Log.e("Error", deneme.refresh_token.toString())
+                Log.e("Error", deneme.expires_in.toString())
             } catch (e: Exception) {
                 Log.e("Error", "Error Play: ${e.message}")
             }
@@ -176,5 +178,22 @@ object  SpotifyApiManager {
         return (1..length)
             .map { allowedChars.random() }
             .joinToString("")
+    }
+
+    fun getRefreshToken() {
+        val clientSecret = "f22d019e70f345f5994d22d44f6b5dc2"
+        //getAuthorizationHeader(clientId,clientSecret)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                Log.e("token", denemeToken.toString())
+                Log.e("Error", getAuthorizationHeader(SpotifyApiManager.clientId,clientSecret))
+
+
+            } catch (e: Exception) {
+                Log.e("Error", "Error Play: ${e.message}")
+            }
+        }
+
     }
 }

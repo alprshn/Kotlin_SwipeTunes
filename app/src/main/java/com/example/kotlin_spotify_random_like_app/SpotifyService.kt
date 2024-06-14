@@ -8,6 +8,7 @@ import PlayRequest
 import PlayingTrack
 import Playlist
 import PlaylistRequest
+import RefreshTokenResponse
 import SpotifyTokenResponse
 import SpotifyUser
 import org.json.JSONObject
@@ -102,6 +103,6 @@ interface SpotifyService {
                 @Header("Authorization") token: String,
                 @Field("grant_type") grantType: String,
                 @Field("refresh_token") refreshToken: String,
-        )
+        ):RefreshTokenResponse
 }
 

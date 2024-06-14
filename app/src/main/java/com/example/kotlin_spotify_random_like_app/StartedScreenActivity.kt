@@ -139,14 +139,6 @@ class StartedScreenActivity : AppCompatActivity() {
                     Log.e("denemetoken",response.code.toString())
                     startMainActivity()
                 }
-                //AuthorizationResponse.Type.TOKEN -> {
-                  //  val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
-                   // sharedPref.edit().putString(tokenKey, response.accessToken).apply()
-                   // SpotifyApiManager.accessToken = "Bearer ${response.accessToken}"
-                   // sharedPref.edit().putBoolean(firstTimeKey, false).apply()
-                    //startMainActivity()
-               // }
-
                 AuthorizationResponse.Type.ERROR -> {
                     Log.e("SpotifyAuthError", "Authentication error: ${response.error}")
                 }
