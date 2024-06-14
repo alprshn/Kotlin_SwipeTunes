@@ -202,3 +202,11 @@ data class SpotifyTokenResponse(
     val expires_in: Int,
     val refresh_token: String
 )
+
+data class RefreshTokenResponse(
+    val access_token: String,
+    val token_type: String,
+    val scope: String,
+    val expires_in: Int,
+    val refresh_token: String
+)
