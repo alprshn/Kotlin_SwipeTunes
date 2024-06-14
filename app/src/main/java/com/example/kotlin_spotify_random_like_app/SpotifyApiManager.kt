@@ -3,6 +3,7 @@ package com.example.kotlin_spotify_random_like_app
 import CreatePlaylistID
 import Offset
 import PlayRequest
+import SpotifyTokenResponse
 import TrackInfoList
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
@@ -22,7 +23,7 @@ object  SpotifyApiManager {
     val trackList = mutableListOf<TrackInfoList>() // Track sınıfı şarkı bilgilerini tutar, getAlbum.tracks.items[0] gibi nesneleri temsil eder.
     private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
-    private val refresh_token = ""
+    lateinit var refreshToken:String
 
     val scope = "streaming user-modify-playback-state user-read-private playlist-read playlist-read-private playlist-modify-private playlist-modify-public user-read-email user-read-recently-played user-read-currently-playing"
     val responseType = "code"

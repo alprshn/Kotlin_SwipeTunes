@@ -6,6 +6,7 @@ import PlayRequest
 import PlaylistRequest
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
@@ -59,6 +60,12 @@ class MainActivity : AppCompatActivity() {
 
         }
         // Setup other buttons similarly
+    }
+
+    private fun saveRefreshToken(){ //Burada sharedPreferences'a refreshToken'i ekledik
+        var sharedPreferences:SharedPreferences = getSharedPreferences("tokens", MODE_PRIVATE)
+        var refreshToken: SharedPreferences.Editor = sharedPreferences.edit()
+        refreshToken.putString("refreshToken",SpotifyApiManager.refreshToken).apply()
     }
     private fun animateBackground() {
         val constraintLayout:ConstraintLayout = binding.mainLayout
