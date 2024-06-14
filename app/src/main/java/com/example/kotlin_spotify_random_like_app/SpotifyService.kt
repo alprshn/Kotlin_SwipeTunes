@@ -93,5 +93,15 @@ interface SpotifyService {
                 @Field("redirect_uri") redirectUri: String,
                 @Field("grant_type") grantType: String
         ): SpotifyTokenResponse
+
+
+        @POST("api/token")
+        @Headers("Content-Type: application/x-www-form-urlencoded")
+        @FormUrlEncoded
+        suspend fun refreshToken(
+                @Header("Authorization") token: String,
+                @Field("grant_type") grantType: String,
+                @Field("refresh_token") refreshToken: String,
+        )
 }
 
