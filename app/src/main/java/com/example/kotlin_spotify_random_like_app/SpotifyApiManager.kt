@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
 import android.util.Base64
+import kotlinx.coroutines.delay
 
 
 object  SpotifyApiManager {
@@ -162,7 +163,7 @@ object  SpotifyApiManager {
                 refreshToken = tokenResponse.refresh_token
 
             } catch (e: Exception) {
-                Log.e("Error", "Error Play: ${e.message}")
+                Log.e("Error", "Error Play Login: ${e.message}")
             }
         }
    }
@@ -183,15 +184,16 @@ object  SpotifyApiManager {
             .joinToString("")
     }
 
-    fun getRefreshToken() {
+    fun getRefreshToken(tokenAccess: String,tokenRefresh: String) {
         //getAuthorizationHeader(clientId,clientSecret)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
                // Log.e("token", tokenCode.toString())
                // Log.e("Error", getAuthorizationHeader(SpotifyApiManager.clientId,clientSecret))
+
                 val refreshTokenResponse = spotifyApi.accountsService.refreshToken(getAuthorizationHeader(clientId,clientSecret),"refresh_token",
-                    refreshToken)
+                    tokenRefresh)
                 accessToken = refreshTokenResponse.access_token
                 refreshToken = refreshTokenResponse.refresh_token
                 Log.e("tokenRef", refreshToken.toString())
