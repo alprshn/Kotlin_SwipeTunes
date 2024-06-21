@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +22,11 @@ import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,10 +46,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         animateBackground()
-        SpotifyApiManager.getRefreshToken(SpotifyApiManager.accessToken,SpotifyApiManager.refreshToken)
+        val sharedPreferences: SharedPreferences = getSharedPreferences("tokenShared", MODE_PRIVATE)
+        //val storedAccessToken = sharedPreferences.getString("access_token", null)
+        //val storedRefreshToken = sharedPreferences.getString("refresh_token", null)
+        //Log.e("tokenlarAccess",storedAccessToken.toString())
+        //Log.e("tokenlarRefresh",storedRefreshToken.toString())
+
+        //SpotifyApiManager.getRefreshToken()
         //Log.e("TkenControl", SpotifyApiManager.accessToken)
         //Log.e("RefresTkenControl", SpotifyApiManager.refreshToken)
-        SpotifyApiManager.getNewTrackAndAddToList()
+        //SpotifyApiManager.getNewTrackAndAddToList()
+        GlobalScope.launch(Dispatchers.IO) {
+            // Arka planda yapılacak işlemler
+            Thread.sleep(2000) // Örnek olarak 1 saniye bekleme simülasyonu
+            SpotifyApiManager.getRefreshToken()
+            SpotifyApiManager.getNewTrackAndAddToList()
+            val sharedPrefToken = getSharedPreferences("prefToken", MODE_PRIVATE)
+            val sharedPrefRefreshToken = sharedPrefToken.getString("refresh_token","merhaba")
+            Log.e("denemeRefresh", sharedPrefRefreshToken.toString())
+
+            withContext(Dispatchers.Main) {
+                // Arayüzü güncelle veya kullanıcıya bildirim gönder
+                Toast.makeText(this@MainActivity, "İşlem tamamlandı!", Toast.LENGTH_SHORT).show()
+            }
+        }
 
 
 
@@ -60,8 +85,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.button2.setOnClickListener {
-            SpotifyApiManager.redirectToSpotifyLogin()
+           // SpotifyApiManager.redirectToSpotifyLogin()
+            SpotifyApiManager.getNewTrackAndAddToList()
 
+        }
+        binding.button3.setOnClickListener {
+            SpotifyApiManager.getRefreshToken()
+
+        }
+
+        binding.button5.setOnClickListener {
         }
         // Setup other buttons similarly
     }
@@ -81,6 +114,10 @@ class MainActivity : AppCompatActivity() {
         animationDrawable.start()
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
+
+
+
+
 
 
 

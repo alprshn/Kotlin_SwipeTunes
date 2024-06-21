@@ -30,6 +30,8 @@ class StartedScreenActivity : AppCompatActivity() {
     private lateinit var spotifyApi: SpotifyApi
 
     private val prefsName = "AppPrefs"
+    private val splashName= "SplashPrefs"
+    private val splashFirst= "FirstLogin"
     private val firstTimeKey = "FirstTime"
     private val tokenKey = "SpotifyToken"  // Spotify token'i saklamak için anahtar
     private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
@@ -77,6 +79,8 @@ class StartedScreenActivity : AppCompatActivity() {
             return
         }
     }
+
+
 
 
     private fun checkAutoLogin() {
@@ -133,15 +137,16 @@ class StartedScreenActivity : AppCompatActivity() {
             val response = AuthorizationClient.getResponse(resultCode, data)
             when (response.type) {
                 AuthorizationResponse.Type.CODE -> {
-                    Log.e("denemetoken","MERHABA")
-
                     SpotifyApiManager.tokenCode = response.code
-                    Log.e("denemetoken",response.code.toString())
                     SpotifyApiManager.redirectToSpotifyLogin()
 
-                    val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
-                    sharedPref.edit().putBoolean(firstTimeKey, false).apply()
-                    startMainActivity()
+                    Log.e("denemetoken","MERHABA")
+                    Log.e("denemetoken",response.code.toString())
+                    val splashSharedPref = getSharedPreferences(splashName, MODE_PRIVATE)
+                    splashSharedPref.edit().putBoolean(splashFirst, true).apply()
+                    //val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
+                    //sharedPref.edit().putBoolean(firstTimeKey, false).apply()
+                    startSplashActivity()
                 }
                 AuthorizationResponse.Type.ERROR -> {
                     Log.e("SpotifyAuthError", "Authentication error: ${response.error}")
@@ -152,7 +157,11 @@ class StartedScreenActivity : AppCompatActivity() {
             }
         }
     }
-
+    private fun startSplashActivity() {
+        val intent = Intent(this, SplashScreenActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
