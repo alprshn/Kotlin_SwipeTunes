@@ -5,13 +5,14 @@ import androidx.viewpager.widget.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 
 class SliderAdapter(private val context:Context): PagerAdapter() {
 
 
     var Images: ArrayList<Int> = arrayListOf(12,21,12,1)
-    var headings: ArrayList<Int> = arrayListOf(12,21,12,1)
+    var headings: ArrayList<String> = arrayListOf("12","21","12","1")
     var Descriptions: ArrayList<Int> = arrayListOf(12,21,12,1)
     lateinit var layoutInflater:LayoutInflater
     override fun getCount(): Int {
@@ -26,6 +27,7 @@ class SliderAdapter(private val context:Context): PagerAdapter() {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view: View = layoutInflater.inflate(R.layout.slides_layout, container, false)
 
+        val headingText:TextView = view.findViewById(R.id.)
         container.addView(view)
         return view
     }
