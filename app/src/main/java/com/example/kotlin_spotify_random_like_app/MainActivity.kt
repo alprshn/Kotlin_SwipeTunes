@@ -56,20 +56,7 @@ class MainActivity : AppCompatActivity() {
         //Log.e("TkenControl", SpotifyApiManager.accessToken)
         //Log.e("RefresTkenControl", SpotifyApiManager.refreshToken)
         //SpotifyApiManager.getNewTrackAndAddToList()
-        GlobalScope.launch(Dispatchers.IO) {
-            // Arka planda yapılacak işlemler
-            Thread.sleep(2000) // Örnek olarak 1 saniye bekleme simülasyonu
-            SpotifyApiManager.getRefreshToken()
-            SpotifyApiManager.getNewTrackAndAddToList()
-            val sharedPrefToken = getSharedPreferences("prefToken", MODE_PRIVATE)
-            val sharedPrefRefreshToken = sharedPrefToken.getString("refresh_token","merhaba")
-            Log.e("denemeRefresh", sharedPrefRefreshToken.toString())
 
-            withContext(Dispatchers.Main) {
-                // Arayüzü güncelle veya kullanıcıya bildirim gönder
-                Toast.makeText(this@MainActivity, "İşlem tamamlandı!", Toast.LENGTH_SHORT).show()
-            }
-        }
 
 
 

@@ -144,8 +144,8 @@ class StartedScreenActivity : AppCompatActivity() {
                     Log.e("denemetoken",response.code.toString())
                     val splashSharedPref = getSharedPreferences(splashName, MODE_PRIVATE)
                     splashSharedPref.edit().putBoolean(splashFirst, true).apply()
-                    //val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
-                    //sharedPref.edit().putBoolean(firstTimeKey, false).apply()
+                    val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
+                    sharedPref.edit().putBoolean(firstTimeKey, false).apply()
                     startSplashActivity()
                 }
                 AuthorizationResponse.Type.ERROR -> {
