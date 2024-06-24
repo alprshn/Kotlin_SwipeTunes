@@ -46,7 +46,9 @@ class SpotifySwipeMusic : AppCompatActivity() {
 
         SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
         initializeUI()
+        SpotifyApiManager.getNewTrackAndAddToList() // Veriyi asenkron olarak yükle
         loadDataAndSetupCards()
+
     }
 
     private fun initializeUI() {
@@ -115,7 +117,6 @@ class SpotifySwipeMusic : AppCompatActivity() {
 
     private fun loadDataAndSetupCards() {
         CoroutineScope(Dispatchers.IO).launch {
-            SpotifyApiManager.getNewTrackAndAddToList() // Veriyi asenkron olarak yükle
             withContext(Dispatchers.Main) {
                 // Veri yükleme tamamlandığında, kartları kurun
                 if (SpotifyApiManager.trackList.isNotEmpty()) {
