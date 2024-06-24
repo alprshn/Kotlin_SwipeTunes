@@ -63,7 +63,9 @@ class SpotifySwipeMusic : AppCompatActivity() {
                 if (direction == Direction.Right) {
                     //SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
                     SpotifyApiManager.getNewTrackAndAddToList()
-                    count++
+                    if (count < trackList.size - 1) {
+                        count++
+                    }
                     SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
                     loadDataAndSetupCards()
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
