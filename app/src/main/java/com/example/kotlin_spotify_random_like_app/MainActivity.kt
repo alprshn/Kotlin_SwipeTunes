@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         animateBackground()
-        val sharedPreferences: SharedPreferences = getSharedPreferences("tokenShared", MODE_PRIVATE)
+        //val sharedPreferences: SharedPreferences = getSharedPreferences("tokenShared", MODE_PRIVATE)
         //val storedAccessToken = sharedPreferences.getString("access_token", null)
         //val storedRefreshToken = sharedPreferences.getString("refresh_token", null)
         //Log.e("tokenlarAccess",storedAccessToken.toString())

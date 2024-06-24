@@ -46,7 +46,7 @@ class SplashScreenActivity : AppCompatActivity() {
         else{
             GlobalScope.launch(Dispatchers.IO) {
                 // Arka planda yapılacak işlemler
-                Thread.sleep(SPLASH_TIMER) // Örnek olarak 1 saniye bekleme simülasyonu
+                Thread.sleep(1000) // Örnek olarak 1 saniye bekleme simülasyonu
                 spotifyApi = SpotifyApi
                 SpotifyApiManager.initialize(spotifyApi)
 
@@ -56,11 +56,14 @@ class SplashScreenActivity : AppCompatActivity() {
                     SpotifyApiManager.accessToken = sharedPrefAccessTokens.toString()
                     Log.e("döngü","döngüde")
                 }
+                Thread.sleep(1000) // Örnek olarak 1 saniye bekleme simülasyonu
 
                 SpotifyApiManager.getNewTrackAndAddToList()
+                Thread.sleep(1000) // Örnek olarak 1 saniye bekleme simülasyonu
+
                 val sharedPrefToken = getSharedPreferences("prefToken", MODE_PRIVATE)
                 val sharedPrefRefreshToken = sharedPrefToken.getString("refresh_token",null)
-                if (sharedPrefAccessTokens != null ){
+                if (sharedPrefRefreshToken != null ){
                     SpotifyApiManager.refreshToken = sharedPrefRefreshToken.toString()
                     Log.e("refrshdöngü","döngüde")
                 }
@@ -68,6 +71,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 Log.e("denemeRefreshToken", SpotifyApiManager.accessToken.toString())
 
                 Log.e("denemeACccessToken", sharedPrefAccessTokens.toString())
+                Thread.sleep(1000) // Örnek olarak 1 saniye bekleme simülasyonu
 
                 withContext(Dispatchers.Main) {
                     // Arayüzü güncelle veya kullanıcıya bildirim gönder

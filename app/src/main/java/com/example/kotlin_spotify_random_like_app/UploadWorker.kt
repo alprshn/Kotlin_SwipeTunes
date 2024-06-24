@@ -22,10 +22,12 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters)
 
         val accessSharedPreferences: SharedPreferences = applicationContext.getSharedPreferences("prefAccessToken",
             Context.MODE_PRIVATE)
-        val accessToken: SharedPreferences.Editor = sharedPreferences.edit()
-        refreshToken.putString("access_token", SpotifyApiManager.refreshToken).apply()
+        val accessToken: SharedPreferences.Editor = accessSharedPreferences.edit()
+        accessToken.putString("access_token", SpotifyApiManager.refreshToken).apply()
 
         Log.e("work", SpotifyApiManager.refreshToken.toString())
+        Log.e("work", SpotifyApiManager.accessToken.toString())
+
         return Result.success()
     }
 

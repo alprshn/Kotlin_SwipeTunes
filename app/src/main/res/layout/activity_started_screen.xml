@@ -7,10 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".StartedScreenActivity"
     android:padding="20dp">
-    <WebView
-        android:id="@+id/webview"
-        android:layout_width="400dp"
-        android:layout_height="500dp" />
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/slider"
         android:layout_width="match_parent"
@@ -19,12 +16,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
         >
-
-
     </androidx.viewpager.widget.ViewPager>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
