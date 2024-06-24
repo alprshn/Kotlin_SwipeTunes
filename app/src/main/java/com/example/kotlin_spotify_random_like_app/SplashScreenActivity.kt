@@ -55,13 +55,15 @@ class SplashScreenActivity : AppCompatActivity() {
                 if (sharedPrefAccessTokens != null ){
                     SpotifyApiManager.accessToken = sharedPrefAccessTokens.toString()
                     Log.e("döngü","döngüde")
-
                 }
 
-                //SpotifyApiManager.getRefreshToken()
                 SpotifyApiManager.getNewTrackAndAddToList()
                 val sharedPrefToken = getSharedPreferences("prefToken", MODE_PRIVATE)
-                val sharedPrefRefreshToken = sharedPrefToken.getString("refresh_token","merhaba")
+                val sharedPrefRefreshToken = sharedPrefToken.getString("refresh_token",null)
+                if (sharedPrefAccessTokens != null ){
+                    SpotifyApiManager.refreshToken = sharedPrefRefreshToken.toString()
+                    Log.e("refrshdöngü","döngüde")
+                }
                 Log.e("denemeRefresh", sharedPrefRefreshToken.toString())
                 Log.e("denemeRefreshToken", SpotifyApiManager.accessToken.toString())
 
