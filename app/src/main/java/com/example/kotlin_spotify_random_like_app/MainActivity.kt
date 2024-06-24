@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         saveRefreshToken()
 
+        saveAccessToken()
         setupButtons()
         Log.e("denemeRefreshToken", SpotifyApiManager.refreshToken.toString())
 
