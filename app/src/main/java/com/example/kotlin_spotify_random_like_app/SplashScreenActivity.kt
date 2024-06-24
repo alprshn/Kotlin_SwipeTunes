@@ -49,7 +49,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 Thread.sleep(SPLASH_TIMER) // Örnek olarak 1 saniye bekleme simülasyonu
                 spotifyApi = SpotifyApi
                 SpotifyApiManager.initialize(spotifyApi)
-                SpotifyApiManager.getRefreshToken()
+                //SpotifyApiManager.getRefreshToken()
                 SpotifyApiManager.getNewTrackAndAddToList()
                 val sharedPrefToken = getSharedPreferences("prefToken", MODE_PRIVATE)
                 val sharedPrefRefreshToken = sharedPrefToken.getString("refresh_token","merhaba")

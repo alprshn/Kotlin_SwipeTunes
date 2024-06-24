@@ -37,11 +37,6 @@ object  SpotifyApiManager {
         spotifyApi = api
     }
 
-
-
-
-
-
     fun pause(){
         CoroutineScope(Dispatchers.IO).launch {
             try {
