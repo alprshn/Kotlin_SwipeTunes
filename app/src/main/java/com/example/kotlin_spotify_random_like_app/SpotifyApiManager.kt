@@ -58,6 +58,7 @@ object  SpotifyApiManager {
             try {
                 val getAlbum = spotifyApi.service.getAlbum(albumID, "Bearer $accessToken")
                 val getTracks = getAlbum.tracks.items[randomOffset]
+                Log.e("randomoffset",randomOffset.toString())
                 //Log.e("Music Name",deneme.toString())
                 // Log.e("Music Name", deneme.tracks.items.toString())
                 Log.e(
@@ -102,6 +103,7 @@ object  SpotifyApiManager {
                     randomOffset = (Math.random() * (album.total_tracks - 1)).toInt()
                     infoAlbum(albumID, randomOffset)
                     Log.e("Trac ACCESS", accessToken.toString())
+                    Log.e("Trac total tracks", album.total_tracks.toString())
                 } else {
                     Log.e("Error", "No tracks found.")
                 }

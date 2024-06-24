@@ -16,6 +16,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.kotlin_spotify_random_like_app.databinding.ActivityMainBinding
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
@@ -32,6 +35,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -84,6 +88,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.button5.setOnClickListener {
+            val request = PeriodicWorkRequestBuilder<UploadWorker>(15,TimeUnit.MINUTES)
+                .setInitialDelay(5,TimeUnit.SECONDS)
+                .build()
+            WorkManager.getInstance(this).enqueue(request)
+
+            WorkManager.getInstance(this).getWorkInfoByIdLiveData(request.id).observe(this) {
+                Log.e("Status",it.state.name)
+            }
         }
         // Setup other buttons similarly
     }
@@ -108,6 +120,7 @@ class MainActivity : AppCompatActivity() {
         animationDrawable.start()
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
+
 
 
 
