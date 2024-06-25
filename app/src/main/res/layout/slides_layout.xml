@@ -5,5 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/slideImageView"
-    android:background="@drawable/rounded_background">
+    android:background="@drawable/gradient_overlay">
 </androidx.constraintlayout.widget.ConstraintLayout>

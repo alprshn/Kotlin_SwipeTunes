@@ -6,4 +6,12 @@
     </style>
 
     <style name="Theme.Kotlin_Spotify_Random_Like_App" parent="Base.Theme.Kotlin_Spotify_Random_Like_App" />
+
+    <style name="AppTheme.FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
 </resources>

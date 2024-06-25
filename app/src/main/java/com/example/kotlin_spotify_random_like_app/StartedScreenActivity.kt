@@ -47,7 +47,7 @@ class StartedScreenActivity : AppCompatActivity() {
             insets
         }
 
-
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         viewPager = findViewById(R.id.slider)
         dotsLayout = findViewById(R.id.dots)
         viewPager.adapter = SliderAdapter(this)
