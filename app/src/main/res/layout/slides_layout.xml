@@ -7,12 +7,11 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="264dp"
-        android:layout_height="325dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="667dp"
+        android:layout_height="850dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/slide_1"/>
+        app:srcCompat="@drawable/slide_1" />
 </androidx.constraintlayout.widget.ConstraintLayout>
