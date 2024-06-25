@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 class SliderAdapter(private val context:Context): PagerAdapter() {
 
 
-    var images: ArrayList<Int> = arrayListOf(R.drawable.sample1,R.drawable.slide_1,R.drawable.slide_1,R.drawable.slide_1)
+    var images: ArrayList<Int> = arrayListOf(R.drawable.singerphoto,R.drawable.slide_1,R.drawable.slide_1,R.drawable.slide_1)
     var headings: ArrayList<Int> = arrayListOf(12,21,12,1)
     var Descriptions: ArrayList<Int> = arrayListOf(12,21,12,1)
     lateinit var layoutInflater:LayoutInflater
@@ -28,11 +28,10 @@ class SliderAdapter(private val context:Context): PagerAdapter() {
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view: View = layoutInflater.inflate(R.layout.slides_layout, container, false)
-        val imageView:ImageView = view.findViewById(R.id.imageView)
+        val layout = view.findViewById<ConstraintLayout>(R.id.slideImageView)
+        layout.setBackgroundResource(images[position])  // Background image set here
 
         //val headingText:TextView = view.findViewById(R.id.)
-        imageView.setImageResource(images[position])
-        Glide.with(context).load(images[position]).into(imageView)
         container.addView(view)
         return view
     }

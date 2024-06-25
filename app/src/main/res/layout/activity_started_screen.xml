@@ -9,12 +9,23 @@
     android:padding="20dp"
     >
 
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/logo"
+        android:scaleType="centerCrop"
+        />
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/slider"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/logoImage"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
     </androidx.viewpager.widget.ViewPager>
@@ -31,7 +42,8 @@
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LOG IN"/>
+            android:text="LOG IN"
+            android:backgroundTint="#1DB954"/>
         <LinearLayout
             android:id="@+id/dots"
             android:layout_width="wrap_content"
@@ -39,6 +51,8 @@
             android:layout_alignParentBottom="true"
             android:paddingBottom="20dp"
             android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             />
 
     </RelativeLayout>
