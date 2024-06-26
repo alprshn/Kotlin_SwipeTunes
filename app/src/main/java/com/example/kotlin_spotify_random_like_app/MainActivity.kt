@@ -117,8 +117,8 @@ class MainActivity : AppCompatActivity() {
     private fun animateBackground() {
         val constraintLayout:ConstraintLayout = binding.mainLayout
         val animationDrawable: AnimationDrawable = constraintLayout.background as AnimationDrawable
-        animationDrawable.setEnterFadeDuration(2500)
-        animationDrawable.setExitFadeDuration(5000)
+        animationDrawable.setEnterFadeDuration(1000)
+        animationDrawable.setExitFadeDuration(2000)
         animationDrawable.start()
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
