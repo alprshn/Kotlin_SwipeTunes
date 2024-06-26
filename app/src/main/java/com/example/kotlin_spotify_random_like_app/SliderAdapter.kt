@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 class SliderAdapter(private val context:Context): PagerAdapter() {
 
 
-    var images: ArrayList<Int> = arrayListOf(R.drawable.singerphoto,R.drawable.slide_1,R.drawable.slide_1,R.drawable.slide_1)
+    var images: ArrayList<Int> = arrayListOf(R.drawable.singerphoto,R.drawable.duman,R.drawable.slide_1,R.drawable.slide_1)
     var headings: ArrayList<Int> = arrayListOf(12,21,12,1)
     var Descriptions: ArrayList<Int> = arrayListOf(12,21,12,1)
     lateinit var layoutInflater:LayoutInflater

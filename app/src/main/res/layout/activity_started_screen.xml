@@ -20,21 +20,24 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="180dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/relativeLayout">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_height="wrap_content"
-            android:text="LOG IN"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_height="70dp"
+            android:text="Log in with Spotify"
             android:textColor="@color/white"
-            android:background="@drawable/button_background"/>
+            app:cornerRadius="50dp"
+            android:backgroundTint="#1ED760"
+            android:textSize="15sp"
+            android:fontFamily="@font/open_sans_bold"/>
         <LinearLayout
             android:id="@+id/dots"
             android:layout_width="wrap_content"
@@ -44,6 +47,7 @@
             android:orientation="horizontal"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:visibility="invisible"
             />
 
     </RelativeLayout>

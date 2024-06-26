@@ -181,7 +181,7 @@ class StartedScreenActivity : AppCompatActivity() {
 
         } else {
             Toast.makeText(this, "İnternet bağlantınız aktif!", Toast.LENGTH_SHORT).show()
-            findViewById<Button>(R.id.loginButton).text = "Log In"
+            findViewById<Button>(R.id.loginButton).text = "Log in with Spotify"
             setupSpotifyConnection()
         }
     }
