@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/slideImageView"
-    android:background="@drawable/gradient_overlay">
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/gradient_overlay"
+        android:scaleType="centerCrop"
+        android:id="@+id/slideImageView"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

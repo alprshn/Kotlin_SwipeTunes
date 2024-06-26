@@ -28,8 +28,8 @@ class SliderAdapter(private val context:Context): PagerAdapter() {
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view: View = layoutInflater.inflate(R.layout.slides_layout, container, false)
-        val layout = view.findViewById<ConstraintLayout>(R.id.slideImageView)
-        layout.setBackgroundResource(images[position])  // Background image set here
+        val imageView = view.findViewById<ImageView>(R.id.slideImageView)
+        imageView.setImageResource(images[position])  // Background image set here
 
         //val headingText:TextView = view.findViewById(R.id.)
         container.addView(view)

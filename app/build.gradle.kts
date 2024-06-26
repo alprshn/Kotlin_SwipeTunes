@@ -96,6 +96,8 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:4.14.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.1")
+    implementation("jp.wasabeef:glide-transformations:4.0.0")
+
 }
 
 
