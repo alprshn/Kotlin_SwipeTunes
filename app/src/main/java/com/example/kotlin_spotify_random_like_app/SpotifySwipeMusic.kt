@@ -86,6 +86,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
                 if (manager.topPosition == adapter.itemCount - 5) {
                     paginate()
                 }
+                Thread.sleep(375)
             }
 
 
