@@ -49,7 +49,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
         animateBackground()
+
         //val sharedPreferences: SharedPreferences = getSharedPreferences("tokenShared", MODE_PRIVATE)
         //val storedAccessToken = sharedPreferences.getString("access_token", null)
         //val storedRefreshToken = sharedPreferences.getString("refresh_token", null)
@@ -77,26 +79,26 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.button2.setOnClickListener {
+       // binding.button2.setOnClickListener {
            // SpotifyApiManager.redirectToSpotifyLogin()
-            SpotifyApiManager.getNewTrackAndAddToList()
+          //  SpotifyApiManager.getNewTrackAndAddToList()
 
-        }
-        binding.button3.setOnClickListener {
-            SpotifyApiManager.getRefreshToken()
+        //}
+        //binding.button3.setOnClickListener {
+          //  SpotifyApiManager.getRefreshToken()
 
-        }
+       // }
 
-        binding.button5.setOnClickListener {
-            val request = PeriodicWorkRequestBuilder<UploadWorker>(15,TimeUnit.MINUTES)
-                .setInitialDelay(5,TimeUnit.SECONDS)
-                .build()
-            WorkManager.getInstance(this).enqueue(request)
+        //binding.button5.setOnClickListener {
+           // val request = PeriodicWorkRequestBuilder<UploadWorker>(15,TimeUnit.MINUTES)
+               // .setInitialDelay(5,TimeUnit.SECONDS)
+                //.build()
+            //WorkManager.getInstance(this).enqueue(request)
 
-            WorkManager.getInstance(this).getWorkInfoByIdLiveData(request.id).observe(this) {
-                Log.e("Status",it.state.name)
-            }
-        }
+           // WorkManager.getInstance(this).getWorkInfoByIdLiveData(request.id).observe(this) {
+                //Log.e("Status",it.state.name)
+           // }
+       // }
         // Setup other buttons similarly
     }
 

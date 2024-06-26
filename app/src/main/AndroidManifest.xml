@@ -17,13 +17,15 @@
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.MainActivity"/>
         <activity
             android:name=".StartedScreenActivity"
             android:exported="false" />
         <activity
             android:name=".SpotifySwipeMusic"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.MainActivity"/>
 
         <receiver
             android:name=".SplashScreenActivity"

@@ -92,7 +92,7 @@ class StartedScreenActivity : AppCompatActivity() {
         }
     }
     private fun addDots(position: Int){
-        dots = Array(4) { TextView(this) }
+        dots = Array(1) { TextView(this) }
         dotsLayout.removeAllViews()
         for (i in dots.indices) {
             dots[i] = TextView(this)

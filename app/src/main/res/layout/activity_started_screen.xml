@@ -35,8 +35,8 @@
             android:text="Log in with Spotify"
             android:textColor="@color/white"
             app:cornerRadius="50dp"
-            android:backgroundTint="#1ED760"
-            android:textSize="15sp"
+            android:backgroundTint="#1A9E49"
+            android:textSize="16sp"
             android:fontFamily="@font/open_sans_bold"/>
         <LinearLayout
             android:id="@+id/dots"
