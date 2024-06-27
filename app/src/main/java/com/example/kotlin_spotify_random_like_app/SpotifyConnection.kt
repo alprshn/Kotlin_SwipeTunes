@@ -35,7 +35,12 @@ class SpotifyConnection(private val context: Context) {
             }
         })
     }
-
+    fun play(trackUri: String) {
+        spotifyAppRemote?.let {
+            it.playerApi.play(trackUri)
+            Log.e("SpotifyConnection", "Playing track: $trackUri")
+        }
+    }
     private fun connected() {
         spotifyAppRemote?.let {
             // Play a playlist

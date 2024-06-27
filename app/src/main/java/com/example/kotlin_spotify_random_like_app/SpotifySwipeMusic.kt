@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import com.example.kotlin_spotify_random_like_app.SpotifyApiManager.trackList
+import com.spotify.android.appremote.api.SpotifyAppRemote
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
@@ -29,10 +30,13 @@ class SpotifySwipeMusic : AppCompatActivity() {
     private lateinit var manager:CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
     private lateinit var spotifyApi: SpotifyApi
+    private lateinit var spotifyConnection: SpotifyConnection
+
     private var count:Int = 0
     companion object {
         private const val TAG = "SpotifySwipeMusic"
     }
+    var spotifyAppRemote: SpotifyAppRemote? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +47,9 @@ class SpotifySwipeMusic : AppCompatActivity() {
         animationDrawable.setEnterFadeDuration(2500)
         animationDrawable.setExitFadeDuration(5000)
         animationDrawable.start()
+
+        spotifyConnection = SpotifyConnection(this)
+        spotifyConnection.connectionStart()
 
         SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
         initializeUI()
@@ -62,12 +69,14 @@ class SpotifySwipeMusic : AppCompatActivity() {
                 Log.d(TAG, "onCardSwiped: p=${manager.topPosition} d=$direction")
                 if (direction == Direction.Right) {
                     //SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
+
                     SpotifyApiManager.getNewTrackAndAddToList()
                     if (count < trackList.size - 1) {
                         count++
                     }
+                    spotifyConnection.play(trackList[count].albumUri)
 
-                    SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
+                    //SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
                     loadDataAndSetupCards()
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
                     if (trackList.size > 0 && count > 0) {  // Liste yeterince büyükse ve en az bir kaydırma yapılmışsa
