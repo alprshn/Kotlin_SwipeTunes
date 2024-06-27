@@ -125,7 +125,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
         manager.setScaleInterval(0.95f)
         manager.setSwipeThreshold(0.3f)
         manager.setMaxDegree(20.0f)
-        manager.setDirections(Direction.FREEDOM)
+        manager.setDirections(Direction.HORIZONTAL)
         manager.setCanScrollHorizontal(true)
         manager.setSwipeableMethod(SwipeableMethod.Manual)
         manager.setOverlayInterpolator(LinearInterpolator())

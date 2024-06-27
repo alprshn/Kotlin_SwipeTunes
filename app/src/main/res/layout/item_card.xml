@@ -9,15 +9,22 @@
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="false"
     app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="@android:color/black"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginHorizontal="10dp"
+    app:cardBackgroundColor="#323131"
     >
 
     <ImageView
         android:id="@+id/item_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="30dp"
-        android:scaleType="centerCrop"/>
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="150dp"
+        android:layout_marginTop="150dp"
+        android:scaleType="centerCrop"
+
+        />
 
     <LinearLayout
         android:orientation="vertical"
