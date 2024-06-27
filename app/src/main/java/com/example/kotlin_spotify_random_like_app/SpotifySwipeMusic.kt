@@ -75,6 +75,8 @@ class SpotifySwipeMusic : AppCompatActivity() {
                         count--  // Silme işlemi sonrası, count değerini güncelle
                     }
                 } else if (direction == Direction.Top) {
+                    Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
+                } else if (direction == Direction.Left) {
                     SpotifyApiManager.getNewTrackAndAddToList()
                     if (count < trackList.size - 1) {
                         count++
@@ -87,8 +89,6 @@ class SpotifySwipeMusic : AppCompatActivity() {
                         trackList.removeAt(0)  // Liste başından eleman sil
                         count--  // Silme işlemi sonrası, count değerini güncelle
                     }
-                    Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
-                } else if (direction == Direction.Left) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Left", Toast.LENGTH_SHORT).show()
 
                 } else if (direction == Direction.Bottom) {
