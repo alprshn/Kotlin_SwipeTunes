@@ -28,14 +28,21 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/loginButton"
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_height="70dp"
+            android:layout_height="65dp"
             android:text="Log in with Spotify"
             android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
             app:cornerRadius="50dp"
-            android:backgroundTint="#1A9E49"
+            android:elevation="10dp"
+            app:iconPadding="10dp"
+            android:backgroundTint="#FF0078"
+            app:icon="@drawable/spotify_icon"
+            app:iconTintMode="multiply"
+            app:iconGravity="textStart"
+            app:iconSize="20pt"
             android:textSize="16sp"
             android:fontFamily="@font/open_sans_bold"/>
         <LinearLayout
