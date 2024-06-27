@@ -75,6 +75,18 @@ class SpotifySwipeMusic : AppCompatActivity() {
                         count--  // Silme işlemi sonrası, count değerini güncelle
                     }
                 } else if (direction == Direction.Top) {
+                    SpotifyApiManager.getNewTrackAndAddToList()
+                    if (count < trackList.size - 1) {
+                        count++
+                    }
+
+                    SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
+                    loadDataAndSetupCards()
+                    Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
+                    if (trackList.size > 0 && count > 0) {  // Liste yeterince büyükse ve en az bir kaydırma yapılmışsa
+                        trackList.removeAt(0)  // Liste başından eleman sil
+                        count--  // Silme işlemi sonrası, count değerini güncelle
+                    }
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
                 } else if (direction == Direction.Left) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Left", Toast.LENGTH_SHORT).show()
