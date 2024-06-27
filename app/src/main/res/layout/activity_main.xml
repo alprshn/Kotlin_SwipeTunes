@@ -8,13 +8,23 @@
     tools:context=".MainActivity"
     android:id="@+id/mainLayout">
 
-    <com.google.android.material.button.MaterialButton
+    <com.sanojpunchihewa.glowbutton.GlowButton
         android:id="@+id/button4"
-        android:layout_width="100dp"
-        android:layout_height="105dp"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
         app:icon="@drawable/baseline_check_24"
         app:iconSize="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:glowColor="#FF4C98"
+        app:buttonColor="#FF0078"
+        android:text="Play"
+        android:fontFamily="@font/open_sans_bold"
+        app:unpressedGlowSize="20dp"
+        app:pressedGlowSize="25dp"
+        android:textSize="19dp"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
