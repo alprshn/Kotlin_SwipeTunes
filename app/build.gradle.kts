@@ -99,6 +99,9 @@ dependencies {
 
     implementation("com.github.SanojPunchihewa:GlowButton:1.0.1")
 
+    val lottieVersion = "3.4.0"
+    implementation ("com.airbnb.android:lottie:$lottieVersion")
+
 }
 
 
