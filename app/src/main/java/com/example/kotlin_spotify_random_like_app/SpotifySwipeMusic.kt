@@ -54,7 +54,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
         spotifyConnection = SpotifyConnection(this).apply {
             onConnected = {
                 if (trackList.isNotEmpty()) {
-                    play(trackList[count].albumUri)
+                    play(trackList[count].trackUri)
                 }
             }
             onConnectionFailed = { error ->
@@ -75,7 +75,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
 
     private fun trackListError(){
         while (true) {
-            if (trackList.isNotEmpty() && trackList[count].albumUri.isNotEmpty()) {
+            if (trackList.isNotEmpty() && trackList[count].trackUri.isNotEmpty()) {
                 //spotifyConnection.play(trackList[count].albumUri)
                 Log.e(TAG, "Track listesi boş değil.")
 
@@ -120,8 +120,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
                     if (count < trackList.size - 1) {
                         count++
                     }
-                    SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
-                    //SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
+                    spotifyConnection.play(trackList[count].trackUri)
 
                     loadDataAndSetupCards()
                     if (trackList.size > 0 && count > 0) {  // Liste yeterince büyükse ve en az bir kaydırma yapılmışsa
@@ -137,7 +136,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
                         count++
                     }
 
-                    SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
+                    spotifyConnection.play(trackList[count].trackUri)
                     loadDataAndSetupCards()
                     if (trackList.size > 0 && count > 0) {  // Liste yeterince büyükse ve en az bir kaydırma yapılmışsa
                         trackList.removeAt(0)  // Liste başından eleman sil
@@ -210,7 +209,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
         // Listenin boş olup olmadığını kontrol et
         if (SpotifyApiManager.trackList.isNotEmpty()) {
             val currentTrack = SpotifyApiManager.trackList[count]
-            itemsList.add(ItemModel(currentTrack.imageUri, currentTrack.name, currentTrack.artistName, "Current Track"))
+            itemsList.add(ItemModel(currentTrack.imageUri, currentTrack.trackName, currentTrack.artistName, "Current Track"))
         } else {
             // Liste boşsa, bir hata mesajı göster veya uygun bir işlem yap
             Log.e(TAG, "Track listesi boş.")
