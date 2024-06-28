@@ -1,6 +1,8 @@
 package com.example.kotlin_spotify_random_like_app
 
 import TrackInfoList
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
@@ -24,6 +26,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.concurrent.thread
 
 
 class SpotifySwipeMusic : AppCompatActivity() {
@@ -48,14 +51,59 @@ class SpotifySwipeMusic : AppCompatActivity() {
         animationDrawable.setExitFadeDuration(5000)
         animationDrawable.start()
 
-        spotifyConnection = SpotifyConnection(this)
+        spotifyConnection = SpotifyConnection(this).apply {
+            onConnected = {
+                if (trackList.isNotEmpty()) {
+                    play(trackList[count].albumUri)
+                }
+            }
+            onConnectionFailed = { error ->
+                Toast.makeText(this@SpotifySwipeMusic, "Connection failed: ${error.message}", Toast.LENGTH_LONG).show()
+            }
+        }
         spotifyConnection.connectionStart()
 
-        SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
+        //SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
         initializeUI()
-        SpotifyApiManager.getNewTrackAndAddToList() // Veriyi asenkron olarak yükle
-        loadDataAndSetupCards()
+        trackListError()
+        //SpotifyApiManager.getNewTrackAndAddToList() // Veriyi asenkron olarak yükle
+        //loadDataAndSetupCards()
 
+    }
+
+
+
+    private fun trackListError(){
+        while (true) {
+            if (trackList.isNotEmpty() && trackList[count].albumUri.isNotEmpty()) {
+                //spotifyConnection.play(trackList[count].albumUri)
+                Log.e(TAG, "Track listesi boş değil.")
+
+                SpotifyApiManager.getNewTrackAndAddToList() // Veriyi asenkron olarak yükle
+                loadDataAndSetupCards()
+                break
+            } else {
+                SpotifyApiManager.getRefreshToken()
+                Thread.sleep(2000)
+                val sharedPreferences: SharedPreferences = applicationContext.getSharedPreferences("prefToken",
+                    Context.MODE_PRIVATE)
+                val refreshToken: SharedPreferences.Editor = sharedPreferences.edit()
+                refreshToken.putString("refresh_token", SpotifyApiManager.refreshToken).apply()
+
+                val accessSharedPreferences: SharedPreferences = applicationContext.getSharedPreferences("prefAccessToken",
+                    Context.MODE_PRIVATE)
+                val accessToken: SharedPreferences.Editor = accessSharedPreferences.edit()
+                accessToken.putString("access_token", SpotifyApiManager.refreshToken).apply()
+                Thread.sleep(2000)
+
+                Log.e(TAG, "Track listesi boş.")
+                Toast.makeText(
+                    this@SpotifySwipeMusic,
+                    "Track listesi yüklenemedi.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun initializeUI() {
@@ -68,21 +116,19 @@ class SpotifySwipeMusic : AppCompatActivity() {
             override fun onCardSwiped(direction: Direction?) {
                 Log.d(TAG, "onCardSwiped: p=${manager.topPosition} d=$direction")
                 if (direction == Direction.Right) {
-                    //SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
-
                     SpotifyApiManager.getNewTrackAndAddToList()
                     if (count < trackList.size - 1) {
                         count++
                     }
-                    spotifyConnection.play(trackList[count].albumUri)
-
+                    SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
                     //SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
+
                     loadDataAndSetupCards()
-                    Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
                     if (trackList.size > 0 && count > 0) {  // Liste yeterince büyükse ve en az bir kaydırma yapılmışsa
                         trackList.removeAt(0)  // Liste başından eleman sil
                         count--  // Silme işlemi sonrası, count değerini güncelle
                     }
+                    Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
                 } else if (direction == Direction.Top) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
                 } else if (direction == Direction.Left) {
@@ -93,7 +139,6 @@ class SpotifySwipeMusic : AppCompatActivity() {
 
                     SpotifyApiManager.play(trackList[count].albumUri,trackList[count].offset)
                     loadDataAndSetupCards()
-                    Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
                     if (trackList.size > 0 && count > 0) {  // Liste yeterince büyükse ve en az bir kaydırma yapılmışsa
                         trackList.removeAt(0)  // Liste başından eleman sil
                         count--  // Silme işlemi sonrası, count değerini güncelle
