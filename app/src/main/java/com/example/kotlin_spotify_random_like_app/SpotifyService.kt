@@ -11,6 +11,8 @@ import PlaylistRequest
 import RefreshTokenResponse
 import SpotifyTokenResponse
 import SpotifyUser
+import TrackResponse
+import Tracks
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
@@ -48,11 +50,12 @@ interface SpotifyService {
                 @Header("Authorization") authorization: String
         )
 
-        @GET("search?type=album")
+        @GET("search")
         suspend fun searchAlbum(
+                @Header("Authorization") authorization: String,
                 @Query("q") query: String,
-                @Header("Authorization") authorization: String
-        ): AlbumsResponse // SearchResult, API'den dönen verilere uygun bir sınıf olmalıdır.
+                @Query("type") type: String = "track"
+        ): TrackResponse // SearchResult, API'den dönen verilere uygun bir sınıf olmalıdır.
 
         @POST("users/{user_id}/playlists")
         suspend fun createPlaylist(

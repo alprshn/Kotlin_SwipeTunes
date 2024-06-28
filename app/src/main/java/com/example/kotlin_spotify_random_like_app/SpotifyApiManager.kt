@@ -97,16 +97,17 @@ object  SpotifyApiManager {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 Log.e("AcessToken Track", accessToken.toString())
-                val response = spotifyApi.service.searchAlbum("q=$randomSeed", "Bearer $accessToken")
-                if (response.albums.items.isNotEmpty()) {
-                    val album = response.albums.items[randomAlbum]
+                val response = spotifyApi.service.searchAlbum("Bearer $accessToken", "Cevapsız Sorular")
+                if (response.tracks.items.isNotEmpty()) {
+                    val track = response.tracks.items[0]// İlk track'i alıyoruz
+                    val album = response.tracks.items[0].album
                     val albumID = album.id
-                    randomOffset = (Math.random() * (album.total_tracks - 1)).toInt()
-                    infoAlbum(albumID, randomOffset)
+                    //randomOffset = (Math.random() * (album.total_tracks - 1)).toInt()
+                   // infoAlbum(albumID, randomOffset)
                     Log.e("Trac ACCESS", accessToken.toString())
-                    Log.e("Trac total tracks", album.total_tracks.toString())
+                    //Log.e("Trac total tracks", album.total_tracks.toString())
                     Log.e("aLBUM NAME", album.name)
-
+                    Log.e("Track NAME", track.name)
 
                 } else {
                     Log.e("Error", "No tracks found.")

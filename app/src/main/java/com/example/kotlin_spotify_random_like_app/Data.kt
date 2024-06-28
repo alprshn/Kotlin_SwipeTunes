@@ -140,6 +140,7 @@ data class TracksShowItem(
     val name: String,
     val type: String,
     val uri: String,
+    val album: List<Album>
 )
 
 data class Artist(
@@ -150,45 +151,54 @@ data class Artist(
     val type: String,
     val uri: String
 )
-
 data class Tracks(
+    val items: List<Track>
+)
+data class Track(
+    val album: Album,
+    val artists: List<Artist>,
+    val available_markets: List<String>,
+    val disc_number: Int,
+    val duration_ms: Int,
+    val explicit: Boolean,
+    val external_urls: ExternalUrls,
     val href: String,
-    val limit: Int,
-    val next: String?,
-    val offset: Int,
-    val previous: String?,
-    val total: Int,
-    val items: List<TrackItemler>
+    val id: String,
+    val name: String,
+    val popularity: Int,
+    val preview_url: String?,
+    val track_number: Int,
+    val type: String,
+    val uri: String,
+    val is_local: Boolean
 )
 
 
 data class Album(
-
     val href: String,
     val id: String,
     val images: List<Image>,
     val name: String,
-
     val type: String,
     val uri: String,
     val artists: List<Artist>,
     val tracks: Tracks,
-
     val genres: List<String>,
     val label: String,
     val popularity: Int
 )
-
+data class TrackResponse(
+    val tracks: Tracks
+)
 data class TrackItemler(
     val artists: List<Artist>,
     val explicit: Boolean,
     val href: String,
     val id: String,
-
     val name: String,
-
     val type: String,
     val uri: String,
+    val album: Album
 )
 
 
