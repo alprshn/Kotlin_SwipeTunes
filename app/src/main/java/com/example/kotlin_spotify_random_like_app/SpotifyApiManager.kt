@@ -69,7 +69,7 @@ object  SpotifyApiManager {
                     "Music ID",
                     getAlbum.tracks.items[randomOffset].id
                 )
-                trackList.add(TrackInfoList(getTracks.name, getAlbum.images[0].url, getAlbum.uri,randomOffset,"UnluADI" ))
+                trackList.add(TrackInfoList(getTracks.name, getAlbum.images[0].url, getAlbum.uri,"UnluADI" ))
                // Log.e("Music Name",trackList.toString())
 
                 // Name, AlbumUri, Image, Description, ArtistName
@@ -111,7 +111,7 @@ object  SpotifyApiManager {
                     //Log.e("Trac total tracks", album.total_tracks.toString())
                     Log.e("aLBUM NAME", album.name)
                     Log.e("Track NAME", track.name)
-                    trackList.add(TrackInfoList(track.name, album.images[0].url, track.uri,randomOffset,artist.name ))
+                    trackList.add(TrackInfoList(track.name, album.images[0].url, track.uri,artist.name ))
 
                 } else {
                     Log.e("Error", "No tracks found.")
