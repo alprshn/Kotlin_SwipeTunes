@@ -8,6 +8,7 @@
     tools:context=".MainActivity"
     android:id="@+id/mainLayout">
 
+
     <com.sanojpunchihewa.glowbutton.GlowButton
         android:id="@+id/button4"
         android:layout_width="250dp"
@@ -17,8 +18,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        app:glowColor="#FF4C98"
-        app:buttonColor="#FF0078"
+        app:glowColor="@color/glow_color"
+        app:buttonColor="@color/button_color"
         android:text="Play"
         android:fontFamily="@font/open_sans_bold"
         app:unpressedGlowSize="20dp"

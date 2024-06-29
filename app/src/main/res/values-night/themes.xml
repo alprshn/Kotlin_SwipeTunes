@@ -3,5 +3,7 @@
     <style name="Base.Theme.Kotlin_Spotify_Random_Like_App" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimaryDark">@color/status_bar_color</item>
+
     </style>
 </resources>
