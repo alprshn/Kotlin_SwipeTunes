@@ -20,8 +20,8 @@ class CreatePlayList(private val context: Context, private val spotifyApi: Spoti
         val savedPlaylistId = sharedPreferences.getString(PLAYLIST_ID_KEY, null)
         if (savedPlaylistId == null) {
         val playlistRequest = PlaylistRequest(
-            "Deneme",
-            "New playlist description",
+            "SwipeTunes",
+            "Her kaydırışınızda keşfedeceğiniz yeni ve rastgele şarkılar! Bu liste, müzik zevkinizi genişletmek için oluşturulmuştur.",
             false)
 
         val token = "Bearer ${accessToken.toString()}"

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
+import com.example.kotlin_spotify_random_like_app.SpotifyApiManager.accessToken
 import com.example.kotlin_spotify_random_like_app.SpotifyApiManager.trackList
 import com.spotify.android.appremote.api.SpotifyAppRemote
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -51,6 +52,8 @@ class SpotifySwipeMusic : AppCompatActivity() {
         animationDrawable.setExitFadeDuration(5000)
         animationDrawable.start()
 
+        var createPlayList: CreatePlayList = CreatePlayList(this,spotifyApi, "Bearer $accessToken")
+        createPlayList.create()
         spotifyConnection = SpotifyConnection(this).apply {
             onConnected = {
                 if (trackList.isNotEmpty()) {
