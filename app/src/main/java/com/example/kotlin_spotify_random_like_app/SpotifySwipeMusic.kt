@@ -46,13 +46,15 @@ class SpotifySwipeMusic : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spotify_swipe_music)
 
+        spotifyApi = SpotifyApi
+
         var constraintLayout: ConstraintLayout = findViewById(R.id.swipeLayout)
         var animationDrawable: AnimationDrawable = constraintLayout.background as AnimationDrawable
         animationDrawable.setEnterFadeDuration(2500)
         animationDrawable.setExitFadeDuration(5000)
         animationDrawable.start()
 
-        var createPlayList: CreatePlayList = CreatePlayList(this,spotifyApi, "Bearer $accessToken")
+        var createPlayList: CreatePlayList = CreatePlayList(this,spotifyApi, accessToken)
         createPlayList.create()
         spotifyConnection = SpotifyConnection(this).apply {
             onConnected = {
@@ -119,6 +121,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
             override fun onCardSwiped(direction: Direction?) {
                 Log.d(TAG, "onCardSwiped: p=${manager.topPosition} d=$direction")
                 if (direction == Direction.Right) {
+                    pullPlaylistID(trackList[count].trackUri)
                     SpotifyApiManager.getNewTrackAndAddToList()
                     if (count < trackList.size - 1) {
                         count++
@@ -130,6 +133,8 @@ class SpotifySwipeMusic : AppCompatActivity() {
                         trackList.removeAt(0)  // Liste başından eleman sil
                         count--  // Silme işlemi sonrası, count değerini güncelle
                     }
+
+
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
                 } else if (direction == Direction.Top) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
@@ -191,6 +196,13 @@ class SpotifySwipeMusic : AppCompatActivity() {
         cardStackView.itemAnimator = DefaultItemAnimator()
     }
 
+
+    fun pullPlaylistID(trackUri:String){
+        val sharedPreferences = getSharedPreferences("SpotifyPrefs", Context.MODE_PRIVATE)
+        val playListID = sharedPreferences.getString("playlist_id", null)
+        SpotifyApiManager.addItemPlaylist(playListID.toString(),trackUri)
+
+    }
     private fun loadDataAndSetupCards() {
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {

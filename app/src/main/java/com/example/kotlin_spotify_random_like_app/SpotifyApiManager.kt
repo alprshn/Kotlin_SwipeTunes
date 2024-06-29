@@ -1,5 +1,6 @@
 package com.example.kotlin_spotify_random_like_app
 
+import AddTracksRequest
 import CreatePlaylistID
 import Offset
 import PlayRequest
@@ -49,6 +50,17 @@ object  SpotifyApiManager {
     }
 
 
+
+    fun addItemPlaylist(playlistID: String, trackUri: String, position: Int = 0){
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val addTracksRequest = AddTracksRequest(uris = listOf(trackUri), position = position)
+                spotifyApi.service.addItemPlaylist(playlistID,"Bearer $accessToken",addTracksRequest)
+            } catch (e: Exception) {
+                Log.e("SpotifyApiManager", "Error: ${e.message}")
+            }
+        }
+    }
 
 
     private fun infoAlbum(albumID:String, randomOffset:Int){
