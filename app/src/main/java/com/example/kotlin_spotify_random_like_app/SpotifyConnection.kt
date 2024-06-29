@@ -52,4 +52,25 @@ class SpotifyConnection(private val context: Context) {
         }
     }
 
+
+    fun pause() {
+        spotifyAppRemote?.let {
+            it.playerApi.pause().setErrorCallback { error ->
+                Log.e("SpotifyConnection", "Error playing track:, error: ${error.message}")
+            }
+        } ?: run {
+            Log.e("SpotifyConnection", "Spotify App Remote is not connected yet.")
+        }
+    }
+
+    fun resume() {
+        spotifyAppRemote?.let {
+            it.playerApi.resume().setErrorCallback { error ->
+                Log.e("SpotifyConnection", "Error playing track:, error: ${error.message}")
+            }
+        } ?: run {
+            Log.e("SpotifyConnection", "Spotify App Remote is not connected yet.")
+        }
+    }
+
 }

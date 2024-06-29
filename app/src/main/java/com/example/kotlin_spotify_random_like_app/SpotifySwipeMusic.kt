@@ -77,7 +77,25 @@ class SpotifySwipeMusic : AppCompatActivity() {
     }
 
 
+    override fun onPause() {
+        super.onPause()
+        spotifyConnection.pause()
+    }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        spotifyConnection.pause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        spotifyConnection.pause()
+    }
     private fun trackListError(){
         while (true) {
             if (trackList.isNotEmpty() && trackList[count].trackUri.isNotEmpty()) {
