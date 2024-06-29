@@ -6,6 +6,7 @@ import Offset
 import PlayRequest
 import SpotifyTokenResponse
 import TrackInfoList
+import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
@@ -103,37 +104,66 @@ object  SpotifyApiManager {
             }
         }
     }
-    fun getNewTrackAndAddToList() {
+    fun getNewTrackAndAddToList(context: Context) {
         val randomSeed = generateQuery(2)
         val randomAlbum = (Math.random() * 19).toInt() // returns a random Integer from 0 to 20
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                Log.e("AcessToken Track", accessToken.toString())
-                val response = spotifyApi.service.searchAlbum("Bearer $accessToken", "$randomSeed")
-                if (response.tracks.items.isNotEmpty()) {
-                    val track = response.tracks.items[randomAlbum]// İlk track'i alıyoruz
-                    val album = response.tracks.items[randomAlbum].album
-                    val artist = response.tracks.items[randomAlbum].artists[0]
+        var retry = true
+            CoroutineScope(Dispatchers.IO).launch {
+                while (retry) {
+                    try {
+                        Log.e("AcessToken Track", accessToken.toString())
+                        val response =
+                            spotifyApi.service.searchAlbum("Bearer $accessToken", "$randomSeed")
+                        if (response.tracks.items.isNotEmpty()) {
+                            val track = response.tracks.items[randomAlbum]// İlk track'i alıyoruz
+                            val album = response.tracks.items[randomAlbum].album
+                            val artist = response.tracks.items[randomAlbum].artists[0]
 
-                    val albumID = album.id
+                            val albumID = album.id
 
-                    //randomOffset = (Math.random() * (album.total_tracks - 1)).toInt()
-                    //infoAlbum(albumID, randomOffset)
-                    Log.e("Trac ACCESS", accessToken.toString())
-                    //Log.e("Trac total tracks", album.total_tracks.toString())
-                    Log.e("aLBUM NAME", album.name)
-                    Log.e("Track NAME", track.name)
-                    trackList.add(TrackInfoList(track.name, album.images[0].url, track.uri,artist.name ))
+                            //randomOffset = (Math.random() * (album.total_tracks - 1)).toInt()
+                            //infoAlbum(albumID, randomOffset)
+                            Log.e("Trac ACCESS", accessToken.toString())
+                            //Log.e("Trac total tracks", album.total_tracks.toString())
+                            Log.e("aLBUM NAME", album.name)
+                            Log.e("Track NAME", track.name)
+                            trackList.add(
+                                TrackInfoList(
+                                    track.name,
+                                    album.images[0].url,
+                                    track.uri,
+                                    artist.name
+                                )
+                            )
 
-                } else {
-                    Log.e("Error", "No tracks found.")
+                        } else {
+                            Log.e("Error", "No tracks found.")
+                        }
+                        retry =false
+                    } catch (e: Exception) {
+                        Log.e("Error Track", "Error: ${e.message}")
+                        getRefreshToken()
+                        saveRefreshToken(context)
+                        saveAccessToken(context)
+                    }
                 }
-            } catch (e: Exception) {
-                Log.e("Error Track", "Error: ${e.message}")
             }
-        }
+    }
+    private fun saveRefreshToken(context: Context){ //Burada sharedPreferences'a refreshToken'i ekledik
+        val sharedPreferences:SharedPreferences = context.getSharedPreferences("prefToken",
+            AppCompatActivity.MODE_PRIVATE
+        )
+        val refreshToken: SharedPreferences.Editor = sharedPreferences.edit()
+        refreshToken.putString("refresh_token",SpotifyApiManager.refreshToken).apply()
     }
 
+    private fun saveAccessToken(context: Context){ //Burada sharedPreferences'a refreshToken'i ekledik
+        val sharedPreferences:SharedPreferences = context.getSharedPreferences("prefAccessToken",
+            AppCompatActivity.MODE_PRIVATE
+        )
+        val refreshToken: SharedPreferences.Editor = sharedPreferences.edit()
+        refreshToken.putString("access_token",SpotifyApiManager.accessToken).apply()
+    }
     private fun generateQuery( length: Int): String{
         var result = ""
         var characters = "abcdefghijklmnopqrstuvwxyz"

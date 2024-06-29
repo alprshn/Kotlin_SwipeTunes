@@ -84,7 +84,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
                 //spotifyConnection.play(trackList[count].albumUri)
                 Log.e(TAG, "Track listesi boş değil.")
 
-                SpotifyApiManager.getNewTrackAndAddToList() // Veriyi asenkron olarak yükle
+                SpotifyApiManager.getNewTrackAndAddToList(applicationContext) // Veriyi asenkron olarak yükle
                 loadDataAndSetupCards()
                 break
             } else {
@@ -122,7 +122,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
                 Log.d(TAG, "onCardSwiped: p=${manager.topPosition} d=$direction")
                 if (direction == Direction.Right) {
                     pullPlaylistID(trackList[count].trackUri)
-                    SpotifyApiManager.getNewTrackAndAddToList()
+                    SpotifyApiManager.getNewTrackAndAddToList(applicationContext)
                     if (count < trackList.size - 1) {
                         count++
                     }
@@ -139,7 +139,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
                 } else if (direction == Direction.Top) {
                     Toast.makeText(this@SpotifySwipeMusic, "Direction Top", Toast.LENGTH_SHORT).show()
                 } else if (direction == Direction.Left) {
-                    SpotifyApiManager.getNewTrackAndAddToList()
+                    SpotifyApiManager.getNewTrackAndAddToList(applicationContext)
                     if (count < trackList.size - 1) {
                         count++
                     }

@@ -58,7 +58,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 }
                 Thread.sleep(1000) // Örnek olarak 1 saniye bekleme simülasyonu
 
-                SpotifyApiManager.getNewTrackAndAddToList()
+                SpotifyApiManager.getNewTrackAndAddToList(applicationContext)
                 Thread.sleep(1000) // Örnek olarak 1 saniye bekleme simülasyonu
 
                 val sharedPrefToken = getSharedPreferences("prefToken", MODE_PRIVATE)
