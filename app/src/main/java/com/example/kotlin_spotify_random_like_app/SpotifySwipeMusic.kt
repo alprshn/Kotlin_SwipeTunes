@@ -84,7 +84,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
+        spotifyConnection.resume()
     }
 
     override fun onStop() {
