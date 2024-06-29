@@ -73,4 +73,14 @@ class SpotifyConnection(private val context: Context) {
         }
     }
 
+    fun queue(trackUri: String) {
+        spotifyAppRemote?.let {
+            it.playerApi.queue(trackUri).setErrorCallback { error ->
+                Log.e("SpotifyConnection", "Error playing track:, error: ${error.message}")
+            }
+        } ?: run {
+            Log.e("SpotifyConnection", "Spotify App Remote is not connected yet.")
+        }
+    }
+
 }

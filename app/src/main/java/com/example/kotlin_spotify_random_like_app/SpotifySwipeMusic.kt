@@ -141,6 +141,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
                 if (direction == Direction.Right) {
                     pullPlaylistID(trackList[count].trackUri)
                     SpotifyApiManager.getNewTrackAndAddToList(applicationContext)
+                    spotifyConnection.queue(trackList[count].trackUri)
                     if (count < trackList.size - 1) {
                         count++
                     }
