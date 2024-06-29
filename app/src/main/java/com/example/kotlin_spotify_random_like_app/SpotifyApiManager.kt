@@ -107,6 +107,7 @@ object  SpotifyApiManager {
     fun getNewTrackAndAddToList(context: Context) {
         val randomSeed = generateQuery(2)
         val randomAlbum = (Math.random() * 19).toInt() // returns a random Integer from 0 to 20
+        Log.e("Random Seed", randomSeed.toString())
         var retry = true
             CoroutineScope(Dispatchers.IO).launch {
                 while (retry) {
