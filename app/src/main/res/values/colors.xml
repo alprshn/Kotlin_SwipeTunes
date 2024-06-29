@@ -7,5 +7,9 @@
     <color name="button_color">#FF0078</color>
     <color name="start_background_color">#FFFFFF</color>
     <color name="status_bar_color">#FFFFFF</color>
+    <color name="animation_background_color_one">#03A9F4</color>
+    <color name="animation_background_color_two">#FF9800</color>
+    <color name="animation_background_color_three">#FFEB3B</color>
+    <color name="main_activity_text_color">#FFFFFF</color>
 
 </resources>
