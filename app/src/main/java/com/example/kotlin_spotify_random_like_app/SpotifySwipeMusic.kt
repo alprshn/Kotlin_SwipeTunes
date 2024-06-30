@@ -74,27 +74,37 @@ class SpotifySwipeMusic : AppCompatActivity() {
         //SpotifyApiManager.getNewTrackAndAddToList() // Veriyi asenkron olarak yükle
         //loadDataAndSetupCards()
 
+        //spotifyConnection.subscribeToPlayerState()
+        //Log.e("subscribeToPlayerState",spotifyConnection.subscribeToPlayerState().toString())
+
     }
 
 
     override fun onPause() {
         super.onPause()
         spotifyConnection.pause()
+        spotifyConnection.stopCheckingPlayerState()
+
     }
 
     override fun onResume() {
         super.onResume()
         spotifyConnection.resume()
+        spotifyConnection.startCheckingPlayerState()
     }
 
     override fun onStop() {
         super.onStop()
         spotifyConnection.pause()
+        spotifyConnection.stopCheckingPlayerState()
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
         spotifyConnection.pause()
+        spotifyConnection.stopCheckingPlayerState()
+
     }
     private fun trackListError(){
         while (true) {
@@ -207,7 +217,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
         manager.setMaxDegree(20.0f)
         manager.setDirections(Direction.HORIZONTAL)
         manager.setCanScrollHorizontal(true)
-        manager.setSwipeableMethod(SwipeableMethod.Manual)
+        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
         adapter = CardStackAdapter(addList())
         cardStackView.layoutManager = manager

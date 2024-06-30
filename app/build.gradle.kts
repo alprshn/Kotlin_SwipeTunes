@@ -102,6 +102,8 @@ dependencies {
     val lottieVersion = "3.4.0"
     implementation ("com.airbnb.android:lottie:$lottieVersion")
 
+    implementation ("com.ramotion.circlemenu:circle-menu:0.3.2")
+
 
 }
 

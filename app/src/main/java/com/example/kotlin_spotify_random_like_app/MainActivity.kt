@@ -20,6 +20,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.kotlin_spotify_random_like_app.databinding.ActivityMainBinding
+import com.ramotion.circlemenu.CircleMenuView
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         saveAccessToken()
         setupButtons()
         Log.e("denemeRefreshToken", SpotifyApiManager.refreshToken.toString())
-
+        CircularMenu()
 
     }
     private fun setupButtons() {
@@ -124,7 +125,30 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun CircularMenu(){
+        val circleMenu = binding.circleMenu
 
+        circleMenu.setEventListener(object : CircleMenuView.EventListener() {
+            override fun onMenuOpenAnimationStart(view: CircleMenuView) {
+
+            }
+            override fun onButtonClickAnimationStart(view: CircleMenuView, buttonIndex: Int) {
+                super.onButtonClickAnimationStart(view, buttonIndex)
+                when (buttonIndex) {
+                    0 -> {
+                        Toast.makeText(this@MainActivity, "Home Button Clicked", Toast.LENGTH_SHORT).show()
+                        // Diğer işlemler burada
+                    }
+                    1 -> {
+                        Toast.makeText(this@MainActivity, "pLAVE Button Clicked", Toast.LENGTH_SHORT).show()
+                        // Diğer işlemler burada
+                    }
+                }
+            }
+        })
+
+
+    }
 
 
 

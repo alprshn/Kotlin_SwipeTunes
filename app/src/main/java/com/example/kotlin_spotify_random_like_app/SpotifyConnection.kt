@@ -1,11 +1,16 @@
 package com.example.kotlin_spotify_random_like_app
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
+import com.spotify.protocol.types.PlayerState
 import com.spotify.protocol.types.Track
+import com.yuyakaido.android.cardstackview.CardStackLayoutManager
+import com.yuyakaido.android.cardstackview.Direction
 
 
 class SpotifyConnection(private val context: Context) {
@@ -16,6 +21,9 @@ class SpotifyConnection(private val context: Context) {
      var spotifyAppRemote: SpotifyAppRemote? = null
     var onConnected: (() -> Unit)? = null
     var onConnectionFailed: ((Throwable) -> Unit)? = null
+    private val handler = Handler(Looper.getMainLooper())
+    private var checkPlayerStateRunnable: Runnable? = null
+
     fun connectionStart(){
         Log.e("MainActivity", "Oldu bu iis")
 
@@ -30,7 +38,7 @@ class SpotifyConnection(private val context: Context) {
                 // Now you can start interacting with App Remote
                 //connected()
                 onConnected?.invoke() // Bağlantı başarılı callback'i çağır
-
+                startCheckingPlayerState() // Bağlantıdan sonra oyuncu durumunu kontrol etmeye başla
             }
 
             override fun onFailure(throwable: Throwable) {
@@ -83,4 +91,38 @@ class SpotifyConnection(private val context: Context) {
         }
     }
 
+
+
+    fun startCheckingPlayerState() {
+        checkPlayerStateRunnable = Runnable {
+            spotifyAppRemote?.let {
+                it.playerApi.playerState
+                    .setResultCallback { playerState ->
+                        val track = playerState.track
+                        val currentPosition = playerState.playbackPosition
+                        val duration = track.duration
+
+                        Log.e("TAG", "Şu anda çalıyor: ${track.name} by ${track.artist.name}")
+                        Log.e("TAG", "Mevcut konum: ${currentPosition}ms / ${duration}ms")
+                        onTrackEnded(0)
+
+                        if (currentPosition >= duration - 1000 ) {
+                            onTrackEnded(2)
+                        }
+                    }
+                    .setErrorCallback { throwable ->
+                        Log.e("TAG", "Oyuncu durumu alınamadı", throwable)
+                    }
+            }
+            handler.postDelayed(checkPlayerStateRunnable!!, 1000) // Her saniye kontrol et
+        }
+        handler.post(checkPlayerStateRunnable!!)
+    }
+
+    fun onTrackEnded(number:Int):Int {
+        return number
+    }
+    fun stopCheckingPlayerState() {
+        checkPlayerStateRunnable?.let { handler.removeCallbacks(it) }
+    }
 }

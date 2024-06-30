@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="icons">
+        <item>@drawable/baseline_dark_mode_24</item>
+        <item>@drawable/shut_down</item>
+    </array>
+
+    <array name="colors">
+        <item>@color/spotify_foreground_color</item>
+        <item>@color/animation_background_color_one</item>
+    </array>
+</resources>
