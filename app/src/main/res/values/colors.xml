@@ -10,6 +10,10 @@
     <color name="animation_background_color_one">#03A9F4</color>
     <color name="animation_background_color_two">#FF9800</color>
     <color name="animation_background_color_three">#FFEB3B</color>
-    <color name="main_activity_text_color">#FFFFFF</color>
+    <color name="text_color">#FFFFFF</color>
+    <color name="spotify_background_color">#FFFFFF</color>
+    <color name="spotify_foreground_color">#FF0078</color>
+    <color name="started_screen_button_color">#FF0078</color>
+
 
 </resources>

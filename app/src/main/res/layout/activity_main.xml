@@ -25,7 +25,7 @@
         app:unpressedGlowSize="20dp"
         app:pressedGlowSize="25dp"
         android:textSize="19dp"
-        android:textColor="@color/main_activity_text_color"
+        android:textColor="@color/text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
