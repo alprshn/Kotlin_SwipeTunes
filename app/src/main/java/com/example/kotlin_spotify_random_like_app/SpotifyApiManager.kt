@@ -106,7 +106,6 @@ object  SpotifyApiManager {
     }
     fun getNewTrackAndAddToList(context: Context) {
         val randomSeed = generateQuery(2)
-        val randomAlbum = (Math.random() * 19).toInt() // returns a random Integer from 0 to 20
         Log.e("Random Seed", randomSeed.toString())
         var retry = true
             CoroutineScope(Dispatchers.IO).launch {
@@ -115,10 +114,13 @@ object  SpotifyApiManager {
                         Log.e("AcessToken Track", accessToken.toString())
                         val response =
                             spotifyApi.service.searchAlbum("Bearer $accessToken", "$randomSeed")
+                        val randomTrackNumber = (Math.random() * response.tracks.limit-1).toInt() // returns a random Integer from 0 to 20
+                        Log.e("randomTrackNumber Track", randomTrackNumber.toString())
                         if (response.tracks.items.isNotEmpty()) {
-                            val track = response.tracks.items[randomAlbum]// İlk track'i alıyoruz
-                            val album = response.tracks.items[randomAlbum].album
-                            val artist = response.tracks.items[randomAlbum].artists[0]
+
+                            val track = response.tracks.items[randomTrackNumber]// İlk track'i alıyoruz
+                            val album = response.tracks.items[randomTrackNumber].album
+                            val artist = response.tracks.items[randomTrackNumber].artists[0]
 
                             val albumID = album.id
 

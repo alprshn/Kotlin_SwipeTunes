@@ -152,7 +152,9 @@ data class Artist(
     val uri: String
 )
 data class Tracks(
-    val items: List<Track>
+    val items: List<Track>,
+    val total: Int,
+    val limit: Int
 )
 data class Track(
     val album: Album,
