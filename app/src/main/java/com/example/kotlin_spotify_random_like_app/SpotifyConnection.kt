@@ -102,12 +102,13 @@ class SpotifyConnection(private val context: Context) {
                         val currentPosition = playerState.playbackPosition
                         val duration = track.duration
 
+
                         Log.e("TAG", "Şu anda çalıyor: ${track.name} by ${track.artist.name}")
                         Log.e("TAG", "Mevcut konum: ${currentPosition}ms / ${duration}ms")
-                        onTrackEnded(0)
+
 
                         if (currentPosition >= duration - 1000 ) {
-                            onTrackEnded(2)
+                            onTrackEnded()
                         }
                     }
                     .setErrorCallback { throwable ->
@@ -119,8 +120,8 @@ class SpotifyConnection(private val context: Context) {
         handler.post(checkPlayerStateRunnable!!)
     }
 
-    fun onTrackEnded(number:Int):Int {
-        return number
+    fun onTrackEnded() {
+        pause()
     }
     fun stopCheckingPlayerState() {
         checkPlayerStateRunnable?.let { handler.removeCallbacks(it) }

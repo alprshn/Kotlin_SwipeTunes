@@ -1,6 +1,6 @@
 package com.example.kotlin_spotify_random_like_app
 
-import TrackInfoList
+import android.app.NotificationManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.drawable.AnimationDrawable
@@ -27,7 +27,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.concurrent.thread
 
 
 class SpotifySwipeMusic : AppCompatActivity() {
@@ -76,7 +75,8 @@ class SpotifySwipeMusic : AppCompatActivity() {
 
         //spotifyConnection.subscribeToPlayerState()
         //Log.e("subscribeToPlayerState",spotifyConnection.subscribeToPlayerState().toString())
-
+        val ntfManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        ntfManager.cancelAll()
     }
 
 
