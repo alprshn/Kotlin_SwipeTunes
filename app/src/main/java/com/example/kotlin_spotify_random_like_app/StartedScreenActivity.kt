@@ -75,6 +75,13 @@ class StartedScreenActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkIsSpotifyInstalled(){
+        if (spotifyAuth.checkSpotifyInstalled(this)){
+
+        }else{
+
+        }
+    }
     private fun checkFirstTimeLaunch() {
         val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
         val isFirstTime = sharedPref.getBoolean(firstTimeKey, true)
@@ -196,7 +203,8 @@ class StartedScreenActivity : AppCompatActivity() {
             } else {
                 if (dialog.isShowing) {
                     spotifyAuth?.connectionStart()
-                    dialog.dismiss()  // 'hide' yerine 'dismiss' kullanmak genellikle daha doğru bir yaklaşımdır.
+                    dialog.dismiss()
+// 'hide' yerine 'dismiss' kullanmak genellikle daha doğru bir yaklaşımdır.
                 }
             }
         }

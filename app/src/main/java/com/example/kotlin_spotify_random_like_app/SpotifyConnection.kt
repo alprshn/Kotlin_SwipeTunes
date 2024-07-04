@@ -92,6 +92,9 @@ class SpotifyConnection(private val context: Context) {
     }
 
 
+    fun checkSpotifyInstalled(context: Context): Boolean {
+        return SpotifyAppRemote.isSpotifyInstalled(context)
+    }
 
     fun startCheckingPlayerState() {
         checkPlayerStateRunnable = Runnable {
