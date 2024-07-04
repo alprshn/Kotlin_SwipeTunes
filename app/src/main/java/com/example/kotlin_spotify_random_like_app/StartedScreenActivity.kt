@@ -29,6 +29,7 @@ class StartedScreenActivity : AppCompatActivity() {
     private lateinit var dots: Array<TextView>
     private lateinit var spotifyAuth: SpotifyConnection
     private lateinit var spotifyApi: SpotifyApi
+    private lateinit var networkManager: NetworkManager
 
     private val prefsName = "AppPrefs"
     private val splashName= "SplashPrefs"
@@ -47,13 +48,16 @@ class StartedScreenActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        initNetworkDialog()
+        networkManager = NetworkManager(this)
+
+        setupSpotifyConnection()
+
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         viewPager = findViewById(R.id.slider)
         dotsLayout = findViewById(R.id.dots)
         viewPager.adapter = SliderAdapter(this)
         viewPager.addOnPageChangeListener(changeListener)
-        checkConnection()
+        //checkConnection()
         addDots(0)
         checkFirstTimeLaunch()
         checkAutoLogin()  // Otomatik giriş kontrolü
@@ -130,8 +134,13 @@ class StartedScreenActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        spotifyAuth?.connectionStart()
+        if (networkManager.value == true) {
+            spotifyAuth?.connectionStart()
+        } else {
+            initNetworkDialog()
+        }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE) {
@@ -169,36 +178,8 @@ class StartedScreenActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun checkConnection() {
-        if (!isOnline()) {
-            Toast.makeText(this, "İnternet bağlantısı yok!", Toast.LENGTH_SHORT).show()
-            findViewById<Button>(R.id.loginButton).text = "Refresh"
-            findViewById<Button>(R.id.loginButton).setOnClickListener {
-                val intent = Intent(this, StartedScreenActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
 
 
-        } else {
-            Toast.makeText(this, "İnternet bağlantınız aktif!", Toast.LENGTH_SHORT).show()
-            findViewById<Button>(R.id.loginButton).text = "Log in with Spotify"
-            setupSpotifyConnection()
-        }
-    }
-
-
-    private fun isOnline(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork ?: return false
-        val actNw = connectivityManager.getNetworkCapabilities(network) ?: return false
-        return when {
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-            else -> false
-        }
-    }
 
     private fun initNetworkDialog() {
         val dialog = MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Rounded)
@@ -214,6 +195,7 @@ class StartedScreenActivity : AppCompatActivity() {
                 }
             } else {
                 if (dialog.isShowing) {
+                    spotifyAuth?.connectionStart()
                     dialog.dismiss()  // 'hide' yerine 'dismiss' kullanmak genellikle daha doğru bir yaklaşımdır.
                 }
             }
