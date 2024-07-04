@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
@@ -46,7 +47,7 @@ class StartedScreenActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        initNetworkDialog()
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         viewPager = findViewById(R.id.slider)
         dotsLayout = findViewById(R.id.dots)
@@ -196,6 +197,26 @@ class StartedScreenActivity : AppCompatActivity() {
             actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
             actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
             else -> false
+        }
+    }
+
+    private fun initNetworkDialog() {
+        val dialog = MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Rounded)
+            .setView(R.layout.custom_dialog)
+            .setCancelable(false)
+            .create()
+
+        val networkManager = NetworkManager(this)
+        networkManager.observe(this) {
+            if (!it) {
+                if (!dialog.isShowing) {
+                    dialog.show()
+                }
+            } else {
+                if (dialog.isShowing) {
+                    dialog.dismiss()  // 'hide' yerine 'dismiss' kullanmak genellikle daha doğru bir yaklaşımdır.
+                }
+            }
         }
     }
 

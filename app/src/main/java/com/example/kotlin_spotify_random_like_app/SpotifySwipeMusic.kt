@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import com.example.kotlin_spotify_random_like_app.SpotifyApiManager.accessToken
 import com.example.kotlin_spotify_random_like_app.SpotifyApiManager.trackList
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.spotify.android.appremote.api.SpotifyAppRemote
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
@@ -44,7 +45,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spotify_swipe_music)
-
+        initNetworkDialog()
         spotifyApi = SpotifyApi
 
         var constraintLayout: ConstraintLayout = findViewById(R.id.swipeLayout)
@@ -270,5 +271,26 @@ class SpotifySwipeMusic : AppCompatActivity() {
         val hasil: DiffUtil.DiffResult = DiffUtil.calculateDiff(callback)
         adapter.setItems(baru)
         hasil.dispatchUpdatesTo(adapter)
+    }
+
+
+    private fun initNetworkDialog() {
+        val dialog = MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Rounded)
+            .setView(R.layout.custom_dialog)
+            .setCancelable(false)
+            .create()
+
+        val networkManager = NetworkManager(this)
+        networkManager.observe(this) {
+            if (!it) {
+                if (!dialog.isShowing) {
+                    dialog.show()
+                }
+            } else {
+                if (dialog.isShowing) {
+                    dialog.dismiss()  // 'hide' yerine 'dismiss' kullanmak genellikle daha doğru bir yaklaşımdır.
+                }
+            }
+        }
     }
 }

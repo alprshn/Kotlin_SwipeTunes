@@ -54,23 +54,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val dialog = MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Rounded)
-            .setView(R.layout.custom_dialog)
-            .setCancelable(false)
-            .create()
-
-        val networkManager = NetworkManager(this)
-        networkManager.observe(this){
-            if (!it){
-                if (!dialog.isShowing){
-                    dialog.show()
-                }
-            }
-            else{
-                if (dialog.isShowing)
-                    dialog.hide()
-            }
-        }
+        initNetworkDialog()
         animateBackground()
 
 
@@ -175,6 +159,24 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    private fun initNetworkDialog() {
+        val dialog = MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Rounded)
+            .setView(R.layout.custom_dialog)
+            .setCancelable(false)
+            .create()
 
+        val networkManager = NetworkManager(this)
+        networkManager.observe(this) {
+            if (!it) {
+                if (!dialog.isShowing) {
+                    dialog.show()
+                }
+            } else {
+                if (dialog.isShowing) {
+                    dialog.dismiss()  // 'hide' yerine 'dismiss' kullanmak genellikle daha doğru bir yaklaşımdır.
+                }
+            }
+        }
+    }
 
 }
