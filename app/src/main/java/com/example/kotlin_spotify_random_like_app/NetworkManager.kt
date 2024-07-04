@@ -3,6 +3,8 @@ package com.example.kotlin_spotify_random_like_app
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import androidx.lifecycle.LiveData
 
 class NetworkManager(contex:Context): LiveData<Boolean>() {
@@ -23,6 +25,23 @@ class NetworkManager(contex:Context): LiveData<Boolean>() {
             super.onLost(network)
             postValue(false)
         }
-
     }
+
+    private fun checkNetworkConnectivity(){
+        val network = connectivityManager.activeNetwork
+        if (network == null){
+            postValue(false)
+        }
+
+        val requestBuilder = NetworkRequest.Builder().apply {
+            addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+            addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+            addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+            addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
+
+
+        }
+    }
+
 }
