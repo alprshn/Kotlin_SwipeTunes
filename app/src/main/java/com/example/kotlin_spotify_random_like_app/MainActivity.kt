@@ -58,19 +58,22 @@ class MainActivity : AppCompatActivity() {
             .setView(R.layout.custom_dialog)
             .setCancelable(false)
             .create()
-        animateBackground()
 
         val networkManager = NetworkManager(this)
         networkManager.observe(this){
             if (!it){
                 if (!dialog.isShowing){
                     dialog.show()
-                }else{
-                    if (dialog.isShowing)
-                        dialog.hide()
                 }
             }
+            else{
+                if (dialog.isShowing)
+                    dialog.hide()
+            }
         }
+        animateBackground()
+
+
 
         //val sharedPreferences: SharedPreferences = getSharedPreferences("tokenShared", MODE_PRIVATE)
         //val storedAccessToken = sharedPreferences.getString("access_token", null)
