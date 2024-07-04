@@ -79,12 +79,22 @@ class StartedScreenActivity : AppCompatActivity() {
 
     private fun checkIsSpotifyInstalled(){
         val spotifyInstalledLiveData = SpotifyInstalledLiveData(this)
-
+        val dialog = MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Rounded)
+            .setView(R.layout.no_install_spotify)
+            .setCancelable(false)
+            .create()
         spotifyInstalledLiveData.observe(this, Observer { isInstalled ->
             if (isInstalled) {
-                // Spotify uygulaması yüklü
+                if (dialog.isShowing) {
+                    spotifyAuth?.connectionStart()
+                    dialog.dismiss()
+// 'hide' yerine 'dismiss' kullanmak genellikle daha doğru bir yaklaşımdır.
+                }
                 Log.e("Spotify uygulaması yüklü.","Spotify uygulaması yüklü")
             } else {
+                if (!dialog.isShowing) {
+                    dialog.show()
+                }
                 // Spotify uygulaması yüklü değil
                 Log.e("Spotify uygulaması yüklü değil.","Spotify uygulaması yüklü değil")
                 //println("Spotify uygulaması yüklü değil.")
