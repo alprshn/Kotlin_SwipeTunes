@@ -39,9 +39,11 @@ class NetworkManager(contex:Context): LiveData<Boolean>() {
             addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
+        }.build()
 
+        connectivityManager.registerNetworkCallback(requestBuilder, networkCallback)
 
-        }
     }
+
 
 }
