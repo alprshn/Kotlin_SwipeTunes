@@ -59,6 +59,19 @@ class MainActivity : AppCompatActivity() {
             .setCancelable(false)
             .create()
         animateBackground()
+
+        val networkManager = NetworkManager(this)
+        networkManager.observe(this){
+            if (!it){
+                if (!dialog.isShowing){
+                    dialog.show()
+                }else{
+                    if (dialog.isShowing)
+                        dialog.hide()
+                }
+            }
+        }
+
         //val sharedPreferences: SharedPreferences = getSharedPreferences("tokenShared", MODE_PRIVATE)
         //val storedAccessToken = sharedPreferences.getString("access_token", null)
         //val storedRefreshToken = sharedPreferences.getString("refresh_token", null)
