@@ -5,6 +5,7 @@ import Offset
 import PlayRequest
 import PlaylistRequest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.drawable.AnimationDrawable
@@ -20,6 +21,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.kotlin_spotify_random_like_app.databinding.ActivityMainBinding
+import com.google.android.material.R.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ramotion.circlemenu.CircleMenuView
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
@@ -44,15 +47,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainActivityViewModel
    // private lateinit var spotifyService: SpotifyService
     // Initialize SpotifyApiManager
-
+    private lateinit var dialog:AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val dialog = MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Rounded)
+            .setView(R.layout.custom_dialog)
+            .setCancelable(false)
+            .create()
         animateBackground()
-
         //val sharedPreferences: SharedPreferences = getSharedPreferences("tokenShared", MODE_PRIVATE)
         //val storedAccessToken = sharedPreferences.getString("access_token", null)
         //val storedRefreshToken = sharedPreferences.getString("refresh_token", null)
