@@ -120,8 +120,12 @@ object  SpotifyApiManager {
 
                             val track = response.tracks.items[randomTrackNumber]// İlk track'i alıyoruz
                             val album = response.tracks.items[randomTrackNumber].album
-                            val artist = response.tracks.items[randomTrackNumber].artists[0]
-
+                            //val artist = response.tracks.items[randomTrackNumber].artists[0]
+                            var artists = ""
+                            response.tracks.items[randomTrackNumber].artists.forEach { artist ->
+                                artists += "${artist.name}, "
+                            }
+                            artists = artists.trimEnd(',', ' ')
                             val albumID = album.id
 
                             //randomOffset = (Math.random() * (album.total_tracks - 1)).toInt()
@@ -135,7 +139,7 @@ object  SpotifyApiManager {
                                     track.name,
                                     album.images[0].url,
                                     track.uri,
-                                    artist.name
+                                    artists
                                 )
                             )
 

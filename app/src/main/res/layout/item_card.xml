@@ -40,7 +40,14 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:textSize="26sp"/>
+            android:textSize="26sp"
+            android:layout_gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:scrollHorizontally="true"
+
+            />
 
         <TextView
             android:id="@+id/item_age"
@@ -48,7 +55,13 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:scrollHorizontally="true"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            />
 
         <TextView
             android:id="@+id/item_city"

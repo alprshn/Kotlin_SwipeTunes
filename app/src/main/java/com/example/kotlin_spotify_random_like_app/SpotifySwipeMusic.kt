@@ -254,7 +254,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
         // Listenin boş olup olmadığını kontrol et
         if (SpotifyApiManager.trackList.isNotEmpty()) {
             val currentTrack = SpotifyApiManager.trackList[count]
-            itemsList.add(ItemModel(currentTrack.imageUri, currentTrack.trackName, currentTrack.artistName, "Current Track"))
+            itemsList.add(ItemModel(currentTrack.imageUri, currentTrack.trackName, currentTrack.artistName, ""))
         } else {
             // Liste boşsa, bir hata mesajı göster veya uygun bir işlem yap
             Log.e(TAG, "Track listesi boş.")

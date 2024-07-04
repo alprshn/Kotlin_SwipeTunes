@@ -33,8 +33,10 @@ class CardStackAdapter(private var items: List<ItemModel>) : RecyclerView.Adapte
             nama.text = data.getNama()
             usia.text = data.getUsia()
             kota.text = data.getKota()
-
+            usia.isSelected = true
+            nama.isSelected = true
         }
+
 
 
     }
