@@ -10,6 +10,15 @@ import androidx.lifecycle.LiveData
 class NetworkManager(contex:Context): LiveData<Boolean>() {
     private var connectivityManager = contex.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+    override fun onActive() {
+        super.onActive()
+        checkNetworkConnectivity()
+    }
+
+    override fun onInactive() {
+        super.onInactive()
+        connectivityManager.unregisterNetworkCallback(networkCallback)
+    }
     private val networkCallback = object : ConnectivityManager.NetworkCallback(){
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
