@@ -105,6 +105,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
         super.onDestroy()
         spotifyConnection.pause()
         spotifyConnection.stopCheckingPlayerState()
+        spotifyConnection.diconnect()
 
     }
     private fun trackListError(){

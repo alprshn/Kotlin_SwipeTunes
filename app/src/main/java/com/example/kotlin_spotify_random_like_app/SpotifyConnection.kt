@@ -100,6 +100,7 @@ class SpotifyConnection(private val context: Context) {
          SpotifyAppRemote.disconnect(spotifyAppRemote)
     }
 
+
     fun startCheckingPlayerState() {
         checkPlayerStateRunnable = Runnable {
             spotifyAppRemote?.let {
