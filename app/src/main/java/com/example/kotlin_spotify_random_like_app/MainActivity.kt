@@ -45,7 +45,12 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainActivityViewModel
-   // private lateinit var spotifyService: SpotifyService
+    private lateinit var spotifyConnection: SpotifyConnection
+    private val prefsName = "AppPrefs"
+    private val splashName= "SplashPrefs"
+    private val splashFirst= "FirstLogin"
+    private val firstTimeKey = "FirstTime"
+    // private lateinit var spotifyService: SpotifyService
     // Initialize SpotifyApiManager
     private lateinit var dialog:AlertDialog
 
@@ -53,6 +58,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        spotifyConnection = SpotifyConnection(this)
+
+        spotifyConnection.connectionStart()
 
         initNetworkDialog()
         animateBackground()
@@ -143,10 +152,16 @@ class MainActivity : AppCompatActivity() {
                 when (buttonIndex) {
                     0 -> {
                         Toast.makeText(this@MainActivity, "Home Button Clicked", Toast.LENGTH_SHORT).show()
-                        // Diğer işlemler burada
-                    }
+                                        }
                     1 -> {
-                        Toast.makeText(this@MainActivity, "pLAVE Button Clicked", Toast.LENGTH_SHORT).show()
+
+                        val splashSharedPref = getSharedPreferences(splashName, MODE_PRIVATE)
+                        splashSharedPref.edit().putBoolean(splashFirst, false).apply()
+                        val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
+                        sharedPref.edit().putBoolean(firstTimeKey, true).apply()
+                        spotifyConnection.diconnect()
+                        startStartedActivity()
+                        Toast.makeText(this@MainActivity, "Sign Out Button Clicked", Toast.LENGTH_SHORT).show()
                         // Diğer işlemler burada
                     }
                 }
@@ -158,7 +173,11 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
+    private fun startStartedActivity() {
+        val intent = Intent(this, StartedScreenActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
     private fun initNetworkDialog() {
         val dialog = MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Rounded)
             .setView(R.layout.custom_dialog)

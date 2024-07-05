@@ -96,6 +96,10 @@ class SpotifyConnection(private val context: Context) {
         return SpotifyAppRemote.isSpotifyInstalled(context)
     }
 
+    fun diconnect() {
+         SpotifyAppRemote.disconnect(spotifyAppRemote)
+    }
+
     fun startCheckingPlayerState() {
         checkPlayerStateRunnable = Runnable {
             spotifyAppRemote?.let {
