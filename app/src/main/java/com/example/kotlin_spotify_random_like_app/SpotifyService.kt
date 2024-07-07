@@ -1,10 +1,7 @@
 package com.example.kotlin_spotify_random_like_app
 
 import AddTracksRequest
-import Album
 import CreatePlaylistID
-import PlayRequest
-import PlayingTrack
 import Playlist
 import PlaylistRequest
 import RefreshTokenResponse
@@ -39,12 +36,6 @@ interface SpotifyService {
                 @Header("Authorization") authorization: String
         )
 
-        @PUT("me/player/play")
-        @Headers("Content-Type: application/json")
-        suspend fun play(
-                @Body body: PlayRequest,
-                @Header("Authorization") authorization: String
-        )
 
         @GET("search")
         suspend fun searchAlbum(
@@ -61,27 +52,17 @@ interface SpotifyService {
         ):CreatePlaylistID
 
         @GET("me")
-        suspend fun userID(
+        suspend fun getUserProfile(
                 @Header("Authorization") token: String,
         ):SpotifyUser
 
         @POST("playlists/{playlist_id}/tracks")
-        suspend fun addItemPlaylist(
+        suspend fun addItemToPlaylist(
                 @Path("playlist_id") playlistId: String,
                 @Header("Authorization") token: String,
                 @Body addTracksRequest: AddTracksRequest
         )
 
-        @GET ("me/player/currently-playing")
-        suspend fun getCurrentPlaying(
-                @Header("Authorization") token: String,
-        ):PlayingTrack
-
-        @GET("albums/{album_id}")
-        suspend fun getAlbum(
-                @Path("album_id") albumId: String,
-                @Header("Authorization") authToken: String
-        ):Album
 
         @POST("/api/token")
         @Headers("Content-Type: application/x-www-form-urlencoded")

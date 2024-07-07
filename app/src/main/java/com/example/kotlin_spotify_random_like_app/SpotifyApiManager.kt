@@ -55,7 +55,7 @@ object  SpotifyApiManager {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val addTracksRequest = AddTracksRequest(uris = listOf(trackUri), position = position)
-                spotifyApi.service.addItemPlaylist(playlistID,"Bearer $accessToken",addTracksRequest)
+                spotifyApi.service.addItemToPlaylist(playlistID,"Bearer $accessToken",addTracksRequest)
             } catch (e: Exception) {
                 Log.e("SpotifyApiManager", "Error: ${e.message}")
             }

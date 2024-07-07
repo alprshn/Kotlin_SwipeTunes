@@ -28,7 +28,7 @@ class CreatePlayList(private val context: Context, private val spotifyApi: Spoti
 
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    val userIdResponse = spotifyApi.service.userID(authToken)
+                    val userIdResponse = spotifyApi.service.getUserProfile(authToken)
                     Log.e("userID", userIdResponse.id.toString())
 
                     val createdPlaylistResponse = spotifyApi.service.createPlaylist(userIdResponse.id, authToken, playlistRequest)
