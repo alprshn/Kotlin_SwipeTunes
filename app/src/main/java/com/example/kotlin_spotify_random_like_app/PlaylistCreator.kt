@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CreatePlayList(private val context: Context, private val spotifyApi: SpotifyApi, private val accessToken: String) {
+class PlaylistCreator(private val context: Context, private val spotifyApi: SpotifyApi, private val accessToken: String) {
     companion object {
         private const val PREFS_NAME = "SpotifyPrefs"
         private const val PLAYLIST_ID_KEY = "playlist_id"

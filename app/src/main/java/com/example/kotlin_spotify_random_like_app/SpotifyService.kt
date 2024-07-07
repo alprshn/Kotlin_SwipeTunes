@@ -19,10 +19,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface SpotifyService {
-
-
-
-
         @GET("search")
         suspend fun searchTrack(
                 @Header("Authorization") authorization: String,

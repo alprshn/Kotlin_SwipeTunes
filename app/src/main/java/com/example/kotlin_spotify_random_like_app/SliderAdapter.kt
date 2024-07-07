@@ -15,7 +15,6 @@ class SliderAdapter(private val context:Context): PagerAdapter() {
 
     var images: ArrayList<Int> = arrayListOf(R.drawable.duman)
     var headings: ArrayList<Int> = arrayListOf(12)
-    var Descriptions: ArrayList<Int> = arrayListOf(12,21,12,1)
     lateinit var layoutInflater:LayoutInflater
     override fun getCount(): Int {
         return headings.size

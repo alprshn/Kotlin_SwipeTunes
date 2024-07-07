@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -20,11 +19,11 @@ import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
 
 
-class StartedScreenActivity : AppCompatActivity() {
+class StartScreenActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager
     private lateinit var dotsLayout: LinearLayout
     private lateinit var dots: Array<TextView>
-    private lateinit var spotifyAuth: SpotifyConnection
+    private lateinit var spotifyAuth: SpotifyConnectionManager
     private lateinit var spotifyApi: SpotifyApi
     private lateinit var networkManager: NetworkManager
 
@@ -64,7 +63,7 @@ class StartedScreenActivity : AppCompatActivity() {
         addDots(0)
     }
     private fun setupSpotifyConnection() {
-        spotifyAuth = SpotifyConnection(this)
+        spotifyAuth = SpotifyConnectionManager(this)
         spotifyApi = SpotifyApi
         SpotifyApiManager.initialize(spotifyApi)
 
@@ -77,12 +76,12 @@ class StartedScreenActivity : AppCompatActivity() {
     }
 
     private fun checkIsSpotifyInstalled(){
-        val spotifyInstalledLiveData = SpotifyInstalledLiveData(this)
+        val spotifyInstallationStatusLiveData = SpotifyInstallationStatusLiveData(this)
         val dialog = MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Rounded)
             .setView(R.layout.no_install_spotify)
             .setCancelable(false)
             .create()
-        spotifyInstalledLiveData.observe(this, Observer { isInstalled ->
+        spotifyInstallationStatusLiveData.observe(this, Observer { isInstalled ->
             if (isInstalled) {
                 if (dialog.isShowing) {
                     spotifyAuth?.connectionStart()

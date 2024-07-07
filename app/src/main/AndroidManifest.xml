@@ -20,10 +20,10 @@
             android:exported="false"
             android:theme="@style/AppTheme.MainActivity"/>
         <activity
-            android:name=".StartedScreenActivity"
+            android:name=".StartScreenActivity"
             android:exported="false" />
         <activity
-            android:name=".SpotifySwipeMusic"
+            android:name=".SpotifySwipeMusicActivity"
             android:exported="false"
             android:theme="@style/AppTheme.MainActivity"/>
 

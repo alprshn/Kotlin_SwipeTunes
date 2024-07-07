@@ -15,7 +15,7 @@ import com.ramotion.circlemenu.CircleMenuView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var spotifyConnection: SpotifyConnection
+    private lateinit var spotifyConnectionManager: SpotifyConnectionManager
     private val prefsName = "AppPrefs"
     private val splashName= "SplashPrefs"
     private val splashFirst= "FirstLogin"
@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        spotifyConnection = SpotifyConnection(this)
-        spotifyConnection.connectionStart()
+        spotifyConnectionManager = SpotifyConnectionManager(this)
+        spotifyConnectionManager.connectionStart()
 
         initNetworkDialog()
         animateBackground()
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupButtons() {
         binding.button4.setOnClickListener {
             // Open Spotify swipe music activity
-            val intent = Intent(this, SpotifySwipeMusic::class.java)
+            val intent = Intent(this, SpotifySwipeMusicActivity::class.java)
             startActivity(intent)
         }
 
@@ -98,12 +98,12 @@ class MainActivity : AppCompatActivity() {
         splashSharedPref.edit().putBoolean(splashFirst, false).apply()
         val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
         sharedPref.edit().putBoolean(firstTimeKey, true).apply()
-        spotifyConnection.disconnect()
+        spotifyConnectionManager.disconnect()
         startStartedActivity()
     }
 
     private fun startStartedActivity() {
-        val intent = Intent(this, StartedScreenActivity::class.java)
+        val intent = Intent(this, StartScreenActivity::class.java)
         startActivity(intent)
         finish()
     }

@@ -29,11 +29,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class SpotifySwipeMusic : AppCompatActivity() {
+class SpotifySwipeMusicActivity : AppCompatActivity() {
     private lateinit var manager:CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
     private lateinit var spotifyApi: SpotifyApi
-    private lateinit var spotifyConnection: SpotifyConnection
+    private lateinit var spotifyConnectionManager: SpotifyConnectionManager
 
     private var count:Int = 0
     companion object {
@@ -50,48 +50,48 @@ class SpotifySwipeMusic : AppCompatActivity() {
     }
     private fun initializeSpotify() {
         spotifyApi = SpotifyApi
-        val createPlayList = CreatePlayList(this, spotifyApi, accessToken)
-        createPlayList.create()
-        spotifyConnection = SpotifyConnection(this).apply {
+        val playlistCreator = PlaylistCreator(this, spotifyApi, accessToken)
+        playlistCreator.create()
+        spotifyConnectionManager = SpotifyConnectionManager(this).apply {
             onConnected = { playTrackIfAvailable() }
 
             onConnectionFailed = { error ->
-                Toast.makeText(this@SpotifySwipeMusic, "Connection failed: ${error.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@SpotifySwipeMusicActivity, "Connection failed: ${error.message}", Toast.LENGTH_LONG).show()
             }
         }
-        spotifyConnection.connectionStart()
+        spotifyConnectionManager.connectionStart()
     }
 
     private fun playTrackIfAvailable() {
         if (trackList.isNotEmpty()) {
-            spotifyConnection.play(trackList[count].trackUri)
+            spotifyConnectionManager.play(trackList[count].trackUri)
         }
     }
     override fun onPause() {
         super.onPause()
-        spotifyConnection.pause()
-        spotifyConnection.stopCheckingPlayerState()
+        spotifyConnectionManager.pause()
+        spotifyConnectionManager.stopCheckingPlayerState()
 
     }
 
     override fun onResume() {
         super.onResume()
-        spotifyConnection.resume()
-        spotifyConnection.startCheckingPlayerState()
+        spotifyConnectionManager.resume()
+        spotifyConnectionManager.startCheckingPlayerState()
     }
 
     override fun onStop() {
         super.onStop()
-        spotifyConnection.pause()
-        spotifyConnection.stopCheckingPlayerState()
+        spotifyConnectionManager.pause()
+        spotifyConnectionManager.stopCheckingPlayerState()
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        spotifyConnection.pause()
-        spotifyConnection.stopCheckingPlayerState()
-        spotifyConnection.disconnect()
+        spotifyConnectionManager.pause()
+        spotifyConnectionManager.stopCheckingPlayerState()
+        spotifyConnectionManager.disconnect()
 
     }
     private fun checkTrackListError() {
@@ -102,7 +102,7 @@ class SpotifySwipeMusic : AppCompatActivity() {
                 saveTokens()
                 delay(2000)
                 Toast.makeText(
-                    this@SpotifySwipeMusic,
+                    this@SpotifySwipeMusicActivity,
                     "Track listesi yüklenemedi.",
                     Toast.LENGTH_SHORT
                 ).show()
@@ -151,14 +151,14 @@ class SpotifySwipeMusic : AppCompatActivity() {
                         playNextTrack()
                         loadDataAndSetupCards()
                         removeOldTrack()
-                        Toast.makeText(this@SpotifySwipeMusic, "Direction Right", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@SpotifySwipeMusicActivity, "Direction Right", Toast.LENGTH_SHORT).show()
                     }
                     Direction.Left -> {
                         SpotifyApiManager.getNewTrackAndAddToList(applicationContext)
                         playNextTrack()
                         loadDataAndSetupCards()
                         removeOldTrack()
-                        Toast.makeText(this@SpotifySwipeMusic, "Direction Left", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@SpotifySwipeMusicActivity, "Direction Left", Toast.LENGTH_SHORT).show()
                     }
                     null -> TODO()
                     Direction.Top -> TODO()
@@ -206,13 +206,13 @@ class SpotifySwipeMusic : AppCompatActivity() {
     private fun addTrackToPlaylist() {
         pullPlaylistID(trackList[count].trackUri)
         SpotifyApiManager.getNewTrackAndAddToList(applicationContext)
-        spotifyConnection.queue(trackList[count].trackUri)
+        spotifyConnectionManager.queue(trackList[count].trackUri)
     }
     private fun playNextTrack() {
         if (count < trackList.size - 1) {
             count++
         }
-        spotifyConnection.play(trackList[count].trackUri)
+        spotifyConnectionManager.play(trackList[count].trackUri)
     }
     private fun removeOldTrack() {
         if (trackList.isNotEmpty() && count > 0) {

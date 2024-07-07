@@ -2,15 +2,12 @@ package com.example.kotlin_spotify_random_like_app
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -89,7 +86,7 @@ class SplashScreenActivity : AppCompatActivity() {
         finish()
     }
     private fun startStartedActivity() {
-        val intent = Intent(this, StartedScreenActivity::class.java)
+        val intent = Intent(this, StartScreenActivity::class.java)
         startActivity(intent)
         finish()
     }

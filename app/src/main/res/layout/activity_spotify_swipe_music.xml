@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_list"
-    tools:context=".SpotifySwipeMusic"
+    tools:context=".SpotifySwipeMusicActivity"
     android:id="@+id/swipeLayout">
 
 <com.yuyakaido.android.cardstackview.CardStackView
