@@ -1,4 +1,4 @@
-package com.example.kotlin_spotify_random_like_app
+package com.example.kotlin_spotify_random_like_app.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.kotlin_spotify_random_like_app.NetworkManager
+import com.example.kotlin_spotify_random_like_app.R
+import com.example.kotlin_spotify_random_like_app.SpotifyApiManager
+import com.example.kotlin_spotify_random_like_app.model.remote.SpotifyApiBuilder
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +25,7 @@ class SplashScreenActivity : AppCompatActivity() {
     private val SPLASH_TIMER: Long = 3000
     private val splashName= "SplashPrefs"
     private val splashFirst= "FirstLogin"
-    private lateinit var spotifyApi: SpotifyApi
+    private lateinit var spotifyApi: SpotifyApiBuilder
     private lateinit var networkManager: NetworkManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +52,7 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun initializeSpotifyApi() {
-        spotifyApi = SpotifyApi
+        spotifyApi = SpotifyApiBuilder
         SpotifyApiManager.initialize(spotifyApi)
     }
 

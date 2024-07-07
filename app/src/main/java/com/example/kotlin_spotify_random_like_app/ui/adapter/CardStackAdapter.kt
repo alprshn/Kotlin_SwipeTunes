@@ -1,4 +1,4 @@
-package com.example.kotlin_spotify_random_like_app
+package com.example.kotlin_spotify_random_like_app.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlin_spotify_random_like_app.R
+import com.example.kotlin_spotify_random_like_app.model.data.ItemModel
 import com.squareup.picasso.Picasso
 
 class CardStackAdapter(private var items: List<ItemModel>) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {

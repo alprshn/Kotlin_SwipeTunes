@@ -16,19 +16,19 @@
         android:theme="@style/AppTheme.FullScreen"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="false"
             android:theme="@style/AppTheme.MainActivity"/>
         <activity
-            android:name=".StartScreenActivity"
+            android:name=".ui.main.StartScreenActivity"
             android:exported="false" />
         <activity
-            android:name=".SpotifySwipeMusicActivity"
+            android:name=".ui.main.SpotifySwipeMusicActivity"
             android:exported="false"
             android:theme="@style/AppTheme.MainActivity"/>
 
         <receiver
-            android:name=".SplashScreenActivity"
+            android:name=".ui.main.SplashScreenActivity"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.spotify.music.active" />
@@ -36,7 +36,7 @@
         </receiver>
 
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".ui.main.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.kotlin_spotify_random_like_app
+package com.example.kotlin_spotify_random_like_app.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +13,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
+import com.example.kotlin_spotify_random_like_app.NetworkManager
+import com.example.kotlin_spotify_random_like_app.R
+import com.example.kotlin_spotify_random_like_app.ui.adapter.SliderAdapter
+import com.example.kotlin_spotify_random_like_app.SpotifyApiManager
+import com.example.kotlin_spotify_random_like_app.SpotifyConnectionManager
+import com.example.kotlin_spotify_random_like_app.SpotifyInstallationStatusLiveData
+import com.example.kotlin_spotify_random_like_app.model.remote.SpotifyApiBuilder
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
@@ -24,7 +31,7 @@ class StartScreenActivity : AppCompatActivity() {
     private lateinit var dotsLayout: LinearLayout
     private lateinit var dots: Array<TextView>
     private lateinit var spotifyAuth: SpotifyConnectionManager
-    private lateinit var spotifyApi: SpotifyApi
+    private lateinit var spotifyApi: SpotifyApiBuilder
     private lateinit var networkManager: NetworkManager
 
     private val prefsName = "AppPrefs"
@@ -64,7 +71,7 @@ class StartScreenActivity : AppCompatActivity() {
     }
     private fun setupSpotifyConnection() {
         spotifyAuth = SpotifyConnectionManager(this)
-        spotifyApi = SpotifyApi
+        spotifyApi = SpotifyApiBuilder
         SpotifyApiManager.initialize(spotifyApi)
 
         findViewById<Button>(R.id.loginButton).setOnClickListener {

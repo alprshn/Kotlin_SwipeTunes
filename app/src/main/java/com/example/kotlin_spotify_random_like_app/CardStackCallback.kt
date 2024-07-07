@@ -1,6 +1,7 @@
 package com.example.kotlin_spotify_random_like_app
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.kotlin_spotify_random_like_app.model.data.ItemModel
 
 class CardStackCallback(private val oldList: List<ItemModel>, private val newList: List<ItemModel>): DiffUtil.Callback() {
     override fun getOldListSize(): Int {

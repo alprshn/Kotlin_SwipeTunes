@@ -1,14 +1,15 @@
 package com.example.kotlin_spotify_random_like_app
 
-import PlaylistRequest
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.example.kotlin_spotify_random_like_app.model.data.PlaylistRequest
+import com.example.kotlin_spotify_random_like_app.model.remote.SpotifyApiBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PlaylistCreator(private val context: Context, private val spotifyApi: SpotifyApi, private val accessToken: String) {
+class PlaylistCreator(private val context: Context, private val spotifyApi: SpotifyApiBuilder, private val accessToken: String) {
     companion object {
         private const val PREFS_NAME = "SpotifyPrefs"
         private const val PLAYLIST_ID_KEY = "playlist_id"

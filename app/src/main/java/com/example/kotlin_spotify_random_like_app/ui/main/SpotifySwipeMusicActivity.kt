@@ -1,4 +1,4 @@
-package com.example.kotlin_spotify_random_like_app
+package com.example.kotlin_spotify_random_like_app.ui.main
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -13,8 +13,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
+import com.example.kotlin_spotify_random_like_app.CardStackCallback
+import com.example.kotlin_spotify_random_like_app.NetworkManager
+import com.example.kotlin_spotify_random_like_app.PlaylistCreator
+import com.example.kotlin_spotify_random_like_app.R
+import com.example.kotlin_spotify_random_like_app.SpotifyApiManager
 import com.example.kotlin_spotify_random_like_app.SpotifyApiManager.accessToken
 import com.example.kotlin_spotify_random_like_app.SpotifyApiManager.trackList
+import com.example.kotlin_spotify_random_like_app.SpotifyConnectionManager
+import com.example.kotlin_spotify_random_like_app.model.data.ItemModel
+import com.example.kotlin_spotify_random_like_app.model.remote.SpotifyApiBuilder
+import com.example.kotlin_spotify_random_like_app.ui.adapter.CardStackAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
@@ -32,7 +41,7 @@ import kotlinx.coroutines.withContext
 class SpotifySwipeMusicActivity : AppCompatActivity() {
     private lateinit var manager:CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
-    private lateinit var spotifyApi: SpotifyApi
+    private lateinit var spotifyApi: SpotifyApiBuilder
     private lateinit var spotifyConnectionManager: SpotifyConnectionManager
 
     private var count:Int = 0
@@ -49,7 +58,7 @@ class SpotifySwipeMusicActivity : AppCompatActivity() {
         checkTrackListError()
     }
     private fun initializeSpotify() {
-        spotifyApi = SpotifyApi
+        spotifyApi = SpotifyApiBuilder
         val playlistCreator = PlaylistCreator(this, spotifyApi, accessToken)
         playlistCreator.create()
         spotifyConnectionManager = SpotifyConnectionManager(this).apply {

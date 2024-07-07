@@ -1,4 +1,4 @@
-package com.example.kotlin_spotify_random_like_app
+package com.example.kotlin_spotify_random_like_app.ui.main
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,6 +8,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.kotlin_spotify_random_like_app.NetworkManager
+import com.example.kotlin_spotify_random_like_app.R
+import com.example.kotlin_spotify_random_like_app.SpotifyApiManager
+import com.example.kotlin_spotify_random_like_app.SpotifyConnectionManager
 import com.example.kotlin_spotify_random_like_app.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ramotion.circlemenu.CircleMenuView
@@ -52,13 +56,13 @@ class MainActivity : AppCompatActivity() {
     private fun saveRefreshToken(){ //Burada sharedPreferences'a refreshToken'i ekledik
         val sharedPreferences:SharedPreferences = getSharedPreferences("prefToken", MODE_PRIVATE)
         val refreshToken: SharedPreferences.Editor = sharedPreferences.edit()
-        refreshToken.putString("refresh_token",SpotifyApiManager.refreshToken).apply()
+        refreshToken.putString("refresh_token", SpotifyApiManager.refreshToken).apply()
     }
 
     private fun saveAccessToken(){ //Burada sharedPreferences'a refreshToken'i ekledik
         val sharedPreferences:SharedPreferences = getSharedPreferences("prefAccessToken", MODE_PRIVATE)
         val refreshToken: SharedPreferences.Editor = sharedPreferences.edit()
-        refreshToken.putString("access_token",SpotifyApiManager.accessToken).apply()
+        refreshToken.putString("access_token", SpotifyApiManager.accessToken).apply()
     }
 
     private fun animateBackground() {

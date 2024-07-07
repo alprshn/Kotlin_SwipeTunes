@@ -1,7 +1,6 @@
 package com.example.kotlin_spotify_random_like_app
 
-import AddTracksRequest
-import TrackInfoList
+
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
@@ -10,11 +9,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.util.Base64
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kotlin_spotify_random_like_app.model.data.AddTracksRequest
+import com.example.kotlin_spotify_random_like_app.model.data.TrackInfoList
+import com.example.kotlin_spotify_random_like_app.model.remote.SpotifyApiBuilder
 import kotlinx.coroutines.delay
 
 
 object  SpotifyApiManager {
-    private lateinit var spotifyApi: SpotifyApi
+    private lateinit var spotifyApi: SpotifyApiBuilder
     var accessToken:String =""
     var refreshToken: String? = null
 
@@ -28,7 +30,7 @@ object  SpotifyApiManager {
     val trackList = mutableListOf<TrackInfoList>() // Track sınıfı şarkı bilgilerini tutar, getAlbum.tracks.items[0] gibi nesneleri temsil eder.
     val state = generateRandomString(16)
 
-    fun initialize(api: SpotifyApi) {
+    fun initialize(api: SpotifyApiBuilder) {
         spotifyApi = api
     }
 

@@ -1,12 +1,12 @@
-package com.example.kotlin_spotify_random_like_app
+package com.example.kotlin_spotify_random_like_app.model.remote
 
-import AddTracksRequest
-import CreatePlaylistID
-import PlaylistRequest
-import RefreshTokenResponse
-import SpotifyTokenResponse
-import SpotifyUser
-import TrackResponse
+import com.example.kotlin_spotify_random_like_app.model.data.AddTracksRequest
+import com.example.kotlin_spotify_random_like_app.model.data.CreatePlaylistID
+import com.example.kotlin_spotify_random_like_app.model.data.PlaylistRequest
+import com.example.kotlin_spotify_random_like_app.model.data.RefreshTokenResponse
+import com.example.kotlin_spotify_random_like_app.model.data.SpotifyTokenResponse
+import com.example.kotlin_spotify_random_like_app.model.data.SpotifyUser
+import com.example.kotlin_spotify_random_like_app.model.data.TrackResponse
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -18,7 +18,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface SpotifyService {
+interface SpotifyApiService {
         @GET("search")
         suspend fun searchTrack(
                 @Header("Authorization") authorization: String,
@@ -31,12 +31,12 @@ interface SpotifyService {
                 @Path("user_id") userId: String,
                 @Header("Authorization") token: String,
                 @Body playlistRequest: PlaylistRequest
-        ):CreatePlaylistID
+        ): CreatePlaylistID
 
         @GET("me")
         suspend fun getUserProfile(
                 @Header("Authorization") token: String,
-        ):SpotifyUser
+        ): SpotifyUser
 
         @POST("playlists/{playlist_id}/tracks")
         suspend fun addItemToPlaylist(
@@ -63,6 +63,6 @@ interface SpotifyService {
                 @Header("Authorization") token: String,
                 @Field("grant_type") grantType: String,
                 @Field("refresh_token") refreshToken: String,
-        ):RefreshTokenResponse
+        ): RefreshTokenResponse
 }
 
