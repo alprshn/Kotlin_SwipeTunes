@@ -9,11 +9,37 @@
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="false"
     app:cardCornerRadius="8dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginBottom="20dp"
+    android:layout_marginTop="80dp"
+    android:layout_marginBottom="80dp"
     android:layout_marginHorizontal="10dp"
-    app:cardBackgroundColor="#323131"
+    app:cardBackgroundColor="#FFCCCC"
     >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top">
+
+        <ImageView
+            android:id="@+id/swipeLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="132dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/long_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="132dp"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:src="@drawable/long_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/item_image"
@@ -22,8 +48,8 @@
         android:layout_marginHorizontal="10dp"
         android:layout_marginBottom="150dp"
         android:layout_marginTop="150dp"
-            android:scaleType="centerCrop"
-
+        android:background="@drawable/round_outline"
+        android:clipToOutline="true"
         />
 
     <LinearLayout

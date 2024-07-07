@@ -30,7 +30,6 @@ class CardStackAdapter(private var items: List<ItemModel>) : RecyclerView.Adapte
         Picasso.get()
             .load(data.image)
             .fit()
-            .centerCrop()
             .into(image)
             trackName.text = data.trackName
             artistName.text = data.artistName
