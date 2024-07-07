@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun CircularMenu(){
+    private fun circularMenu(){
         val circleMenu = binding.circleMenu
 
         circleMenu.setEventListener(object : CircleMenuView.EventListener() {
