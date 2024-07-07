@@ -1,9 +1,6 @@
 package com.example.kotlin_spotify_random_like_app
 
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -11,7 +8,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,7 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
-import java.text.FieldPosition
+
 
 class StartedScreenActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager
@@ -40,6 +36,7 @@ class StartedScreenActivity : AppCompatActivity() {
     private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
     private val REQUEST_CODE = 1337
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -54,15 +51,17 @@ class StartedScreenActivity : AppCompatActivity() {
         setupSpotifyConnection()
         checkIsSpotifyInstalled()
 
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        setupViewPager()
+        checkFirstTimeLaunch()
+        checkAutoLogin()  // Otomatik giriş kontrolü
+    }
+
+    private fun setupViewPager() {
         viewPager = findViewById(R.id.slider)
         dotsLayout = findViewById(R.id.dots)
         viewPager.adapter = SliderAdapter(this)
         viewPager.addOnPageChangeListener(changeListener)
-        //checkConnection()
         addDots(0)
-        checkFirstTimeLaunch()
-        checkAutoLogin()  // Otomatik giriş kontrolü
     }
     private fun setupSpotifyConnection() {
         spotifyAuth = SpotifyConnection(this)
@@ -112,9 +111,6 @@ class StartedScreenActivity : AppCompatActivity() {
         }
     }
 
-
-
-
     private fun checkAutoLogin() {
         val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
         val token = sharedPref.getString(tokenKey, null)
@@ -134,12 +130,12 @@ class StartedScreenActivity : AppCompatActivity() {
             dotsLayout.addView(dots[i])
         }
 
-        if (dots.size>0){
+        if (dots.isNotEmpty()){
             dots[position].setTextColor(resources.getColor(com.google.android.material.R.color.design_default_color_primary_dark))
         }
     }
 
-    val changeListener: ViewPager.OnPageChangeListener = object : ViewPager.OnPageChangeListener {
+    private val changeListener: ViewPager.OnPageChangeListener = object : ViewPager.OnPageChangeListener {
         override fun onPageScrolled(
             position: Int,
             positionOffset: Float,
@@ -171,29 +167,32 @@ class StartedScreenActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE) {
-            val response = AuthorizationClient.getResponse(resultCode, data)
-            when (response.type) {
-                AuthorizationResponse.Type.CODE -> {
-                    SpotifyApiManager.tokenCode = response.code
-                    SpotifyApiManager.redirectToSpotifyLogin()
-
-                    Log.e("denemetoken","MERHABA")
-                    Log.e("denemetoken",response.code.toString())
-                    val splashSharedPref = getSharedPreferences(splashName, MODE_PRIVATE)
-                    splashSharedPref.edit().putBoolean(splashFirst, true).apply()
-                    val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
-                    sharedPref.edit().putBoolean(firstTimeKey, false).apply()
-                    startSplashActivity()
-                }
-                AuthorizationResponse.Type.ERROR -> {
-                    Log.e("SpotifyAuthError", "Authentication error: ${response.error}")
-                }
-                else -> {
-                    // Handle other cases
-                }
-            }
+            handleSpotifyAuthResponse(resultCode, data)
         }
     }
+
+    private fun handleSpotifyAuthResponse(resultCode: Int, data: Intent?) {
+        val response = AuthorizationClient.getResponse(resultCode, data)
+        when (response.type) {
+            AuthorizationResponse.Type.CODE -> {
+                SpotifyApiManager.tokenCode = response.code
+                SpotifyApiManager.redirectToSpotifyLogin()
+                saveFirstLogin()
+                startSplashActivity()
+            }
+            AuthorizationResponse.Type.ERROR -> {
+                Log.e("SpotifyAuthError", "Authentication error: ${response.error}")
+            }
+            else -> {}
+        }
+    }
+    private fun saveFirstLogin() {
+        val splashSharedPref = getSharedPreferences(splashName, MODE_PRIVATE)
+        splashSharedPref.edit().putBoolean(splashFirst, true).apply()
+        val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
+        sharedPref.edit().putBoolean(firstTimeKey, false).apply()
+    }
+
     private fun startSplashActivity() {
         val intent = Intent(this, SplashScreenActivity::class.java)
         startActivity(intent)
@@ -204,8 +203,6 @@ class StartedScreenActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-
-
 
 
     private fun initNetworkDialog() {

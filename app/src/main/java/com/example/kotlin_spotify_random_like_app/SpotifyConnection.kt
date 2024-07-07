@@ -7,6 +7,7 @@ import android.util.Log
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
+import com.spotify.android.appremote.api.error.SpotifyDisconnectedException
 import com.spotify.protocol.types.PlayerState
 import com.spotify.protocol.types.Track
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -117,6 +118,9 @@ class SpotifyConnection(private val context: Context) {
                     }
                     .setErrorCallback { throwable ->
                         Log.e("SpotifyConnection", "Failed to get player state", throwable)
+                        if (throwable is SpotifyDisconnectedException) {
+                            connectionStart() // Bağlantı kesildiyse yeniden bağlanmayı dene
+                        }
                     }
             }
             handler.postDelayed(checkPlayerStateRunnable!!, 1000) // Her saniye kontrol et

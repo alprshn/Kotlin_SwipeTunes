@@ -20,21 +20,20 @@ class CardStackAdapter(private var items: List<ItemModel>) : RecyclerView.Adapte
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val image: ImageView = itemView.findViewById(R.id.item_image)
-        private val nama: TextView = itemView.findViewById(R.id.item_name)
-        private val usia: TextView = itemView.findViewById(R.id.item_age)
-        private val kota: TextView = itemView.findViewById(R.id.item_city)
+        private val trackName: TextView = itemView.findViewById(R.id.item_name)
+        private val artistName: TextView = itemView.findViewById(R.id.item_age)
+
 
         fun setData(data: ItemModel) {
         Picasso.get()
-            .load(data.getImage())
+            .load(data.image)
             .fit()
             .centerCrop()
             .into(image)
-            nama.text = data.getNama()
-            usia.text = data.getUsia()
-            kota.text = data.getKota()
-            usia.isSelected = true
-            nama.isSelected = true
+            trackName.text = data.trackName
+            artistName.text = data.artistName
+            artistName.isSelected = true
+            trackName.isSelected = true
         }
 
 
