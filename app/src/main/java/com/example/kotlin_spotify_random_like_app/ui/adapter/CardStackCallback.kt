@@ -1,4 +1,4 @@
-package com.example.kotlin_spotify_random_like_app
+package com.example.kotlin_spotify_random_like_app.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.kotlin_spotify_random_like_app.model.data.ItemModel

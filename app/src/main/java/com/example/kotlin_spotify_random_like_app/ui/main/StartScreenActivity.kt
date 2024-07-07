@@ -13,12 +13,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
-import com.example.kotlin_spotify_random_like_app.NetworkManager
+import com.example.kotlin_spotify_random_like_app.util.NetworkManager
 import com.example.kotlin_spotify_random_like_app.R
 import com.example.kotlin_spotify_random_like_app.ui.adapter.SliderAdapter
-import com.example.kotlin_spotify_random_like_app.SpotifyApiManager
-import com.example.kotlin_spotify_random_like_app.SpotifyConnectionManager
-import com.example.kotlin_spotify_random_like_app.SpotifyInstallationStatusLiveData
+import com.example.kotlin_spotify_random_like_app.repository.SpotifyApiManager
+import com.example.kotlin_spotify_random_like_app.util.SpotifyConnectionManager
+import com.example.kotlin_spotify_random_like_app.util.SpotifyInstallationStatusLiveData
 import com.example.kotlin_spotify_random_like_app.model.remote.SpotifyApiBuilder
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.spotify.sdk.android.auth.AuthorizationClient

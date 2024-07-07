@@ -8,9 +8,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.kotlin_spotify_random_like_app.NetworkManager
+import com.example.kotlin_spotify_random_like_app.util.NetworkManager
 import com.example.kotlin_spotify_random_like_app.R
-import com.example.kotlin_spotify_random_like_app.SpotifyApiManager
+import com.example.kotlin_spotify_random_like_app.repository.SpotifyApiManager
 import com.example.kotlin_spotify_random_like_app.model.remote.SpotifyApiBuilder
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope

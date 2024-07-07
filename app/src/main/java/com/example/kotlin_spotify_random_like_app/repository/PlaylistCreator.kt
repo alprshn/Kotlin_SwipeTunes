@@ -1,4 +1,4 @@
-package com.example.kotlin_spotify_random_like_app
+package com.example.kotlin_spotify_random_like_app.repository
 
 import android.content.Context
 import android.content.SharedPreferences

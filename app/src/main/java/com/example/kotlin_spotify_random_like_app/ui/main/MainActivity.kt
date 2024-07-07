@@ -8,10 +8,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.kotlin_spotify_random_like_app.NetworkManager
+import com.example.kotlin_spotify_random_like_app.util.NetworkManager
 import com.example.kotlin_spotify_random_like_app.R
-import com.example.kotlin_spotify_random_like_app.SpotifyApiManager
-import com.example.kotlin_spotify_random_like_app.SpotifyConnectionManager
+import com.example.kotlin_spotify_random_like_app.repository.SpotifyApiManager
+import com.example.kotlin_spotify_random_like_app.util.SpotifyConnectionManager
 import com.example.kotlin_spotify_random_like_app.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ramotion.circlemenu.CircleMenuView

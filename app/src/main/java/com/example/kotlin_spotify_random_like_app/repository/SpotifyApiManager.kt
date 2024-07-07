@@ -1,4 +1,4 @@
-package com.example.kotlin_spotify_random_like_app
+package com.example.kotlin_spotify_random_like_app.repository
 
 
 import android.content.Context
@@ -95,7 +95,7 @@ object  SpotifyApiManager {
             AppCompatActivity.MODE_PRIVATE
         )
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putString("refresh_token",refreshToken).apply()
+        editor.putString("refresh_token", refreshToken).apply()
     }
 
     private fun saveAccessToken(context: Context){ //Burada sharedPreferences'a refreshToken'i ekledik
@@ -103,7 +103,7 @@ object  SpotifyApiManager {
             AppCompatActivity.MODE_PRIVATE
         )
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putString("access_token",accessToken).apply()
+        editor.putString("access_token", accessToken).apply()
     }
     private fun generateQuery( length: Int): String{
         var result = ""
@@ -123,11 +123,12 @@ object  SpotifyApiManager {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 Log.e("token", tokenCode.toString())
-                Log.e("Error", getAuthorizationHeader(clientId,clientSecret))
+                Log.e("Error", getAuthorizationHeader(clientId, clientSecret))
                 Log.e("tokenCode Error", tokenCode.toString())
 
-                val tokenResponse = spotifyApi.accountsService.getToken(getAuthorizationHeader(clientId,clientSecret),
-                    tokenCode.toString(),clientId,
+                val tokenResponse = spotifyApi.accountsService.getToken(
+                    getAuthorizationHeader(clientId, clientSecret),
+                    tokenCode.toString(), clientId,
                     redirectUri,"authorization_code")
 
                 accessToken = tokenResponse.access_token
@@ -160,7 +161,8 @@ object  SpotifyApiManager {
             try {
                Log.e("Error Refresh Token", refreshToken.toString())
                 updateRefreshToken(refreshToken)
-                val refreshTokenResponse = spotifyApi.accountsService.refreshToken(getAuthorizationHeader(clientId,clientSecret),"refresh_token",
+                val refreshTokenResponse = spotifyApi.accountsService.refreshToken(
+                    getAuthorizationHeader(clientId, clientSecret),"refresh_token",
                     refreshToken.toString())
                 accessToken = refreshTokenResponse.access_token
                 updateRefreshToken(refreshTokenResponse.refresh_token)
