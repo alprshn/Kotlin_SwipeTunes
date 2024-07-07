@@ -2,17 +2,19 @@ package com.example.kotlin_spotify_random_like_app.ui.main
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.kotlin_spotify_random_like_app.util.NetworkManager
 import com.example.kotlin_spotify_random_like_app.R
-import com.example.kotlin_spotify_random_like_app.repository.SpotifyApiManager
-import com.example.kotlin_spotify_random_like_app.util.SpotifyConnectionManager
 import com.example.kotlin_spotify_random_like_app.databinding.ActivityMainBinding
+import com.example.kotlin_spotify_random_like_app.repository.SpotifyApiManager
+import com.example.kotlin_spotify_random_like_app.util.NetworkManager
+import com.example.kotlin_spotify_random_like_app.util.SpotifyConnectionManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ramotion.circlemenu.CircleMenuView
 
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     private fun setupButtons() {
-        binding.button4.setOnClickListener {
+        binding.playButton.setOnClickListener {
             // Open Spotify swipe music activity
             val intent = Intent(this, SpotifySwipeMusicActivity::class.java)
             startActivity(intent)
@@ -85,8 +87,8 @@ class MainActivity : AppCompatActivity() {
                 super.onButtonClickAnimationStart(view, buttonIndex)
                 when (buttonIndex) {
                     0 -> {
-                        Toast.makeText(this@MainActivity, "Home Button Clicked", Toast.LENGTH_SHORT).show()
-                                        }
+                        Toast.makeText(this@MainActivity, "Dark Mode Button Clicked", Toast.LENGTH_SHORT).show()
+                        toggleDarkMode()         }
                     1 -> {
                         signOut()
                         Toast.makeText(this@MainActivity, "Sign Out Button Clicked", Toast.LENGTH_SHORT).show()
@@ -128,6 +130,18 @@ class MainActivity : AppCompatActivity() {
                     dialog.dismiss()  // 'hide' yerine 'dismiss' kullanmak genellikle daha doğru bir yaklaşımdır.
                 }
             }
+        }
+    }
+
+
+    private fun toggleDarkMode() {
+        val nightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        if (nightMode == Configuration.UI_MODE_NIGHT_YES) {
+            // Karanlık mod aktif, devre dışı bırak
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        } else {
+            // Karanlık mod pasif, aktif et
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
     }
 
