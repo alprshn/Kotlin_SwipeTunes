@@ -45,12 +45,6 @@ data class Offset(
 )
 
 
-
-data class AlbumsResponse(
-    val albums: Albums
-)
-
-
 data class Albums(
     val href: String,
     val items: List<AlbumItem>,

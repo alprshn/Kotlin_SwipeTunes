@@ -2,7 +2,6 @@ package com.example.kotlin_spotify_random_like_app
 
 import AddTracksRequest
 import Album
-import AlbumsResponse
 import CreatePlaylistID
 import PlayRequest
 import PlayingTrack
@@ -12,9 +11,6 @@ import RefreshTokenResponse
 import SpotifyTokenResponse
 import SpotifyUser
 import TrackResponse
-import Tracks
-import org.json.JSONObject
-import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

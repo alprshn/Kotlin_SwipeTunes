@@ -36,56 +36,50 @@ class SplashScreenActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        initNetworkDialog()
         checkFirstTimeLaunch()
     }
-
     private fun checkFirstTimeLaunch() {
         val sharedPref = getSharedPreferences(splashName, MODE_PRIVATE)
         val isFirstTime = sharedPref.getBoolean(splashFirst, false)
         if (!isFirstTime) {
             startStartedActivity()
-            finish()
-            return
+        } else {
+            initializeSpotifyApi()
+            launchBackgroundTasks()
         }
-        else{
-            GlobalScope.launch(Dispatchers.IO) {
-                // Arka planda yapılacak işlemler
-                Thread.sleep(1000) // Örnek olarak 1 saniye bekleme simülasyonu
-                spotifyApi = SpotifyApi
-                SpotifyApiManager.initialize(spotifyApi)
+    }
 
-                val sharedPrefAccessToken = getSharedPreferences("prefAccessToken", MODE_PRIVATE)
-                val sharedPrefAccessTokens = sharedPrefAccessToken.getString("access_token",null)
-                if (sharedPrefAccessTokens != null ){
-                    SpotifyApiManager.accessToken = sharedPrefAccessTokens.toString()
-                    Log.e("döngü","döngüde")
-                }
-                //Thread.sleep(1000) // Örnek olarak 1 saniye bekleme simülasyonu
+    private fun initializeSpotifyApi() {
+        spotifyApi = SpotifyApi
+        SpotifyApiManager.initialize(spotifyApi)
+    }
 
-                val sharedPrefToken = getSharedPreferences("prefToken", MODE_PRIVATE)
-                val sharedPrefRefreshToken = sharedPrefToken.getString("refresh_token",null)
-                if (sharedPrefRefreshToken != null ){
-                    SpotifyApiManager.refreshToken = sharedPrefRefreshToken.toString()
-                    Log.e("refrshdöngü","döngüde")
-                }
-                Thread.sleep(2000) // Örnek olarak 1 saniye bekleme simülasyonu
-
-                SpotifyApiManager.getNewTrackAndAddToList(applicationContext)
-
-
-                Log.e("denemeRefresh", sharedPrefRefreshToken.toString())
-                Log.e("denemeAcessToken", SpotifyApiManager.accessToken.toString())
-
-                Log.e("denemeACccessToken", sharedPrefAccessTokens.toString())
-                Thread.sleep(1000) // Örnek olarak 1 saniye bekleme simülasyonu
-
-                withContext(Dispatchers.Main) {
-                    // Arayüzü güncelle veya kullanıcıya bildirim gönder
-                    Toast.makeText(this@SplashScreenActivity, "İşlem tamamlandı!", Toast.LENGTH_SHORT).show()
-                    startMainActivity()
-
-                }
+    private fun launchBackgroundTasks() {
+        GlobalScope.launch(Dispatchers.IO) {
+            loadTokens()
+            delay(2000)
+            SpotifyApiManager.getNewTrackAndAddToList(applicationContext)
+            withContext(Dispatchers.Main) {
+                Toast.makeText(this@SplashScreenActivity, "İşlem tamamlandı!", Toast.LENGTH_SHORT).show()
+                startMainActivity()
             }
+        }
+    }
+
+    private fun loadTokens() {
+        val sharedPrefAccessToken = getSharedPreferences("prefAccessToken", MODE_PRIVATE)
+        val accessToken = sharedPrefAccessToken.getString("access_token", null)
+        accessToken?.let {
+            SpotifyApiManager.accessToken = it
+            Log.d("SplashScreen", "Access Token Loaded: $it")
+        }
+
+        val sharedPrefToken = getSharedPreferences("prefToken", MODE_PRIVATE)
+        val refreshToken = sharedPrefToken.getString("refresh_token", null)
+        refreshToken?.let {
+            SpotifyApiManager.refreshToken = it
+            Log.d("SplashScreen", "Refresh Token Loaded: $it")
         }
     }
 
@@ -107,7 +101,7 @@ class SplashScreenActivity : AppCompatActivity() {
             .setCancelable(false)
             .create()
 
-        val networkManager = NetworkManager(this)
+        networkManager = NetworkManager(this)
         networkManager.observe(this) {
             if (!it) {
                 if (!dialog.isShowing) {
@@ -120,7 +114,6 @@ class SplashScreenActivity : AppCompatActivity() {
                 if (dialog.isShowing) {
                     dialog.dismiss()  // 'hide' yerine 'dismiss' kullanmak genellikle daha doğru bir yaklaşımdır.
                     launchFirstTimeCheck()
-
                 }
             }
         }
@@ -138,4 +131,5 @@ class SplashScreenActivity : AppCompatActivity() {
             checkFirstTimeLaunch()
         }
     }
+
 }

@@ -44,15 +44,11 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainActivityViewModel
     private lateinit var spotifyConnection: SpotifyConnection
     private val prefsName = "AppPrefs"
     private val splashName= "SplashPrefs"
     private val splashFirst= "FirstLogin"
     private val firstTimeKey = "FirstTime"
-    // private lateinit var spotifyService: SpotifyService
-    // Initialize SpotifyApiManager
-    private lateinit var dialog:AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -60,25 +56,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         spotifyConnection = SpotifyConnection(this)
-
         spotifyConnection.connectionStart()
 
         initNetworkDialog()
         animateBackground()
-
-
-
-        //val sharedPreferences: SharedPreferences = getSharedPreferences("tokenShared", MODE_PRIVATE)
-        //val storedAccessToken = sharedPreferences.getString("access_token", null)
-        //val storedRefreshToken = sharedPreferences.getString("refresh_token", null)
-        //Log.e("tokenlarAccess",storedAccessToken.toString())
-        //Log.e("tokenlarRefresh",storedRefreshToken.toString())
-
-        //SpotifyApiManager.getRefreshToken()
-        //Log.e("TkenControl", SpotifyApiManager.accessToken)
-        //Log.e("RefresTkenControl", SpotifyApiManager.refreshToken)
-        //SpotifyApiManager.getNewTrackAndAddToList()
-
 
         saveRefreshToken()
 
@@ -95,27 +76,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-       // binding.button2.setOnClickListener {
-           // SpotifyApiManager.redirectToSpotifyLogin()
-          //  SpotifyApiManager.getNewTrackAndAddToList()
-
-        //}
-        //binding.button3.setOnClickListener {
-          //  SpotifyApiManager.getRefreshToken()
-
-       // }
-
-        //binding.button5.setOnClickListener {
-           // val request = PeriodicWorkRequestBuilder<UploadWorker>(15,TimeUnit.MINUTES)
-               // .setInitialDelay(5,TimeUnit.SECONDS)
-                //.build()
-            //WorkManager.getInstance(this).enqueue(request)
-
-           // WorkManager.getInstance(this).getWorkInfoByIdLiveData(request.id).observe(this) {
-                //Log.e("Status",it.state.name)
-           // }
-       // }
-        // Setup other buttons similarly
     }
 
     private fun saveRefreshToken(){ //Burada sharedPreferences'a refreshToken'i ekledik
@@ -136,7 +96,6 @@ class MainActivity : AppCompatActivity() {
         animationDrawable.setEnterFadeDuration(1000)
         animationDrawable.setExitFadeDuration(2000)
         animationDrawable.start()
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
 
 
@@ -154,24 +113,23 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this@MainActivity, "Home Button Clicked", Toast.LENGTH_SHORT).show()
                                         }
                     1 -> {
-
-                        val splashSharedPref = getSharedPreferences(splashName, MODE_PRIVATE)
-                        splashSharedPref.edit().putBoolean(splashFirst, false).apply()
-                        val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
-                        sharedPref.edit().putBoolean(firstTimeKey, true).apply()
-                        spotifyConnection.diconnect()
-                        startStartedActivity()
+                        signOut()
                         Toast.makeText(this@MainActivity, "Sign Out Button Clicked", Toast.LENGTH_SHORT).show()
                         // Diğer işlemler burada
                     }
                 }
             }
         })
-
-
     }
 
-
+    private fun signOut() {
+        val splashSharedPref = getSharedPreferences(splashName, MODE_PRIVATE)
+        splashSharedPref.edit().putBoolean(splashFirst, false).apply()
+        val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
+        sharedPref.edit().putBoolean(firstTimeKey, true).apply()
+        spotifyConnection.diconnect()
+        startStartedActivity()
+    }
 
     private fun startStartedActivity() {
         val intent = Intent(this, StartedScreenActivity::class.java)
