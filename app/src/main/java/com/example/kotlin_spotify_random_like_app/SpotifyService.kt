@@ -20,21 +20,8 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface SpotifyService {
-        @GET("playlists/{playlistId}")
-        suspend fun getPlaylist(
-                @Path("playlistId") playlistId: String,
-                @Header("Authorization") authorization: String
-        ): Playlist
 
-        @PUT("me/player/pause")
-        suspend fun pause(
-                @Header("Authorization") authorization: String
-        )
 
-        @POST("me/player/next")
-        suspend fun next(
-                @Header("Authorization") authorization: String
-        )
 
 
         @GET("search")

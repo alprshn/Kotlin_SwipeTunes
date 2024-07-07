@@ -38,16 +38,8 @@ object  SpotifyApiManager {
         spotifyApi = api
     }
 
-    fun pause(){
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                spotifyApi.service.pause(accessToken)
-            } catch (e: Exception) {
-                Log.e("SpotifyApiManager", "Error: ${e.message}")
-            }
-        }
 
-    }
+
 
 
 
@@ -62,15 +54,7 @@ object  SpotifyApiManager {
         }
     }
 
-    fun next() {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                spotifyApi.service.next(accessToken)
-            } catch (e: Exception) {
-                Log.e("SpotifyApiManager", "Error: ${e.message}")
-            }
-        }
-    }
+
     fun getNewTrackAndAddToList(context: Context) {
         val randomSeed = generateQuery(2)
         Log.e("Random Seed", randomSeed.toString())
