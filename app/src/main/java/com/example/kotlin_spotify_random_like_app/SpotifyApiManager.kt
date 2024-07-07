@@ -29,8 +29,7 @@ object  SpotifyApiManager {
     private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
     val scope = "streaming user-modify-playback-state user-read-private playlist-read playlist-read-private playlist-modify-private playlist-modify-public user-read-email user-read-recently-played user-read-currently-playing"
     val responseType = "code"
-    //private lateinit var albumUri :String
-    private var randomOffset :Int = 0
+
     var tokenCode: String? = null
     val trackList = mutableListOf<TrackInfoList>() // Track sınıfı şarkı bilgilerini tutar, getAlbum.tracks.items[0] gibi nesneleri temsil eder.
     val state = generateRandomString(16)
@@ -63,38 +62,6 @@ object  SpotifyApiManager {
         }
     }
 
-
-    private fun infoAlbum(albumID:String, randomOffset:Int){
-      //  val token = "Bearer ${MainActivity.accessToken}"
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val getAlbum = spotifyApi.service.getAlbum(albumID, "Bearer $accessToken")
-                val getTracks = getAlbum.tracks.items[randomOffset]
-                Log.e("randomoffset",randomOffset.toString())
-                //Log.e("Music Name",deneme.toString())
-                // Log.e("Music Name", deneme.tracks.items.toString())
-                Log.e(
-                    "Music Name",
-                    getAlbum.tracks.items[randomOffset].name
-                )
-                Log.e(
-                    "Music ID",
-                    getAlbum.tracks.items[randomOffset].id
-                )
-                trackList.add(TrackInfoList(getTracks.name, getAlbum.images[0].url, getAlbum.uri,"UnluADI" ))
-               // Log.e("Music Name",trackList.toString())
-
-                // Name, AlbumUri, Image, Description, ArtistName
-
-            }
-            catch (e: Exception) {
-                Log.e("deneme", "Error: ${e.message}")
-            }
-        }
-
-
-    }
     fun next() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -113,23 +80,15 @@ object  SpotifyApiManager {
                     try {
                         Log.e("AcessToken Track", accessToken.toString())
                         val response =
-                            spotifyApi.service.searchAlbum("Bearer $accessToken", "$randomSeed")
+                            spotifyApi.service.searchAlbum("Bearer $accessToken", randomSeed)
                         val randomTrackNumber = (Math.random() * response.tracks.limit-1).toInt() // returns a random Integer from 0 to 20
                         Log.e("randomTrackNumber Track", randomTrackNumber.toString())
                         if (response.tracks.items.isNotEmpty()) {
-
                             val track = response.tracks.items[randomTrackNumber]// İlk track'i alıyoruz
-                            val album = response.tracks.items[randomTrackNumber].album
+                            val album = track.album
                             //val artist = response.tracks.items[randomTrackNumber].artists[0]
-                            var artists = ""
-                            response.tracks.items[randomTrackNumber].artists.forEach { artist ->
-                                artists += "${artist.name}, "
-                            }
-                            artists = artists.trimEnd(',', ' ')
-                            val albumID = album.id
+                            var artists = track.artists.joinToString(", ") { it.name }
 
-                            //randomOffset = (Math.random() * (album.total_tracks - 1)).toInt()
-                            //infoAlbum(albumID, randomOffset)
                             Log.e("Trac ACCESS", accessToken.toString())
                             //Log.e("Trac total tracks", album.total_tracks.toString())
                             Log.e("aLBUM NAME", album.name)
@@ -142,7 +101,6 @@ object  SpotifyApiManager {
                                     artists
                                 )
                             )
-
                         } else {
                             Log.e("Error", "No tracks found.")
                         }
@@ -162,16 +120,16 @@ object  SpotifyApiManager {
         val sharedPreferences:SharedPreferences = context.getSharedPreferences("prefToken",
             AppCompatActivity.MODE_PRIVATE
         )
-        val refreshToken: SharedPreferences.Editor = sharedPreferences.edit()
-        refreshToken.putString("refresh_token",SpotifyApiManager.refreshToken).apply()
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putString("refresh_token",refreshToken).apply()
     }
 
     private fun saveAccessToken(context: Context){ //Burada sharedPreferences'a refreshToken'i ekledik
         val sharedPreferences:SharedPreferences = context.getSharedPreferences("prefAccessToken",
             AppCompatActivity.MODE_PRIVATE
         )
-        val refreshToken: SharedPreferences.Editor = sharedPreferences.edit()
-        refreshToken.putString("access_token",SpotifyApiManager.accessToken).apply()
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putString("access_token",accessToken).apply()
     }
     private fun generateQuery( length: Int): String{
         var result = ""
@@ -184,31 +142,7 @@ object  SpotifyApiManager {
         return result.toString()
     }
 
-    fun play( albumUri: String, offset: Int){
-        Log.e("Random Offset", offset.toString())
 
-
-        if (accessToken.isNullOrEmpty()) {
-            Log.e("Error", "Access token is null or empty.")
-            return
-        }
-        val requestBody = PlayRequest(albumUri, Offset(offset), 0)
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                Log.e("Play Request", requestBody.toString())
-                Log.e("Play Acess", accessToken.toString())
-                spotifyApi.service.play(requestBody, accessToken)
-            } catch (e: Exception) {
-                Log.e("Error", "Error Play: ${e.message}")
-            }
-        }
-    }
-    private fun updateTrackList(currentTrack: TrackInfoList?, nextTrack: TrackInfoList?) {
-        trackList.clear()
-        trackList.add(currentTrack!!)
-        trackList.add(nextTrack!!)
-    }
 
 
     fun redirectToSpotifyLogin() {
@@ -234,11 +168,9 @@ object  SpotifyApiManager {
     }
 
 
-
     fun getAuthorizationHeader(clientId: String, clientSecret: String): String {
         val credentials = "$clientId:$clientSecret"
         return "Basic " + Base64.encodeToString(credentials.toByteArray(),Base64.NO_WRAP)
-
     }
 
 
@@ -247,11 +179,9 @@ object  SpotifyApiManager {
         return (1..length)
             .map { allowedChars.random() }
             .joinToString("")
-
     }
 
     fun getRefreshToken() {
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
                Log.e("Error Refresh Token", refreshToken.toString())
@@ -262,8 +192,6 @@ object  SpotifyApiManager {
                 updateRefreshToken(refreshTokenResponse.refresh_token)
                 Log.e("tokenRef", refreshToken.toString())
                 Log.e("AccessToken", accessToken.toString())
-
-
             } catch (e: Exception) {
                 Log.e("Error", "Error Play: ${e.message}")
             }
