@@ -146,12 +146,14 @@ object  SpotifyApiManager {
                         } else {
                             Log.e("Error", "No tracks found.")
                         }
-                        retry =false
+                        retry = false
                     } catch (e: Exception) {
                         Log.e("Error Track", "Error: ${e.message}")
                         getRefreshToken()
+                        delay(1000)
                         saveRefreshToken(context)
                         saveAccessToken(context)
+                        retry = true
                     }
                 }
             }
