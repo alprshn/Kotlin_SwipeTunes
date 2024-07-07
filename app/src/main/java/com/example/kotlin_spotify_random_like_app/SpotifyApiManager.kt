@@ -1,10 +1,6 @@
 package com.example.kotlin_spotify_random_like_app
 
 import AddTracksRequest
-import CreatePlaylistID
-import Offset
-import PlayRequest
-import SpotifyTokenResponse
 import TrackInfoList
 import android.content.Context
 import android.content.SharedPreferences
@@ -12,8 +8,6 @@ import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Response
 import android.util.Base64
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.delay
@@ -38,11 +32,6 @@ object  SpotifyApiManager {
         spotifyApi = api
     }
 
-
-
-
-
-
     fun addItemPlaylist(playlistID: String, trackUri: String, position: Int = 0){
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -54,7 +43,6 @@ object  SpotifyApiManager {
         }
     }
 
-
     fun getNewTrackAndAddToList(context: Context) {
         val randomSeed = generateQuery(2)
         Log.e("Random Seed", randomSeed.toString())
@@ -64,7 +52,7 @@ object  SpotifyApiManager {
                     try {
                         Log.e("AcessToken Track", accessToken.toString())
                         val response =
-                            spotifyApi.service.searchAlbum("Bearer $accessToken", randomSeed)
+                            spotifyApi.service.searchTrack("Bearer $accessToken", randomSeed)
                         val randomTrackNumber = (Math.random() * response.tracks.limit-1).toInt() // returns a random Integer from 0 to 20
                         Log.e("randomTrackNumber Track", randomTrackNumber.toString())
                         if (response.tracks.items.isNotEmpty()) {

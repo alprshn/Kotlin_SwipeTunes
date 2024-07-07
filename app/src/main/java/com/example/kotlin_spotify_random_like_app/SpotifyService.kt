@@ -2,7 +2,6 @@ package com.example.kotlin_spotify_random_like_app
 
 import AddTracksRequest
 import CreatePlaylistID
-import Playlist
 import PlaylistRequest
 import RefreshTokenResponse
 import SpotifyTokenResponse
@@ -15,7 +14,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
-import retrofit2.http.PUT
+
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -25,7 +24,7 @@ interface SpotifyService {
 
 
         @GET("search")
-        suspend fun searchAlbum(
+        suspend fun searchTrack(
                 @Header("Authorization") authorization: String,
                 @Query("q") query: String,
                 @Query("type") type: String = "track"
@@ -50,7 +49,6 @@ interface SpotifyService {
                 @Body addTracksRequest: AddTracksRequest
         )
 
-
         @POST("/api/token")
         @Headers("Content-Type: application/x-www-form-urlencoded")
         @FormUrlEncoded
@@ -61,7 +59,6 @@ interface SpotifyService {
                 @Field("redirect_uri") redirectUri: String,
                 @Field("grant_type") grantType: String
         ): SpotifyTokenResponse
-
 
         @POST("api/token")
         @Headers("Content-Type: application/x-www-form-urlencoded")
