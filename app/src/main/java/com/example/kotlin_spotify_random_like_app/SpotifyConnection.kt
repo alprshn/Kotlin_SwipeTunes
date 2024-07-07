@@ -16,7 +16,6 @@ import com.yuyakaido.android.cardstackview.Direction
 class SpotifyConnection(private val context: Context) {
      private val clientId = "1e6d0591bbb64af286b323ff7d26ce0f"
      private val redirectUri = "http://com.example.kotlin_spotify_random_like_app/callback"
-    private val REQUEST_CODE = 1337
 
      var spotifyAppRemote: SpotifyAppRemote? = null
     var onConnected: (() -> Unit)? = null
@@ -35,16 +34,13 @@ class SpotifyConnection(private val context: Context) {
             override fun onConnected(appRemote: SpotifyAppRemote) {
                 spotifyAppRemote = appRemote
                 Log.e("SpotifyConnection", "Connected to Spotify.")
-                // Now you can start interacting with App Remote
-                //connected()
                 onConnected?.invoke() // Bağlantı başarılı callback'i çağır
                 startCheckingPlayerState() // Bağlantıdan sonra oyuncu durumunu kontrol etmeye başla
             }
 
             override fun onFailure(throwable: Throwable) {
                 Log.e("SpotifyConnection", "Failed to connect: ${throwable.message}", throwable)
-                // Something went wrong when attempting to connect! Handle errors here
-                onConnectionFailed?.invoke(throwable) // Bağlantı başarısız callback'i çağır
+                onConnectionFailed?.invoke(throwable)
 
             }
         })
@@ -92,11 +88,11 @@ class SpotifyConnection(private val context: Context) {
     }
 
 
-    fun checkSpotifyInstalled(context: Context): Boolean {
+    fun checkSpotifyInstalled(): Boolean {
         return SpotifyAppRemote.isSpotifyInstalled(context)
     }
 
-    fun diconnect() {
+    fun disconnect() {
          SpotifyAppRemote.disconnect(spotifyAppRemote)
     }
 
@@ -111,8 +107,8 @@ class SpotifyConnection(private val context: Context) {
                         val duration = track.duration
 
 
-                        Log.e("TAG", "Şu anda çalıyor: ${track.name} by ${track.artist.name}")
-                        Log.e("TAG", "Mevcut konum: ${currentPosition}ms / ${duration}ms")
+                        Log.d("SpotifyConnection", "Now playing: ${track.name} by ${track.artist.name}")
+                        Log.d("SpotifyConnection", "Current position: ${currentPosition}ms / ${duration}ms")
 
 
                         if (currentPosition >= duration - 1000 ) {
@@ -120,7 +116,7 @@ class SpotifyConnection(private val context: Context) {
                         }
                     }
                     .setErrorCallback { throwable ->
-                        Log.e("TAG", "Oyuncu durumu alınamadı", throwable)
+                        Log.e("SpotifyConnection", "Failed to get player state", throwable)
                     }
             }
             handler.postDelayed(checkPlayerStateRunnable!!, 1000) // Her saniye kontrol et
@@ -128,7 +124,7 @@ class SpotifyConnection(private val context: Context) {
         handler.post(checkPlayerStateRunnable!!)
     }
 
-    fun onTrackEnded() {
+    private fun onTrackEnded() {
         pause()
     }
     fun stopCheckingPlayerState() {

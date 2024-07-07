@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity() {
         splashSharedPref.edit().putBoolean(splashFirst, false).apply()
         val sharedPref = getSharedPreferences(prefsName, MODE_PRIVATE)
         sharedPref.edit().putBoolean(firstTimeKey, true).apply()
-        spotifyConnection.diconnect()
+        spotifyConnection.disconnect()
         startStartedActivity()
     }
 
