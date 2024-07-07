@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         saveAccessToken()
         setupButtons()
         Log.e("denemeRefreshToken", SpotifyApiManager.refreshToken.toString())
-        CircularMenu()
+        circularMenu()
 
     }
     private fun setupButtons() {
